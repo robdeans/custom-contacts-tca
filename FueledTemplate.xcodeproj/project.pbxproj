@@ -22,10 +22,8 @@
 		52B6526D29640FDD008D3834 /* MarvelHeroesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B6526C29640FDD008D3834 /* MarvelHeroesViewModel.swift */; };
 		52B6526F296417B6008D3834 /* MarvelHeroesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B6526E296417B6008D3834 /* MarvelHeroesView.swift */; };
 		6B0659902A0A17480055CD8E /* EnvironmentApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B06598F2A0A17480055CD8E /* EnvironmentApplicationService.swift */; };
-		A1FB88DD2A00631900E0C032 /* View+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB88DC2A00631900E0C032 /* View+Helpers.swift */; };
 		A1FB88E02A0078EE00E0C032 /* MarvelHeroDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB88DF2A0078EE00E0C032 /* MarvelHeroDetailsViewModel.swift */; };
 		A1FB88E22A0078F600E0C032 /* MarvelHeroDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB88E12A0078F600E0C032 /* MarvelHeroDetailsView.swift */; };
-		A1FB88E62A007C1500E0C032 /* NavigationStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB88E52A007C1500E0C032 /* NavigationStackView.swift */; };
 		A1FB88FC2A00955D00E0C032 /* FueledTemplateUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB88FB2A00955D00E0C032 /* FueledTemplateUITests.swift */; };
 		A1FB88FE2A00955D00E0C032 /* FueledTemplateUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB88FD2A00955D00E0C032 /* FueledTemplateUITestsLaunchTests.swift */; };
 		A1FB89092A00961300E0C032 /* MarvelHeroDetailsViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1FB89062A00961300E0C032 /* MarvelHeroDetailsViewUITests.swift */; };
@@ -46,14 +44,10 @@
 		DF3B370121ECAFDD0033C858 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B370021ECAFDD0033C858 /* String+Localization.swift */; };
 		F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */; };
 		F4CD7028200003E10013EE7B /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD701B200003E10013EE7B /* ApplicationService.swift */; };
-		F4CD702A200003E10013EE7B /* AppCenterApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD701E200003E10013EE7B /* AppCenterApplicationService.swift */; };
 		F4CD706420002E7C0013EE7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706220002E7C0013EE7B /* LaunchScreen.storyboard */; };
 		F4CD706520002E7C0013EE7B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706320002E7C0013EE7B /* Settings.bundle */; };
 		FC3DC8C528AE1FE6009EA293 /* FueledUtilsCore in Frameworks */ = {isa = PBXBuildFile; productRef = FC3DC8C428AE1FE6009EA293 /* FueledUtilsCore */; };
 		FC3DC8C928AE1FE6009EA293 /* FueledUtilsSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = FC3DC8C828AE1FE6009EA293 /* FueledUtilsSwiftUI */; };
-		FC9016B127B4613A00C935FE /* AppCenterAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FC9016B027B4613A00C935FE /* AppCenterAnalytics */; };
-		FC9016B327B4613A00C935FE /* AppCenterCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = FC9016B227B4613A00C935FE /* AppCenterCrashes */; };
-		FC9016B527B4613A00C935FE /* AppCenterDistribute in Frameworks */ = {isa = PBXBuildFile; productRef = FC9016B427B4613A00C935FE /* AppCenterDistribute */; };
 		FC9016C127B4638900C935FE /* FueledTemplateAPIKit in Frameworks */ = {isa = PBXBuildFile; productRef = FC9016C027B4638900C935FE /* FueledTemplateAPIKit */; };
 		FC9016C327B4638900C935FE /* FueledTemplateHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = FC9016C227B4638900C935FE /* FueledTemplateHelpers */; };
 		FCDAFBD527C54741001314C2 /* AutoHashable.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDAFBC727C54741001314C2 /* AutoHashable.generated.swift */; };
@@ -100,10 +94,8 @@
 		52B6526C29640FDD008D3834 /* MarvelHeroesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelHeroesViewModel.swift; sourceTree = "<group>"; };
 		52B6526E296417B6008D3834 /* MarvelHeroesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelHeroesView.swift; sourceTree = "<group>"; };
 		6B06598F2A0A17480055CD8E /* EnvironmentApplicationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentApplicationService.swift; sourceTree = "<group>"; };
-		A1FB88DC2A00631900E0C032 /* View+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Helpers.swift"; sourceTree = "<group>"; };
 		A1FB88DF2A0078EE00E0C032 /* MarvelHeroDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelHeroDetailsViewModel.swift; sourceTree = "<group>"; };
 		A1FB88E12A0078F600E0C032 /* MarvelHeroDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelHeroDetailsView.swift; sourceTree = "<group>"; };
-		A1FB88E52A007C1500E0C032 /* NavigationStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStackView.swift; sourceTree = "<group>"; };
 		A1FB88F92A00955D00E0C032 /* FueledTemplateUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FueledTemplateUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1FB88FB2A00955D00E0C032 /* FueledTemplateUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FueledTemplateUITests.swift; sourceTree = "<group>"; };
 		A1FB88FD2A00955D00E0C032 /* FueledTemplateUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FueledTemplateUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -127,7 +119,6 @@
 		F4AB7AB52534CC6F008372B6 /* FueledTemplateAPIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FueledTemplateAPIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4AB7AB62534CC6F008372B6 /* FueledTemplateHelpers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FueledTemplateHelpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4CD701B200003E10013EE7B /* ApplicationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationService.swift; sourceTree = "<group>"; };
-		F4CD701E200003E10013EE7B /* AppCenterApplicationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppCenterApplicationService.swift; sourceTree = "<group>"; };
 		F4CD70352000044F0013EE7B /* FueledTemplateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FueledTemplateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4CD70402000046A0013EE7B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F4CD705A200024B20013EE7B /* FueledTemplate-Prod.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "FueledTemplate-Prod.entitlements"; sourceTree = "<group>"; };
@@ -161,10 +152,7 @@
 				52B6146729647BCB00F00820 /* NukeUI in Frameworks */,
 				FC3DC8C928AE1FE6009EA293 /* FueledUtilsSwiftUI in Frameworks */,
 				FC3DC8C528AE1FE6009EA293 /* FueledUtilsCore in Frameworks */,
-				FC9016B527B4613A00C935FE /* AppCenterDistribute in Frameworks */,
 				FC9016C327B4638900C935FE /* FueledTemplateHelpers in Frameworks */,
-				FC9016B127B4613A00C935FE /* AppCenterAnalytics in Frameworks */,
-				FC9016B327B4613A00C935FE /* AppCenterCrashes in Frameworks */,
 				FC9016C127B4638900C935FE /* FueledTemplateAPIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,27 +304,6 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		A1FB88FA2A00955D00E0C032 /* FueledTemplateUITests */ = {
-			isa = PBXGroup;
-			children = (
-				A1FB890C2A00962500E0C032 /* Common */,
-				A1FB89062A00961300E0C032 /* MarvelHeroDetailsViewUITests.swift */,
-				A1FB89082A00961300E0C032 /* MarvelHeroesViewUITests.swift */,
-				A1FB88FB2A00955D00E0C032 /* FueledTemplateUITests.swift */,
-				A1FB88FD2A00955D00E0C032 /* FueledTemplateUITestsLaunchTests.swift */,
-			);
-			path = FueledTemplateUITests;
-			sourceTree = "<group>";
-		};
-		A1FB890C2A00962500E0C032 /* Common */ = {
-			isa = PBXGroup;
-			children = (
-				A1FB890E2A00964900E0C032 /* App.swift */,
-				A1FB89102A00964900E0C032 /* CommonUIElements.swift */,
-			);
-			path = Common;
-			sourceTree = "<group>";
-		};
 		DF3B36B521ECAEFF0033C858 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,7 +377,6 @@
 		F4CD701D200003E10013EE7B /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				F4CD701E200003E10013EE7B /* AppCenterApplicationService.swift */,
 				6B06598F2A0A17480055CD8E /* EnvironmentApplicationService.swift */,
 			);
 			path = Services;
@@ -516,9 +482,6 @@
 			);
 			name = FueledTemplate;
 			packageProductDependencies = (
-				FC9016B027B4613A00C935FE /* AppCenterAnalytics */,
-				FC9016B227B4613A00C935FE /* AppCenterCrashes */,
-				FC9016B427B4613A00C935FE /* AppCenterDistribute */,
 				FC9016C027B4638900C935FE /* FueledTemplateAPIKit */,
 				FC9016C227B4638900C935FE /* FueledTemplateHelpers */,
 				FC3DC8C428AE1FE6009EA293 /* FueledUtilsCore */,
@@ -608,7 +571,6 @@
 			);
 			mainGroup = 3DFCFB481E5DA85B00D4A874;
 			packageReferences = (
-				FC9016AF27B4613A00C935FE /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */,
 				FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */,
 				52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */,
 				0F9AFBD829E8004C00496F61 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
@@ -716,7 +678,6 @@
 				DF3B36C021ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift in Sources */,
 				FCDAFBD827C54741001314C2 /* AutoDebugDescription.generated.swift in Sources */,
 				FCDAFBD627C54741001314C2 /* AutoLenses.generated.swift in Sources */,
-				F4CD702A200003E10013EE7B /* AppCenterApplicationService.swift in Sources */,
 				FCDAFBD527C54741001314C2 /* AutoHashable.generated.swift in Sources */,
 				DF3B36F021ECAF8A0033C858 /* ApplicationError.swift in Sources */,
 				DF3B36F221ECAF8A0033C858 /* ActionError+DisplayableSwiftError.swift in Sources */,
@@ -1520,14 +1481,6 @@
 				minimumVersion = 4.0.0;
 			};
 		};
-		FC9016AF27B4613A00C935FE /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/microsoft/appcenter-sdk-apple";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1554,21 +1507,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */;
 			productName = FueledUtilsSwiftUI;
-		};
-		FC9016B027B4613A00C935FE /* AppCenterAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FC9016AF27B4613A00C935FE /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
-			productName = AppCenterAnalytics;
-		};
-		FC9016B227B4613A00C935FE /* AppCenterCrashes */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FC9016AF27B4613A00C935FE /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
-			productName = AppCenterCrashes;
-		};
-		FC9016B427B4613A00C935FE /* AppCenterDistribute */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = FC9016AF27B4613A00C935FE /* XCRemoteSwiftPackageReference "appcenter-sdk-apple" */;
-			productName = AppCenterDistribute;
 		};
 		FC9016C027B4638900C935FE /* FueledTemplateAPIKit */ = {
 			isa = XCSwiftPackageProductDependency;
