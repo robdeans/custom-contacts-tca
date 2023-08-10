@@ -24,5 +24,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSContactsUsageDescription</key>
+	<string>This app won&apos;t work without contacts to display</string>
 </dict>
 </plist>
