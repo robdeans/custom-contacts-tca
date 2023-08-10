@@ -7,9 +7,9 @@
 //
 
 #if canImport(UIKit)
-import Dependencies
 import CustomContactsAPIKit
 import CustomContactsHelpers
+import Dependencies
 import UIKit
 
 enum DefaultKeys {

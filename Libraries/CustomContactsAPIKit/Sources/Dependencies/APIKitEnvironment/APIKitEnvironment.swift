@@ -6,9 +6,9 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
+import CustomContactsHelpers
 import Dependencies
 import Foundation
-import CustomContactsHelpers
 
 final class APIKitEnvironment: DependencyKey {
 	private var currentEnvironment: Environment?

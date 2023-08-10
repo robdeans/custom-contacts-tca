@@ -6,8 +6,8 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import Foundation
 import CustomContactsHelpers
+import Foundation
 
 extension Error {
 	var verboseDescription: String {

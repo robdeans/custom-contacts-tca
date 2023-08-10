@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -539,8 +539,9 @@
 		3DFCFB491E5DA85B00D4A874 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1200;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = Fueled;
 				TargetAttributes = {
 					3DFCFB501E5DA85B00D4A874 = {
@@ -640,7 +641,7 @@
 		};
 		F4CD706720002EFA0013EE7B /* Update Settings Bundle */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -648,7 +649,7 @@
 			name = "Update Settings Bundle";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "cd $PROJECT_DIR\ncd \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.app\"\nRELEASE_VERSION=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" Info.plist)\nBUILD_VERSION=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" Info.plist)\nTZ='America/New_York'\nexport TZ\nBUILD_DATE=$(date +\"%a %l:%M %b %d, %Y\")\n\nif [ \"${CONFIGURATION}\" = \"Production\" ]; then\n    /usr/libexec/PlistBuddy -c \"Set :PreferenceSpecifiers:4:DefaultValue DefaultDate\" Settings.bundle/Root.plist\n    if [ $? -eq 0 ]; then\n        /usr/libexec/PlistBuddy -c \"Delete :PreferenceSpecifiers:0\" Settings.bundle/Root.plist\n    fi\n    /usr/libexec/PlistBuddy -c \"Set :PreferenceSpecifiers:1:DefaultValue $RELEASE_VERSION\" Settings.bundle/Root.plist\n    /usr/libexec/PlistBuddy -c \"Set :PreferenceSpecifiers:2:DefaultValue $BUILD_VERSION-$CONFIGURATION\" Settings.bundle/Root.plist\n    /usr/libexec/PlistBuddy -c \"Set :PreferenceSpecifiers:3:DefaultValue $BUILD_DATE\" Settings.bundle/Root.plist\nelse\n    if [ \"${CONFIGURATION}\" = \"Snapshot\" ]; then\n        /usr/libexec/PlistBuddy -c \"Set :PreferenceSpecifiers:0:DefaultValue qa\" Settings.bundle/Root.plist\n    fi\n\n    /usr/libexec/PlistBuddy -c \"Set :PreferenceSpecifiers:2:DefaultValue $RELEASE_VERSION\" Settings.bundle/Root.plist\n    /usr/libexec/PlistBuddy -c \"Set :PreferenceSpecifiers:3:DefaultValue $BUILD_VERSION-$CONFIGURATION\" Settings.bundle/Root.plist\n    /usr/libexec/PlistBuddy -c \"Set :PreferenceSpecifiers:4:DefaultValue $BUILD_DATE\" Settings.bundle/Root.plist\nfi\n";
 			showEnvVarsInLog = 0;
