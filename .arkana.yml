@@ -4,7 +4,6 @@ environments: # Optional. List of environments that will be used to generate sec
   - Release
   - Production
 global_secrets: # Optional. List of secrets that are the same regardless of which environment is being built. Defaults to empty.
-  - AppCenterSecret
   - MarvelAPIPublicKey
   - MarvelAPIPrivateKey
 environment_secrets: # Optional. This will create a secret for each entry in this list, one for each env, appending a suffix corresponding to the name of the env. Defaults to empty.
