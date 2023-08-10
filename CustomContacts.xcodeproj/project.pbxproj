@@ -951,7 +951,7 @@
 					"$(inherited)",
 					"-fprofile-instr-generate",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Fueled.TemplateProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.robertdeans.CustomContacts.dev;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Fueled Template Development Profile";
@@ -989,7 +989,7 @@
 					"$(inherited)",
 					"-fprofile-instr-generate",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Fueled.TemplateProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.robertdeans.CustomContacts.release;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Fueled Template In House Distribution Profile";
@@ -1243,7 +1243,7 @@
 					"$(inherited)",
 					"-fprofile-instr-generate",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Fueled.TemplateProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.robertdeans.CustomContacts.snapshot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Fueled Template In House Distribution Profile";
@@ -1376,7 +1376,7 @@
 					"$(inherited)",
 					"-fprofile-instr-generate",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.Fueled.TemplateProject;
+				PRODUCT_BUNDLE_IDENTIFIER = com.robertdeans.CustomContacts;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Fueled Template Development Profile";

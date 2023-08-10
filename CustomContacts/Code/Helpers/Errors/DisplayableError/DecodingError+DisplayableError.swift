@@ -2,8 +2,8 @@
 //  DecodingError+DisplayableError.swift
 //  CustomContacts
 //
-//  Created by full_name on date_markup.
-//  Copyright © year_markup Fueled. All rights reserved.
+//  Created by Robert Deans on 08/10/2024.
+//  Copyright © 2023 RBD. All rights reserved.
 //
 
 import Foundation
