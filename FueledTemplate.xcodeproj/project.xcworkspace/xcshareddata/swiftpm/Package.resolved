@@ -1,0 +1,61 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "AppCenter",
+        "repositoryURL": "https://github.com/microsoft/appcenter-sdk-apple",
+        "state": {
+          "branch": null,
+          "revision": "b84bc8a39ff04bc8d5ae7b4d230c171c562891aa",
+          "version": "4.4.1"
+        }
+      },
+      {
+        "package": "FueledUtils",
+        "repositoryURL": "https://github.com/Fueled/ios-utilities/",
+        "state": {
+          "branch": "feat/swiftpm",
+          "revision": "be32f03cd022c15dec1d604b8c8167341e8d8185",
+          "version": null
+        }
+      },
+      {
+        "package": "KeychainAccess",
+        "repositoryURL": "https://github.com/kishikawakatsumi/KeychainAccess.git",
+        "state": {
+          "branch": null,
+          "revision": "84e546727d66f1adc5439debad16270d0fdd04e7",
+          "version": "4.2.2"
+        }
+      },
+      {
+        "package": "PLCrashReporter",
+        "repositoryURL": "https://github.com/microsoft/PLCrashReporter.git",
+        "state": {
+          "branch": null,
+          "revision": "6b27393cad517c067dceea85fadf050e70c4ceaa",
+          "version": "1.10.1"
+        }
+      },
+      {
+        "package": "ReactiveCocoa",
+        "repositoryURL": "https://github.com/ReactiveCocoa/ReactiveCocoa.git",
+        "state": {
+          "branch": null,
+          "revision": "8a5b07b18c6abb8e12fb845bf742675dc4914ed8",
+          "version": "12.0.0"
+        }
+      },
+      {
+        "package": "ReactiveSwift",
+        "repositoryURL": "https://github.com/ReactiveCocoa/ReactiveSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "efb2f0a6f6c8739cce8fb14148a5bd3c83f2f91d",
+          "version": "7.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

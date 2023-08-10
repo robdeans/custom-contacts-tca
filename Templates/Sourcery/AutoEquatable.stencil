@@ -1,0 +1,60 @@
+// swiftlint:disable all
+
+{% macro compareVariable variable variablePath prefix %}
+	guard {% if variable.isStatic %}type(of: lhs){% else %}lhs{% endif %}.{% if prefix and variable.typeName.isOptional %}{{ prefix }}.map({ $0.{% endif %}{{ variablePath }}{% if prefix and variable.typeName.isOptional %} }){% endif %} == {% if variable.isStatic %}type(of: rhs){% else %}rhs{% endif %}.{% if prefix and variable.typeName.isOptional %}{{ prefix }}.map({ $0.{% endif %}{{ variablePath }}{% if prefix and variable.typeName.isOptional %} }){% endif %} else { return false }
+{% endmacro %}
+
+{% macro compareVariables variables %}
+	{% for variable in variables where variable.readAccess != "private" and variable.readAccess != "fileprivate" %}
+    {% if not variable.annotations.skipEquality %}
+	{% if variable.typeName.isTuple and variable.typeName.isOptional %}
+	{% for element in variable.typeName.tuple.elements %}
+	{% call compareVariable variable element.name variable.name %}
+	{% endfor %}
+	{% else %}
+	{% call compareVariable variable variable.name "" %}
+	{% endif %}
+    {% endif %}
+	{% endfor %}
+{% endmacro %}
+
+{% macro addAssociatedValues associatedValues prefix %}{% if associatedValues.count == 1 %}let {{ prefix }}{% else %}{% for associated in associatedValues %}let {{ prefix }}{{ associated.externalName|upperFirstLetter }}{% if not forloop.last %}, {% endif %}{% endfor %}{% endif %}{% endmacro %}
+
+// MARK: - AutoEquatable for classes, protocols, structs
+{% for type in types.types|!enum where type.implements.AutoEquatable or type|annotated:"AutoEquatable" %}
+// MARK: - {{ type.name }} AutoEquatable
+{% if not type.kind == "protocol" and not type.based.NSObject %}extension {{ type.name }}: Equatable {}{% endif %}
+{% if type.supertype.based.Equatable or type.supertype.implements.AutoEquatable or type.supertype|annotated:"AutoEquatable" %}THIS WONT COMPILE, WE DONT SUPPORT INHERITANCE for AutoEquatable{% endif %}
+{{ type.accessLevel }} func == {% if type.kind == "protocol" %}<T: {{ type.name }}>{% endif %}(lhs: {% if type.kind == "protocol" %}T{% else %}{{ type.name }}{% endif %}, rhs: {% if type.kind == "protocol" %}T{% else %}{{ type.name }}{% endif %}) -> Bool {
+	{% if not type.kind == "protocol" %}
+	{% call compareVariables type.storedVariables %}
+	{% else %}
+	{% call compareVariables type.allVariables %}
+	{% endif %}
+	return true
+}
+{% endfor %}
+
+// MARK: - AutoEquatable for Enums
+{% for type in types.enums where type.implements.AutoEquatable or type|annotated:"AutoEquatable" %}
+// MARK: - {{ type.name }} AutoEquatable
+extension {{ type.name }}: Equatable {}
+{{ type.accessLevel }} func == (lhs: {{ type.name }}, rhs: {{ type.name }}) -> Bool {
+	switch (lhs, rhs) {
+	{% for case in type.cases %}
+	{% if not case.annotations.skipEquality and case.hasAssociatedValue %}case (.{{ case.name }}({% call addAssociatedValues case.associatedValues "lhs" %}), .{{ case.name }}({% call addAssociatedValues case.associatedValues "rhs" %})):{% else %}case (.{{ case.name }}, .{{ case.name }}):{% endif %}
+		{% if case.annotations.skipEquality or not case.hasAssociatedValue %}return true{% else %}
+		{% ifnot case.hasAssociatedValue %}return true{% else %}
+		{% if case.associatedValues.count == 1 %}
+		return lhs == rhs
+		{% else %}
+		{% for associated in case.associatedValues %}if lhs{{ associated.externalName|upperFirstLetter }} != rhs{{ associated.externalName|upperFirstLetter }} { return false }
+		{% endfor %}return true
+		{% endif %}
+		{% endif %}
+	{% endif %}
+	{% endfor %}
+	{% if type.cases.count > 1 %}default: return false{% endif %}
+	}
+}
+{% endfor %}

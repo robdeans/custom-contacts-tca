@@ -1,0 +1,13 @@
+sources:
+  include:
+    - ../../Libraries/FueledTemplateAPIKit/Sources
+  exclude:
+    - ../../Libraries/FueledTemplateAPIKit/Sources/Generated/Sourcery
+templates:
+  - ../../Templates/Sourcery/AutoInit.stencil
+  - ../../Templates/Sourcery/AutoHashable.stencil
+  - ../../Templates/Sourcery/AutoCodable.swifttemplate
+  - ../../Templates/Sourcery/AutoEquatable.stencil
+  - ../../Templates/Sourcery/AutoLenses.stencil
+  - ../../Templates/Sourcery/AutoDebugDescription.swifttemplate
+output: ../../Libraries/FueledTemplateAPIKit/Sources/Generated/Sourcery

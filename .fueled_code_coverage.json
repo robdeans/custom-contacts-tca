@@ -1,0 +1,11 @@
+{
+    "targets": [
+        "FueledTemplate",
+        "FueledTemplateAPIKit",
+        "FueledTemplateHelpers"
+    ],
+    "file_name_exclude": [],
+    "file_name_include": [
+    	"ViewModel"
+    ]
+}

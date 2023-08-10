@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+Pod::Spec.new do |spec|
+  spec.name = '{{ name }}'
+  spec.version = '{{ version }}'
+  spec.homepage = 'https://github.com/tinman-fueled/{{ repository_name }}'
+  spec.source = { git: 'Not Published' }
+  spec.authors = '{{ cookiecutter.full_name }}'
+  spec.license = 'Private'
+  spec.summary = "Common library for the #{spec.name} mobile apps"
+  spec.static_framework = true
+  spec.vendored_frameworks = '{{ framework_path }}'
+
+  spec.libraries = 'c++'
+  spec.module_name = "#{spec.name}_umbrella"
+  spec.platform = :ios
+  spec.ios.deployment_target = '11.0'
+end

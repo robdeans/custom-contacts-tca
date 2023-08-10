@@ -1,0 +1,101 @@
+fastlane_version '2.206.0'
+opt_out_usage
+
+platform :ios do
+  keychain_name = "FueledTemplate"
+  keychain_password = "passw0rd"
+
+  lane :app_center do
+    unless is_build_necessary
+      UI.important "Skipping build"
+      next
+    end
+    pre_build
+    define_versions_ios
+    set_app_versions_xcodeproj_ios
+    build
+    upload_to_app_center
+    use_git_credential_store
+    tag
+    create_github_release
+    move_linear_tickets
+    post_build
+  end
+
+  lane :app_store do
+    pre_build
+    define_versions_ios
+    set_app_versions_xcodeproj_ios
+    build
+    upload_to_app_store
+    tag
+    create_github_release
+    move_linear_tickets
+    post_build
+  end
+
+  lane :pr_check do
+    generate_secrets_ios
+    sh("cd .. && Tools/run_sourcery.sh")
+    scan(
+      workspace: ENV['WORKSPACE'],
+      scheme: ENV['SCHEME'],
+      destination: 'name=iPhone 14',
+      result_bundle: true,
+      code_coverage: true
+    )
+
+    check_code_coverage_ios(
+      code_coverage_config_file_path: Dir.pwd + "/../.fueled_code_coverage.json",
+      result_bundle_file_path: Dir.pwd + "/test_output/FueledTemplate.xcresult",
+      minimum_code_coverage_percentage: 80
+    )
+  end
+
+  private_lane :pre_build do
+    create_keychain(
+      name: keychain_name,
+      default_keychain: true,
+      password: keychain_password,
+      unlock: true,
+      timeout: 0
+    )
+    install_wwdr_certificate(
+      keychain_name: keychain_name,
+      keychain_password: keychain_password
+    )
+    import_base64_certificates(
+      keychain_name: keychain_name,
+      keychain_password: keychain_password
+    )
+    install_profiles
+    generate_changelog
+    generate_secrets_ios
+  end
+
+  private_lane :post_build do
+    delete_keychain(
+      name: keychain_name
+    )
+  end
+
+  private_lane :build do
+    sh("cd .. && Tools/run_sourcery.sh")
+    bundle_identifier = `cd .. && xcodebuild -showBuildSettings -quiet 2> /dev/null | grep PRODUCT_BUNDLE_IDENTIFIER | cut -d = -f 2 | xargs`.strip
+    profile = `cd .. && xcodebuild -showBuildSettings -quiet 2> /dev/null | grep PROVISIONING_PROFILE_SPECIFIER | cut -d = -f 2 | xargs`.strip
+    build_ios_app(
+      workspace: ENV['WORKSPACE'],
+      configuration: ENV['BUILD_CONFIGURATION'],
+      scheme: ENV['SCHEME'],
+      silent: true,
+      clean: false,
+      disable_xcpretty: false,
+      export_method: ENV['EXPORT_METHOD'],
+      export_options: {
+        provisioningProfiles: {
+          bundle_identifier => profile
+        }
+      }
+    )
+  end
+end

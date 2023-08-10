@@ -1,0 +1,26 @@
+#!/bin/sh
+
+root_dir=$(dirname "$0")/..
+for file in "$root_dir"/Templates/**/*.stencil "$root_dir"/Templates/**/*.swifttemplate; do
+    filename=${file##*/}
+    filename=${filename%.*}
+    filename=`echo $filename | sed s/Template/+Constants/g`
+    generated_file="$root_dir"/"FueledTemplate"/Code/Generated/"$filename.generated.swift"
+    if [ ! -f generated_file ]; then
+        touch -t "197001010000.00" "$generated_file"
+    fi
+    generated_file="$root_dir"/Libraries/"FueledTemplateAPIKit"/"FueledTemplateAPIKit"/Generated/"$filename.generated.swift"
+    if [ ! -f generated_file ]; then
+        touch -t "197001010000.00" "$generated_file"
+    fi
+done
+
+for file in "$root_dir"/Libraries/"FueledTemplateAPIKit"/"FueledTemplateAPIKit"/Templates/*.stencil "$root_dir"/Libraries/"FueledTemplateAPIKit"/"FueledTemplateAPIKit"/Templates/*.swifttemplate; do
+    filename=${file##*/}
+    filename=${filename%.*}
+    filename=`echo $filename | sed s/Template/+Constants/g`
+    generated_file="$root_dir"/Libraries/"FueledTemplateAPIKit"/"FueledTemplateAPIKit"/Generated/"$filename.generated.swift"
+    if [ ! -f generated_file ]; then
+        touch -t "197001010000.00" "$generated_file"
+    fi
+done

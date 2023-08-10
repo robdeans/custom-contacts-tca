@@ -1,0 +1,30 @@
+{
+  "directories": [
+    {
+      "from": "FueledTemplate",
+      "to": "{{ cookiecutter.name }}"
+    }
+  ],
+  "text": [
+    {
+      "from": "FueledTemplate",
+      "to": "{{ cookiecutter.name }}"
+    },
+    {
+      "from": "full_name",
+      "to": "{{ cookiecutter.full_name }}"
+    },
+    {
+      "from": "com.fueled",
+      "to": "{{ cookiecutter.bundle_identifier_prefix }}"
+    },
+    {
+      "from": "date_markup",
+      "to": "{{ cookiecutter.date }}"
+    },
+    {
+      "from": "year_markup",
+      "to": "{{ cookiecutter.year }}"
+    }
+  ]
+}

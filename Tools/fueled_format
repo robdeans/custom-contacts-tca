@@ -1,0 +1,274 @@
+#!/usr/bin/env ruby
+
+# This script requires SwiftFormat & SwiftLint
+# It uses a combination of tool & heuristic-based (SwiftFormat, SwiftLint) formatting
+
+Encoding.default_external = Encoding::UTF_8
+Encoding.default_internal = Encoding::UTF_8
+
+starting = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+
+require 'set'
+require_relative 'tools_helpers'
+
+puts 'Formatting Swift according to Fueled conventions...'
+
+all_files = Dir.glob(File.join(WORKSPACE_ROOT, 'FueledTemplate/**/*.swift')) + Dir.glob(File.join(WORKSPACE_ROOT, 'Libraries/**/*.swift'))
+
+sourcery_inline_content = {}
+
+is_sourcery_annotations = lambda do |line, type|
+  !(line =~ %r{^[ \t]*//[ \t]*sourcery:#{type || ''}}).nil?
+end
+
+all_files.each do |file|
+  lines = File.readlines(file)
+
+  index = 0
+
+  inline_annotations_count = 0
+  while index < lines.count
+    begin
+      next unless is_sourcery_annotations.call(lines[index], 'inline:')
+
+      current_content = []
+      until is_sourcery_annotations.call(lines[index], 'end') || index == lines.count
+        current_content << lines[index].rstrip
+        index += 1
+      end
+
+      current_content << lines[index].rstrip if index < lines.count
+
+      sourcery_inline_content[file] = [] if sourcery_inline_content[file].nil?
+      sourcery_inline_content[file] << current_content
+
+      inline_annotations_count += 1
+    ensure
+      index += 1
+    end
+  end
+end
+
+begin
+  swiftformat_output_file = File.join(CONFIGS_ROOT, '.format-fueled.swiftformat.log')
+  did_succeed = system("\"#{File.join(PODS_ROOT, 'SwiftFormat/CommandLineTool/swiftformat')}\" . --config \"#{File.join(CONFIGS_ROOT, 'swiftformat.args')}\" > \"#{swiftformat_output_file}\" 2>&1", chdir: WORKSPACE_ROOT)
+
+  output_logs = File.readlines(swiftformat_output_file)
+  output_logs.map do |line|
+    next unless line.start_with?('warning:') || line.start_with?('error:')
+
+    puts line
+  end
+
+  raise 'error: There was an error running SwiftFormat' unless did_succeed
+
+  begin
+    formatting_info = output_logs.last
+    formatted_file_count = /^(\d)+\/\d+/.match(formatting_info)[0].to_i
+  rescue
+    formatted_file_count = 0
+  end
+ensure
+  File.delete(swiftformat_output_file)
+end
+
+swiftlint_autocorrect_rules = [
+  'modifier_order',
+  'trailing_newline',
+]
+
+normalized_file_paths = Set.new
+skipped_files = 0
+total_files = 0
+all_files.each do |file|
+  if file.end_with?('.generated.swift')
+    skipped_files += 1
+    next
+  end
+
+  lines = File.readlines(file)
+
+  processed_ifs = []
+  processed_guards = []
+
+  has_modified_lines = false
+
+  sourcery_inline_annotations_count = 0
+  index = 0
+
+  lines.map!(&:rstrip!)
+
+  while index < lines.count
+    begin
+      line = lines[index]
+
+      if is_sourcery_annotations.call(line, 'inline:')
+        swiftformat_content_length = 0
+        while index < lines.count
+          begin
+            line = lines[index]
+
+            break if is_sourcery_annotations.call(line, 'end')
+          ensure
+            index += 1
+            swiftformat_content_length += 1
+          end
+        end
+
+        base_index = index - swiftformat_content_length
+        sourcery_content = sourcery_inline_content[file][sourcery_inline_annotations_count]
+        lines[base_index..index - 1] = sourcery_content if swiftformat_content_length.positive?
+
+        lines[base_index..base_index + sourcery_content.count].each_with_index do |line, actual_index|
+          index = base_index + actual_index
+          if line.lstrip.start_with?('if')
+            processed_ifs << index
+            next
+          end
+
+          if line.lstrip.start_with?('guard')
+            processed_guards << index
+            next
+          end
+        end
+
+        has_modified_lines = true if swiftformat_content_length.positive?
+        sourcery_inline_annotations_count += 1
+        next
+      end
+
+      next if index.zero?
+      next if line.strip == '} else {'
+
+      if line[-2] == ' ' && [':', '?'].include?(line[-1])
+        character = line[-1]
+        line.delete_suffix!(character)
+        line.rstrip!
+        lines[index + 1].insert(lines[index + 1][/^\t*/].size, "#{character} ")
+        has_modified_lines = true
+        next
+      end
+
+      next unless line.end_with?('{')
+
+      if line.lstrip.start_with?('->')
+        line.delete_suffix!('{')
+        line.rstrip!
+        lines.insert(index + 1, "#{"\t" * (lines[index][/^\t*/].size - 1)}{")
+        has_modified_lines = true
+        next
+      end
+
+      if line.lstrip.start_with?('if') || line.lstrip.start_with?('} else if')
+        processed_ifs << index
+        next
+      end
+
+      if line.lstrip.start_with?('guard')
+        processed_guards << index
+        next
+      end
+
+      find_statement = lambda do |name|
+        if_index = nil
+        (0..index - 1).reverse_each do |previous_index|
+          if lines[previous_index].lstrip.start_with?(name)
+            if_index = previous_index
+            break
+          end
+        end
+        if_index
+      end
+
+      if line.end_with?('else {')
+        guard_index = find_statement.call('guard')
+
+        next if guard_index.nil?
+        next if processed_guards.include?(guard_index)
+
+        processed_guards << guard_index
+
+        if line.lstrip == 'else {'
+          line.sub!('else {', '{')
+          lines[index - 1] += ' else'
+        else
+          line.delete_suffix!('{')
+          line.rstrip!
+          lines.insert(index + 1, "#{"\t" * lines[guard_index][/^\t*/].size}{")
+        end
+
+        has_modified_lines = true
+        next
+      end
+
+      next if line.strip == '{'
+
+      if_index = [find_statement.call('if') || -1, find_statement.call('} else if') || -1].max
+
+      next if if_index == -1
+      next if processed_ifs.include?(if_index)
+
+      processed_ifs << if_index
+
+      line.delete_suffix!('{')
+      line.rstrip!
+      lines.insert(index + 1, "#{"\t" * lines[if_index][/^\t*/].size}{")
+      has_modified_lines = true
+    ensure
+      index += 1
+    end
+  end
+
+  if has_modified_lines
+    File.write(file, lines.join("\n"))
+    normalized_file_paths.add(File.expand_path(file))
+  end
+
+  total_files += 1
+end
+
+require 'yaml'
+
+begin
+  swiftlint_base_yaml = YAML.safe_load(File.read(File.join(CONFIGS_ROOT, 'swiftlint.yml')))
+rescue
+  swiftlint_base_yaml = {}
+end
+
+swiftlint_format_fueled_yaml = { 'whitelist_rules' => [] }
+
+copy_config = lambda do |name|
+  swiftlint_format_fueled_yaml[name] = swiftlint_base_yaml[name] unless swiftlint_base_yaml[name].nil?
+end
+
+copy_config.call('included')
+copy_config.call('excluded')
+
+swiftlint_autocorrect_rules.each do |rule_name|
+  swiftlint_format_fueled_yaml['whitelist_rules'] << rule_name
+
+  copy_config.call(rule_name)
+end
+
+swiftlint_format_fueled_yaml_file = File.join(CONFIGS_ROOT, '.format-fueled.swiftlint.yml')
+swiftlint_output_file = File.join(CONFIGS_ROOT, '.format-fueled.swiftlint.log')
+
+begin
+  require 'tempfile'
+
+  File.write(swiftlint_format_fueled_yaml_file, swiftlint_format_fueled_yaml.to_yaml)
+  system("\"#{File.join(PODS_ROOT, 'SwiftLint/swiftlint')}\" autocorrect --config \"#{swiftlint_format_fueled_yaml_file}\" > \"#{swiftlint_output_file}\" 2> /dev/null", chdir: WORKSPACE_ROOT)
+  File.foreach(swiftlint_output_file).each do |line|
+    file = line.split(':').first
+    next if file.nil? || file.empty?
+
+    normalized_file_paths.add(File.expand_path(file))
+  end
+ensure
+  File.delete(swiftlint_format_fueled_yaml_file)
+  File.delete(swiftlint_output_file)
+end
+
+ending = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+puts("\e[32mFormatting completed in #{(ending - starting).round(2)}s.\e[0m")
+puts("#{[formatted_file_count - normalized_file_paths.count, 0].max}/#{total_files} file#{normalized_file_paths.count != 1 ? 's' : ''} formatted, #{skipped_files} file#{skipped_files != 1 ? 's' : ''} skipped.")

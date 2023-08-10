@@ -1,0 +1,37 @@
+workflows:
+  pr-check:
+    name: PR Check
+    triggering:
+      events:
+        - pull_request
+      cancel_previous_builds: true
+    when:
+      condition: not event.pull_request.draft
+    max_build_duration: 45
+    environment:
+      groups:
+        - ios-shared-secrets
+        - marvel-secrets
+    scripts:
+      - &project_setup
+        name: Project Setup
+        script: |
+          gem install bundler
+          bundle install
+      - name: Test
+        script: bundle exec fastlane ios pr_check --env alpha_snapshot
+
+  nightly-snapshot:
+    name: Nightly Snapshot from develop
+    max_build_duration: 45
+    environment:
+      groups:
+        - certificates
+        - appcenter
+        - fueled-shared-secrets
+        - marvel-secrets
+    scripts:
+      - *project_setup
+      - name: Run Fastlane
+        script: bundle exec fastlane ios app_center --env alpha_snapshot
+

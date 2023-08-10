@@ -1,0 +1,46 @@
+// Generated using SwiftGen, by O.Halligon — https://github.com/SwiftGen/SwiftGen
+
+{% set accessModifier %}{% if param.publicAccess %}public{% else %}internal{% endif %}{% endset %}
+
+import UIKit
+
+{{accessModifier}} enum FontWeight {
+{% if families %}
+{% for family in families %}
+{% for font in family.fonts %}
+{% if families.count > 1 %}
+	case {{font.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}
+{% else %}
+	case {{font.style|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% else %}
+	case regular
+	case bold
+{% endif %}
+}
+
+extension UIFont {
+	{{accessModifier}} static func appFont(weight: FontWeight, size: CGFloat) -> UIFont {
+		switch weight {
+		{% if families %}
+		{% for family in families %}
+		{% for font in family.fonts %}
+		{% if families.count > 1 %}
+		case .{{font.name|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}:
+		{% else %}
+		case .{{font.style|swiftIdentifier:"pretty"|lowerFirstWord|escapeReservedKeywords}}:
+		{% endif %}
+			return UIFont(name: "{{font.name}}", size: size)!
+		{% endfor %}
+		{% endfor %}
+		{% else %}
+		case .regular:
+			return UIFont.systemFont(ofSize: size)
+		case .bold:
+			return UIFont.boldSystemFont(ofSize: size)
+		{% endif %}
+		}
+	}
+}

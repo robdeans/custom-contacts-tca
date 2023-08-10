@@ -1,0 +1,8 @@
+sources:
+  include:
+    - ../../FueledTemplate/Code
+  exclude:
+    - ../../FueledTemplate/Code/Generated
+templates:
+  - ../../Templates/Sourcery
+output: ../../FueledTemplate/Code/Generated/Sourcery

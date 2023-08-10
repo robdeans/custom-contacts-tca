@@ -1,0 +1,38 @@
+// swiftlint:disable all
+
+{{ argument.imports }}
+
+{% macro generateInitializer type %}
+	{% if type.annotations.initVisibility %}{{ type.annotations.initVisibility }}{% else %}{% if type.annotations.implementationVisibility %}{{type.annotations.implementationVisibility }}{% else %}{{ type.accessLevel }}{% endif %}{% endif %} init(
+		{% for variable in type.storedVariables|!annotated:"skipImplementation" %}
+		{{ variable.name }}: {% if variable.typeName.isClosure and not variable.typeName.isOptional %}@escaping {% endif %}{{ variable.typeName }}{% if variable.annotations.default %} = {{ variable.annotations.default }}{% endif %}{% if not forloop.last %},{% else %}){% endif %}
+		{% endfor %}
+	{
+		{% for variable in type.storedVariables|!annotated:"skipImplementation" %}
+		self.{{ variable.name }} = {{ variable.name }}
+		{% endfor %}
+	}
+{% endmacro %}
+
+{% for type in types.protocols|annotated:"GenerateImplementation" %}
+
+{% set typeName %}{% if type|annotated:"type" %}{{ type.annotations.type }}{% else %}{% if type|based:"AnyObject" %}final class{% else %}struct{% endif %}{% endif %}{% endset %}
+
+{% if type.annotations.implementationVisibility %}{{type.annotations.implementationVisibility }}{% else %}{{ type.accessLevel }}{% endif %} {{ typeName }} {% if type.annotations.prefix != "" %}{{ type.annotations.prefix }}{% endif %}{{ type.name }}{% if type.annotations.suffix or type.annotations.suffix == "" %}{{ type.annotations.suffix }}{% else %}Implementation{% endif %}: {{ type.name }} {
+	{% for variable in type.storedVariables %}
+	{% if not variable|annotated:"skipImplementation" %}
+	{{ type.accessLevel }} {% if variable.isMutable %}var{% else %}let{% endif %} {{ variable.name }}: {{ variable.typeName }}{% if variable|annotated:"default" %} = {{ variable.annotations.default }}{% endif %}
+	{% endif %}
+	{% endfor %}
+
+	{% call generateInitializer type %}
+}
+{% endfor %}
+
+{% for type in types.all|annotated:"GenerateInit" %}
+{% if type.class or type.struct %}
+// sourcery:inline:auto:{{ type.name }}.GenerateInit
+	{% call generateInitializer type %}
+// sourcery:end
+{% endif %}
+{% endfor %}

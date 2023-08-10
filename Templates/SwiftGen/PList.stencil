@@ -1,0 +1,131 @@
+// Generated using SwiftGen, by O.Halligon — https://github.com/SwiftGen/SwiftGen
+
+{% for file in files where file.name != "Info" %}
+{% if forloop.counter == 1 %}
+{% set accessModifier %}{% if param.publicAccess %}public{% else %}internal{% endif %}{% endset %}
+{% set documentPrefix %}{{param.documentName|default:"Document"}}{% endset %}
+import Foundation
+
+// swiftlint:disable:all
+
+// MARK: - Plist Files
+{% macro fileBlock file isStringsDict %}
+	{% if file.documents.count > 1 %}
+	{% for document in file.documents %}
+	{% set documentName %}{{documentPrefix}}{{forloop.counter}}{% endset %}
+	{{accessModifier}} enum {{documentName|swiftIdentifier:"pretty"|escapeReservedKeywords}} {
+		{% filter indent:2 %}{% call documentBlock file isStringsDict document %}{% endfilter %}
+	}
+	{% endfor %}
+	{% else %}
+	{% call documentBlock file isStringsDict file.documents.first %}
+	{% endif %}
+{% endmacro %}
+{% macro documentBlock file isStringsDict document %}
+	{% set rootType %}{% call typeBlock document.metadata %}{% endset %}
+	{% if document.metadata.type == "Array" %}
+	{{accessModifier}} static let items: {{rootType}} = arrayFromPList(at: "{% call transformPath isStringsDict file.path %}")
+	{% elif document.metadata.type == "Dictionary" %}
+	{% set path %}{% call transformPath isStringsDict file.path %}{% endset %}
+	private static let document = DictionaryData(path: "{{path}}")
+		?? { LogFatal("Unable to load PList at path: \"{{path}}\"") }()
+
+	{% for key,value in document.metadata.properties %}
+	{{accessModifier}} {% call propertyBlock isStringsDict key value %}
+	{% endfor %}
+	{% else %}
+	// Unsupported root type `{{rootType}}`
+	{% endif %}
+{% endmacro %}
+{% macro typeBlock metadata %}{% filter removeNewlines:"leading" %}
+	{% if metadata.type == "Array" %}
+		[{% call typeBlock metadata.element %}]
+	{% elif metadata.type == "Dictionary" %}
+		DictionaryData
+	{% else %}
+		{{metadata.type}}
+	{% endif %}
+{% endfilter %}{% endmacro %}
+{% macro propertyBlock isStringsDict key metadata %}{% filter removeNewlines:"leading" %}
+	{% set swiftyKey %}{{key|swiftIdentifier:"pretty"|escapeReservedKeywords}}{% endset %}
+	{% set propertyName %}{{swiftyKey|lowerFirstWord|escapeReservedKeywords}}{% endset %}
+	{% set propertyType %}{% call typeBlock metadata %}{% endset %}
+	{% set propertyKeypath %}document{% if swiftyKey == key %}.{{swiftyKey}}{% else %}[dynamicMember: "{{key}}"]{% endif %}{% endset %}
+	{% if isStringsDict %}
+	static let {{propertyName}}: (key: LocalizableKey, data: {{propertyType}}) = ("{{key}}", {% if propertyType == "DictionaryData" %}DictionaryData(data: {% endif %}{{propertyKeypath}}{% if propertyType == "DictionaryData" %}){% endif %})
+	{% else %}
+	static let {{propertyName}}: {{propertyType}} = {% if propertyType == "DictionaryData" %}DictionaryData(data: {% endif %}{{propertyKeypath}}{% if propertyType == "DictionaryData" %}){% endif %}
+	{% endif %}
+{% endfilter %}{% endmacro %}
+{% macro transformPath isStringsDict path %}{% filter removeNewlines %}
+	{% set resultPath %}
+		{% if param.preservePath %}
+			{{path}}
+		{% else %}
+			{{path|basename}}
+		{% endif %}
+	{% endset %}
+	{% if isStringsDict %}
+		{{resultPath|replace:"_swiftgen.plist",""}}
+	{% else %}
+		{{resultPath}}
+	{% endif %}
+{% endfilter %}{% endmacro %}
+
+// swiftlint:disable identifier_name line_length type_body_length
+{{accessModifier}} enum {{param.enumName|default:"PListFiles"}} {
+	{% for file in files where file.name != "Info" %}
+		{% set baseEnumName %}{{file.name|swiftIdentifier:"pretty"|escapeReservedKeywords}}{% endset %}
+		{% set isStringsDict %}{% if baseEnumName|contains:"StringsdictSwiftgen" %}true{% endif %}{% endset %}
+		{% if forloop.length > 1 %}
+		{{accessModifier}} enum {{baseEnumName|replace:"StringsdictSwiftgen",""}} {
+			{% filter indent:2 %}{% call fileBlock file isStringsDict %}{% endfilter %}
+		}
+		{% else %}
+		{% call fileBlock file isStringsDict %}
+		{% endif %}
+	{% endfor %}
+}
+
+// MARK: - Implementation Details
+
+private func arrayFromPList<T>(at path: String) -> [T] {
+	let bundle = Bundle(for: BundleToken.self)
+	guard let url = bundle.url(forResource: path, withExtension: nil),
+		let data = NSArray(contentsOf: url) as? [T] else
+	{
+		LogFatal("Unable to load PList at path: \(path)")
+	}
+	return data
+}
+
+@dynamicMemberLookup
+struct DictionaryData {
+	let data: [String: Any]
+
+	init(data: [String: Any]) {
+		self.data = data
+	}
+
+	init?(path: String) {
+		guard let url = Bundle(for: BundleToken.self).url(forResource: path, withExtension: nil),
+			let data = NSDictionary(contentsOf: url) as? [String: Any] else
+		{
+			return nil
+		}
+		self.init(data: data)
+	}
+
+	subscript<T>(dynamicMember member: String) -> T {
+		guard let result = data[member] as? T else {
+			LogFatal("Property '\(member)' is not of type \(T.self)")
+		}
+		return result
+	}
+}
+
+private final class BundleToken {}
+{% endif %}
+{% empty %}
+// No files found
+{% endfor %}

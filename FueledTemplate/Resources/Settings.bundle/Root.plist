@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PreferenceSpecifiers</key>
+	<array>
+		<dict>
+			<key>Type</key>
+			<string>PSMultiValueSpecifier</string>
+			<key>Key</key>
+			<string>environmentName</string>
+			<key>DefaultValue</key>
+			<string>dev</string>
+			<key>Title</key>
+			<string>Environment</string>
+			<key>Titles</key>
+			<array>
+				<string>Dev</string>
+				<string>QA</string>
+				<string>Production</string>
+			</array>
+			<key>Values</key>
+			<array>
+				<string>dev</string>
+				<string>qa</string>
+				<string>prod</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>App Version Info</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>Key</key>
+			<string>version</string>
+			<key>Title</key>
+			<string>Version Number</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>Key</key>
+			<string>build</string>
+			<key>Title</key>
+			<string>Build Number</string>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+		</dict>
+		<dict>
+			<key>DefaultValue</key>
+			<string></string>
+			<key>Key</key>
+			<string>build_date</string>
+			<key>Title</key>
+			<string>Build Date</string>
+			<key>Titles</key>
+			<array>
+				<string></string>
+			</array>
+			<key>Type</key>
+			<string>PSTitleValueSpecifier</string>
+		</dict>
+	</array>
+	<key>StringsTable</key>
+	<string>Root</string>
+</dict>
+</plist>
