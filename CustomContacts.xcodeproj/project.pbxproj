@@ -42,6 +42,7 @@
 		DF3B36F921ECAF8A0033C858 /* Error+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B36DB21ECAF8A0033C858 /* Error+DisplayableError.swift */; };
 		DF3B36FD21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B36DF21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift */; };
 		DF3B370121ECAFDD0033C858 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B370021ECAFDD0033C858 /* String+Localization.swift */; };
+		E8CD46052A85701500C0F540 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E8CD46042A85701500C0F540 /* ComposableArchitecture */; };
 		F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */; };
 		F4CD7028200003E10013EE7B /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD701B200003E10013EE7B /* ApplicationService.swift */; };
 		F4CD706420002E7C0013EE7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706220002E7C0013EE7B /* LaunchScreen.storyboard */; };
@@ -153,6 +154,7 @@
 				FC3DC8C928AE1FE6009EA293 /* FueledUtilsSwiftUI in Frameworks */,
 				FC3DC8C528AE1FE6009EA293 /* FueledUtilsCore in Frameworks */,
 				FC9016C327B4638900C935FE /* CustomContactsHelpers in Frameworks */,
+				E8CD46052A85701500C0F540 /* ComposableArchitecture in Frameworks */,
 				FC9016C127B4638900C935FE /* CustomContactsAPIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -489,6 +491,7 @@
 				1390FB352947427D00A292D3 /* ArkanaKeys */,
 				52B6146629647BCB00F00820 /* NukeUI */,
 				0F9AFBD929E8004C00496F61 /* Dependencies */,
+				E8CD46042A85701500C0F540 /* ComposableArchitecture */,
 			);
 			productName = CustomContacts;
 			productReference = 3DFCFB511E5DA85B00D4A874 /* CustomContacts.app */;
@@ -574,6 +577,7 @@
 				FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */,
 				52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */,
 				0F9AFBD829E8004C00496F61 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+				E8CD46032A85701500C0F540 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 3DFCFB521E5DA85B00D4A874 /* Products */;
 			projectDirPath = "";
@@ -1462,7 +1466,7 @@
 			repositoryURL = "https://github.com/pointfreeco/swift-dependencies";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 0.4.0;
+				minimumVersion = 1.0.0;
 			};
 		};
 		52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */ = {
@@ -1471,6 +1475,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 0.8.3;
+			};
+		};
+		E8CD46032A85701500C0F540 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
 			};
 		};
 		FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */ = {
@@ -1497,6 +1509,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */;
 			productName = NukeUI;
+		};
+		E8CD46042A85701500C0F540 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E8CD46032A85701500C0F540 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 		FC3DC8C428AE1FE6009EA293 /* FueledUtilsCore */ = {
 			isa = XCSwiftPackageProductDependency;

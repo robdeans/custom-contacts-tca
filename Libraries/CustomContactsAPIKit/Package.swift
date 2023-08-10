@@ -22,7 +22,7 @@ let package = Package(
 	],
 	dependencies: [
 		// global
-		.package(url: "https://github.com/pointfreeco/swift-dependencies", from: "0.1.0"),
+		.package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.0.0"),
 
 		// local
 		.package(name: "ArkanaKeys", path: "../ArkanaKeys"),
