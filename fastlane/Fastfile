@@ -2,7 +2,7 @@ fastlane_version '2.206.0'
 opt_out_usage
 
 platform :ios do
-  keychain_name = "FueledTemplate"
+  keychain_name = "CustomContacts"
   keychain_password = "passw0rd"
 
   lane :app_center do
@@ -47,7 +47,7 @@ platform :ios do
 
     check_code_coverage_ios(
       code_coverage_config_file_path: Dir.pwd + "/../.fueled_code_coverage.json",
-      result_bundle_file_path: Dir.pwd + "/test_output/FueledTemplate.xcresult",
+      result_bundle_file_path: Dir.pwd + "/test_output/CustomContacts.xcresult",
       minimum_code_coverage_percentage: 80
     )
   end

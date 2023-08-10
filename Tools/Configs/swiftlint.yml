@@ -139,20 +139,20 @@ only_rules:
   - xctfail_message
   - yoda_condition
 included:
-  - ../../FueledTemplate/Code
+  - ../../CustomContacts/Code
   - ../../Libraries
 excluded:
   - Carthage
   - Pods
-  - ../../FueledTemplate/Code/Generated
-  - ../../Libraries/FueledTemplateAPIKit/Sources/Generated
-  - ../../Libraries/FueledTemplateHelpers/Sources/Generated
+  - ../../CustomContacts/Code/Generated
+  - ../../Libraries/CustomContactsAPIKit/Sources/Generated
+  - ../../Libraries/CustomContactsHelpers/Sources/Generated
   - ../../Libraries/**/.build
 file_header:
   required_pattern: |
                     \/\/
                     \/\/  .*?\.(?:swift|h|hpp|m|mm|cpp|cc)
-                    \/\/  FueledTemplate.*
+                    \/\/  CustomContacts.*
                     \/\/
                     \/\/  Created by .*? on (?:\d{1,2}[\/.]\d{1,2}[\/.]\d{2,4}|d{1}ate_markup)\.?
                     \/\/  Copyright (?:©|\(c\)) (?:\d{4}|y{1}ear_markup) Fueled\. All rights reserved\.

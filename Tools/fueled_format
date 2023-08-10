@@ -13,7 +13,7 @@ require_relative 'tools_helpers'
 
 puts 'Formatting Swift according to Fueled conventions...'
 
-all_files = Dir.glob(File.join(WORKSPACE_ROOT, 'FueledTemplate/**/*.swift')) + Dir.glob(File.join(WORKSPACE_ROOT, 'Libraries/**/*.swift'))
+all_files = Dir.glob(File.join(WORKSPACE_ROOT, 'CustomContacts/**/*.swift')) + Dir.glob(File.join(WORKSPACE_ROOT, 'Libraries/**/*.swift'))
 
 sourcery_inline_content = {}
 
