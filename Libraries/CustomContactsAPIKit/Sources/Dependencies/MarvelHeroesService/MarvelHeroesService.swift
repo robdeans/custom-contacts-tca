@@ -7,9 +7,9 @@
 //
 
 import ArkanaKeys
+import CustomContactsHelpers
 import Dependencies
 import Foundation
-import CustomContactsHelpers
 
 public struct MarvelHeroesService {
 	private static var sharedQueryItems: [String: String]? = {

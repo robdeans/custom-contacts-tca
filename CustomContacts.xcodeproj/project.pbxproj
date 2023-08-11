@@ -42,7 +42,7 @@
 		DF3B36F921ECAF8A0033C858 /* Error+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B36DB21ECAF8A0033C858 /* Error+DisplayableError.swift */; };
 		DF3B36FD21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B36DF21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift */; };
 		DF3B370121ECAFDD0033C858 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B370021ECAFDD0033C858 /* String+Localization.swift */; };
-		E8CD46052A85701500C0F540 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E8CD46042A85701500C0F540 /* ComposableArchitecture */; };
+		E8233DD22A8695EB00D52D84 /* Contact+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */; };
 		F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */; };
 		F4CD7028200003E10013EE7B /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD701B200003E10013EE7B /* ApplicationService.swift */; };
 		F4CD706420002E7C0013EE7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706220002E7C0013EE7B /* LaunchScreen.storyboard */; };
@@ -116,6 +116,7 @@
 		DF3B36DB21ECAF8A0033C858 /* Error+DisplayableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Error+DisplayableError.swift"; sourceTree = "<group>"; };
 		DF3B36DF21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ApplicationError+DisplayableError.swift"; sourceTree = "<group>"; };
 		DF3B370021ECAFDD0033C858 /* String+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
+		E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+Extensions.swift"; sourceTree = "<group>"; };
 		F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DecodingError+DisplayableError.swift"; sourceTree = "<group>"; };
 		F4AB7AB52534CC6F008372B6 /* CustomContactsAPIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CustomContactsAPIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4AB7AB62534CC6F008372B6 /* CustomContactsHelpers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CustomContactsHelpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -154,7 +155,6 @@
 				FC3DC8C928AE1FE6009EA293 /* FueledUtilsSwiftUI in Frameworks */,
 				FC3DC8C528AE1FE6009EA293 /* FueledUtilsCore in Frameworks */,
 				FC9016C327B4638900C935FE /* CustomContactsHelpers in Frameworks */,
-				E8CD46052A85701500C0F540 /* ComposableArchitecture in Frameworks */,
 				FC9016C127B4638900C935FE /* CustomContactsAPIKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -424,6 +424,7 @@
 			children = (
 				DF3B36BF21ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift */,
 				DF3B370021ECAFDD0033C858 /* String+Localization.swift */,
+				E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -491,7 +492,6 @@
 				1390FB352947427D00A292D3 /* ArkanaKeys */,
 				52B6146629647BCB00F00820 /* NukeUI */,
 				0F9AFBD929E8004C00496F61 /* Dependencies */,
-				E8CD46042A85701500C0F540 /* ComposableArchitecture */,
 			);
 			productName = CustomContacts;
 			productReference = 3DFCFB511E5DA85B00D4A874 /* CustomContacts.app */;
@@ -578,7 +578,6 @@
 				FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */,
 				52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */,
 				0F9AFBD829E8004C00496F61 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
-				E8CD46032A85701500C0F540 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 3DFCFB521E5DA85B00D4A874 /* Products */;
 			projectDirPath = "";
@@ -683,6 +682,7 @@
 				DF3B36C021ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift in Sources */,
 				FCDAFBD827C54741001314C2 /* AutoDebugDescription.generated.swift in Sources */,
 				FCDAFBD627C54741001314C2 /* AutoLenses.generated.swift in Sources */,
+				E8233DD22A8695EB00D52D84 /* Contact+Extensions.swift in Sources */,
 				FCDAFBD527C54741001314C2 /* AutoHashable.generated.swift in Sources */,
 				DF3B36F021ECAF8A0033C858 /* ApplicationError.swift in Sources */,
 				DF3B36F221ECAF8A0033C858 /* ActionError+DisplayableSwiftError.swift in Sources */,
@@ -1478,14 +1478,6 @@
 				minimumVersion = 0.8.3;
 			};
 		};
-		E8CD46032A85701500C0F540 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.0;
-			};
-		};
 		FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Fueled/ios-utilities/";
@@ -1510,11 +1502,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */;
 			productName = NukeUI;
-		};
-		E8CD46042A85701500C0F540 /* ComposableArchitecture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E8CD46032A85701500C0F540 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
 		};
 		FC3DC8C428AE1FE6009EA293 /* FueledUtilsCore */ = {
 			isa = XCSwiftPackageProductDependency;
