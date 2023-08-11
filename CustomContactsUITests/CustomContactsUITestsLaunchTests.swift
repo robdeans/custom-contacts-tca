@@ -3,7 +3,7 @@
 //  CustomContactsUITests
 //
 //  Created by Vinay Kharb on 02/05/23.
-//  Copyright © 2023 Fueled. All rights reserved.
+//  Copyright © 2023 RBD. All rights reserved.
 //
 
 import XCTest

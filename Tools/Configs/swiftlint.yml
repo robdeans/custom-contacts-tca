@@ -159,7 +159,7 @@ file_header:
                     \/\/
 vertical_whitespace:
   severity: warning
-syntactic_sugar: error
+syntactic_sugar: warning
 fatal_error_message: error
 override_in_extension: error
 no_extension_access_modifier: warning
