@@ -1,4 +1,4 @@
 SLACK_DEV_WEBHOOK_URL=slack_dev_url
 SLACK_PUBLIC_WEBHOOK_URL=slack_public_url
-PROJECT_NAME=FueledTemplate
+PROJECT_NAME=CustomContacts
 BITRISE_APP_SLUG=bitrise_app_slug

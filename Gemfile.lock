@@ -1,8 +1,8 @@
 GIT
-  remote: https://github.com/Fueled/fastlane-plugin-fueled
-  revision: 5f35dcf6f630316a471dedf69b90eb86a5db0b8f
+  remote: https://github.com/fueled/fastlane-plugin-fueled
+  revision: 6796d6058a0ac67e8c151e749170ad53a0b24627
   specs:
-    fastlane-plugin-fueled (0.2.5)
+    fastlane-plugin-fueled (0.3.0)
       fastlane-plugin-appcenter (~> 2.0.0)
       fastlane-plugin-versioning (~> 0.5.0)
 
@@ -143,7 +143,7 @@ GEM
       xcpretty (~> 0.3.0)
       xcpretty-travis-formatter (>= 0.0.3)
     fastlane-plugin-appcenter (2.0.0)
-    fastlane-plugin-versioning (0.5.1)
+    fastlane-plugin-versioning (0.5.2)
     gh_inspector (1.1.3)
     google-apis-androidpublisher_v3 (0.34.0)
       google-apis-core (>= 0.9.1, < 2.a)
@@ -287,12 +287,13 @@ PLATFORMS
   arm64-darwin-21
   arm64-darwin-22
   x86_64-darwin-19
+  x86_64-darwin-21
 
 DEPENDENCIES
   arkana
   dotenv-rails
   fastlane
-  fastlane-plugin-fueled (~> 0.2.5)!
+  fastlane-plugin-fueled (~> 0.3.0)!
   xcode-install
 
 BUNDLED WITH

@@ -1,0 +1,8 @@
+sources:
+  include:
+    - ../../CustomContacts/Code
+  exclude:
+    - ../../CustomContacts/Code/Generated
+templates:
+  - ../../Templates/Sourcery
+output: ../../CustomContacts/Code/Generated/Sourcery

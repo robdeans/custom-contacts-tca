@@ -1,13 +1,13 @@
 {
   "directories": [
     {
-      "from": "FueledTemplate",
+      "from": "CustomContacts",
       "to": "{{ cookiecutter.name }}"
     }
   ],
   "text": [
     {
-      "from": "FueledTemplate",
+      "from": "CustomContacts",
       "to": "{{ cookiecutter.name }}"
     },
     {

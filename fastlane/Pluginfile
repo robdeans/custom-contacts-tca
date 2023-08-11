@@ -1,1 +1,1 @@
-gem 'fastlane-plugin-fueled', '~> 0.2.8', git: "https://github.com/Fueled/fastlane-plugin-fueled"
+gem 'fastlane-plugin-fueled', '~> 0.3.0', git: "https://github.com/fueled/fastlane-plugin-fueled"
