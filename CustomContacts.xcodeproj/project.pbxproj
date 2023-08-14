@@ -43,6 +43,10 @@
 		DF3B36FD21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B36DF21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift */; };
 		DF3B370121ECAFDD0033C858 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B370021ECAFDD0033C858 /* String+Localization.swift */; };
 		E8233DD22A8695EB00D52D84 /* Contact+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */; };
+		E8D67B992A8AB1B800300FE0 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B982A8AB1B800300FE0 /* RootView.swift */; };
+		E8D67B9B2A8AB21C00300FE0 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9A2A8AB21C00300FE0 /* ContactListView.swift */; };
+		E8D67B9D2A8AB27200300FE0 /* GroupListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */; };
+		E8D67B9F2A8AB82A00300FE0 /* GroupEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9E2A8AB82A00300FE0 /* GroupEditorView.swift */; };
 		F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */; };
 		F4CD7028200003E10013EE7B /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD701B200003E10013EE7B /* ApplicationService.swift */; };
 		F4CD706420002E7C0013EE7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706220002E7C0013EE7B /* LaunchScreen.storyboard */; };
@@ -117,6 +121,10 @@
 		DF3B36DF21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ApplicationError+DisplayableError.swift"; sourceTree = "<group>"; };
 		DF3B370021ECAFDD0033C858 /* String+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+Extensions.swift"; sourceTree = "<group>"; };
+		E8D67B982A8AB1B800300FE0 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		E8D67B9A2A8AB21C00300FE0 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
+		E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListView.swift; sourceTree = "<group>"; };
+		E8D67B9E2A8AB82A00300FE0 /* GroupEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEditorView.swift; sourceTree = "<group>"; };
 		F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DecodingError+DisplayableError.swift"; sourceTree = "<group>"; };
 		F4AB7AB52534CC6F008372B6 /* CustomContactsAPIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CustomContactsAPIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4AB7AB62534CC6F008372B6 /* CustomContactsHelpers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CustomContactsHelpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -351,6 +359,10 @@
 			children = (
 				52CDEE492963374100AB4609 /* Heroes */,
 				A1FB88DE2A0078DC00E0C032 /* HeroDetails */,
+				E8D67B982A8AB1B800300FE0 /* RootView.swift */,
+				E8D67B9A2A8AB21C00300FE0 /* ContactListView.swift */,
+				E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */,
+				E8D67B9E2A8AB82A00300FE0 /* GroupEditorView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -680,9 +692,11 @@
 			files = (
 				FCDAFBD727C54741001314C2 /* AutoEquatable.generated.swift in Sources */,
 				DF3B36C021ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift in Sources */,
+				E8D67B9D2A8AB27200300FE0 /* GroupListView.swift in Sources */,
 				FCDAFBD827C54741001314C2 /* AutoDebugDescription.generated.swift in Sources */,
 				FCDAFBD627C54741001314C2 /* AutoLenses.generated.swift in Sources */,
 				E8233DD22A8695EB00D52D84 /* Contact+Extensions.swift in Sources */,
+				E8D67B9B2A8AB21C00300FE0 /* ContactListView.swift in Sources */,
 				FCDAFBD527C54741001314C2 /* AutoHashable.generated.swift in Sources */,
 				DF3B36F021ECAF8A0033C858 /* ApplicationError.swift in Sources */,
 				DF3B36F221ECAF8A0033C858 /* ActionError+DisplayableSwiftError.swift in Sources */,
@@ -694,6 +708,8 @@
 				A1FB88E02A0078EE00E0C032 /* MarvelHeroDetailsViewModel.swift in Sources */,
 				52B6146429647BB400F00820 /* MarvelCharacterView.swift in Sources */,
 				A1FB88E22A0078F600E0C032 /* MarvelHeroDetailsView.swift in Sources */,
+				E8D67B992A8AB1B800300FE0 /* RootView.swift in Sources */,
+				E8D67B9F2A8AB82A00300FE0 /* GroupEditorView.swift in Sources */,
 				52B6526D29640FDD008D3834 /* MarvelHeroesViewModel.swift in Sources */,
 				FCDAFBDD27C54741001314C2 /* Assets+Constants.generated.swift in Sources */,
 				FCDAFBE027C54741001314C2 /* JSON.generated.swift in Sources */,
@@ -840,7 +856,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-D DEBUG";
@@ -914,7 +930,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_SWIFT_FLAGS = "-D RELEASE";
 				SDKROOT = iphoneos;
@@ -947,7 +963,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -986,7 +1002,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1208,7 +1224,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_SWIFT_FLAGS = "-D SNAPSHOT";
 				SDKROOT = iphoneos;
@@ -1241,7 +1257,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1342,7 +1358,7 @@
 				GCC_WARN_UNUSED_LABEL = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_SWIFT_FLAGS = "-D PRODUCTION";
 				SDKROOT = iphoneos;
@@ -1375,7 +1391,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
