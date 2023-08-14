@@ -29,29 +29,11 @@ struct GroupListView: View {
 						destination: {
 							GroupEditorView()
 								.modelContainer(for: ContactGroup.self)
-							// Each NavigationLink requires new modelContainer?
+								// Each NavigationLink requires new modelContainer?
 						},
 						label: { Text("Add Group") }
 					)
 				}
-			}
-		}
-	}
-}
-
-struct GroupEditorView: View {
-	@State private var name = ""
-	@Environment(\.modelContext) private var modelContext
-	@Environment(\.dismiss) private var dismiss
-
-	var body: some View {
-		VStack(spacing: 0) {
-			TextField("Group Name", text: $name)
-			Spacer()
-			Button("Save") {
-				let newGroup = ContactGroup(id: UUID().uuidString, name: name, contactIDs: [])
-				modelContext.insert(newGroup)
-				dismiss()
 			}
 		}
 	}
