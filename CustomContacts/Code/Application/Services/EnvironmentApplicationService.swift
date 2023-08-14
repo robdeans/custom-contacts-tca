@@ -34,16 +34,16 @@ final class EnvironmentApplicationService: NSObject, ApplicationService {
 		}
 	}
 
-	var preferredEnvironment: Environment {
-		let environment: Environment
-		if let currentEnvironment = UserDefaults.standard.string(forKey: DefaultKeys.environmentName).flatMap({ Environment(rawValue: $0) }) {
+	var preferredEnvironment: APIEnvironment {
+		let environment: APIEnvironment
+		if let currentEnvironment = UserDefaults.standard.string(forKey: DefaultKeys.environmentName).flatMap({ APIEnvironment(rawValue: $0) }) {
 			environment = currentEnvironment
 		} else {
 			let logMessage = "Invalid environment name in settings bundle (\(UserDefaults.standard.string(forKey: DefaultKeys.environmentName) ?? "<none>")), did you forget to update the settings bundle's plist file?"
 			#if DEBUG
 			LogFatal(logMessage)
 			#else
-			environment = Environment.allCases.first!
+			environment = APIEnvironment.allCases.first!
 			LogWarning("\(logMessage) The environment will default to \(environment)")
 			UserDefaults.standard.set(environment.rawValue, forKey: DefaultKeys.environmentName)
 			#endif
@@ -58,9 +58,9 @@ final class EnvironmentApplicationService: NSObject, ApplicationService {
 }
 
 extension EnvironmentApplicationService {
-	var environment: Environment {
+	var environment: APIEnvironment {
 #if PRODUCTION
-		Environment.production.configuration
+		APIEnvironment.production.configuration
 #else
 		self.preferredEnvironment
 #endif

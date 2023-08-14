@@ -9,7 +9,7 @@
 import Dependencies
 
 public enum CustomContactsAPIKit {
-	public static func initialize(environment: Environment) {
+	public static func initialize(environment: APIEnvironment) {
 		@Dependency(\.apiKitEnvironment) var apiKitEnvironment: APIKitEnvironment
 		apiKitEnvironment.initialize(with: environment)
 	}
