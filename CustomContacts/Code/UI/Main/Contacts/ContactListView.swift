@@ -14,8 +14,13 @@ struct ContactListView: View {
 
 	var body: some View {
 		List {
-			ForEach(viewModel.contacts) {
-				Text($0.fullName)
+			ForEach(viewModel.contacts) { contact in
+				NavigationLink(
+					destination: {
+						ContactDetailView(contact: contact)
+					},
+					label: { Text(contact.fullName) }
+				)
 			}
 		}
 	}
