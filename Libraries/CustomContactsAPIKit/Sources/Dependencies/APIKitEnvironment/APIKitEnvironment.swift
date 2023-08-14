@@ -11,15 +11,15 @@ import Dependencies
 import Foundation
 
 final class APIKitEnvironment: DependencyKey {
-	private var currentEnvironment: Environment?
+	private var currentEnvironment: APIEnvironment?
 
-	func initialize(with environment: Environment) {
+	func initialize(with environment: APIEnvironment) {
 		currentEnvironment = environment
 	}
 }
 
 extension APIKitEnvironment {
-	var environment: Environment {
+	var environment: APIEnvironment {
 		guard let currentEnvironment else {
 			LogFatal("Environment not set. Initialize environment using apiKitEnvironment.initialize(with environment:)")
 		}

@@ -1,5 +1,5 @@
 //
-//  Environment.swift
+//  APIEnvironment.swift
 //  CustomContactsAPIKit
 //
 //  Created by Robert Deans on 08/10/2024.
@@ -8,13 +8,13 @@
 
 import Foundation
 
-public enum Environment: String, Codable, CaseIterable {
+public enum APIEnvironment: String, Codable, CaseIterable {
 	case development = "dev"
 	case qa
 	case production = "prod"
 }
 
-extension Environment {
+extension APIEnvironment {
 	var baseURL: URL {
 		switch self {
 		case .development:

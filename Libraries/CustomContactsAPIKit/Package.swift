@@ -12,7 +12,7 @@ import PackageDescription
 let package = Package(
 	name: "CustomContactsAPIKit",
 	platforms: [
-		.macOS(.v11), .iOS(.v14), .tvOS(.v9), .watchOS(.v2),
+		.macOS(.v11), .iOS(.v15), .tvOS(.v12), .watchOS(.v4),
 	],
 	products: [
 		.library(
