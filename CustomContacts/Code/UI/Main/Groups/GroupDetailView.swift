@@ -14,5 +14,10 @@ struct GroupDetailView: View {
 
 	var body: some View {
 		Text(group.name)
+		List {
+			ForEach(Array(group.contactIDs), id: \.hashValue) {
+				Text($0)
+			}
+		}
 	}
 }

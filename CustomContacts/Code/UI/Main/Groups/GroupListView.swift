@@ -16,23 +16,28 @@ struct GroupListView: View {
 	var groups: [ContactGroup]
 
 	@State private var createGroupView: GroupEditorView?
-	@State private var groupDetailView: GroupEditorView?
+	@State private var groupDetailView: GroupDetailView?
 
 	var body: some View {
 		ZStack {
 			List {
 				ForEach(groups) { group in
-					NavigationLink(
-						destination: { GroupDetailView(group: group) },
-						label: { Text(group.name) }
-					)
+					GroupCardView(group: group) {
+						groupDetailView = GroupDetailView(group: group)
+					}
 				}
 			}
 
 			createGroupButton
 		}
 		.sheet(item: $createGroupView) { $0 }
+		.navigationDestination(to: $groupDetailView) { $0 }
 		.modelContainer(for: ContactGroup.self)
+//		.task {
+//			DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//				groups.first?.contactIDs = ["123", "456", "789"]
+//			}
+//		}
 	}
 
 	private var createGroupButton: some View {

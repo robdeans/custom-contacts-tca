@@ -48,6 +48,8 @@
 		E87A3DEE2A8AC3B90068F34C /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DED2A8AC3B90068F34C /* GroupDetailView.swift */; };
 		E87A3DF22A8AC8080068F34C /* ContactDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DF12A8AC8080068F34C /* ContactDetailView.swift */; };
 		E87A3DF62A8AC9990068F34C /* ContactSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DF52A8AC9990068F34C /* ContactSelectorView.swift */; };
+		E87A3DF82A8BE4A30068F34C /* NavigationLinkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DF72A8BE4A30068F34C /* NavigationLinkHelper.swift */; };
+		E87A3DFA2A8BE6F90068F34C /* GroupCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DF92A8BE6F90068F34C /* GroupCardView.swift */; };
 		E8D67B992A8AB1B800300FE0 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B982A8AB1B800300FE0 /* RootView.swift */; };
 		E8D67B9B2A8AB21C00300FE0 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9A2A8AB21C00300FE0 /* ContactListView.swift */; };
 		E8D67B9D2A8AB27200300FE0 /* GroupListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */; };
@@ -131,6 +133,8 @@
 		E87A3DED2A8AC3B90068F34C /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
 		E87A3DF12A8AC8080068F34C /* ContactDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailView.swift; sourceTree = "<group>"; };
 		E87A3DF52A8AC9990068F34C /* ContactSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactSelectorView.swift; sourceTree = "<group>"; };
+		E87A3DF72A8BE4A30068F34C /* NavigationLinkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLinkHelper.swift; sourceTree = "<group>"; };
+		E87A3DF92A8BE6F90068F34C /* GroupCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCardView.swift; sourceTree = "<group>"; };
 		E8D67B982A8AB1B800300FE0 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		E8D67B9A2A8AB21C00300FE0 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
 		E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListView.swift; sourceTree = "<group>"; };
@@ -379,6 +383,7 @@
 		E87A3DEC2A8AC0D30068F34C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				E87A3DF72A8BE4A30068F34C /* NavigationLinkHelper.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -397,6 +402,7 @@
 			isa = PBXGroup;
 			children = (
 				E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */,
+				E87A3DF92A8BE6F90068F34C /* GroupCardView.swift */,
 				E8D67B9E2A8AB82A00300FE0 /* GroupEditorView.swift */,
 				E87A3DED2A8AC3B90068F34C /* GroupDetailView.swift */,
 			);
@@ -750,6 +756,7 @@
 				E87A3DF22A8AC8080068F34C /* ContactDetailView.swift in Sources */,
 				E8D67B992A8AB1B800300FE0 /* RootView.swift in Sources */,
 				E8D67B9F2A8AB82A00300FE0 /* GroupEditorView.swift in Sources */,
+				E87A3DF82A8BE4A30068F34C /* NavigationLinkHelper.swift in Sources */,
 				52B6526D29640FDD008D3834 /* MarvelHeroesViewModel.swift in Sources */,
 				FCDAFBDD27C54741001314C2 /* Assets+Constants.generated.swift in Sources */,
 				FCDAFBE027C54741001314C2 /* JSON.generated.swift in Sources */,
@@ -758,6 +765,7 @@
 				FCDAFBDF27C54741001314C2 /* Fonts+Constants.generated.swift in Sources */,
 				E87A3DEE2A8AC3B90068F34C /* GroupDetailView.swift in Sources */,
 				F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */,
+				E87A3DFA2A8BE6F90068F34C /* GroupCardView.swift in Sources */,
 				FCDAFBDB27C54741001314C2 /* PluggableApplicationDelegate.generated.swift in Sources */,
 				0F79D60A29F1F50000346E43 /* App.swift in Sources */,
 				E87A3DF62A8AC9990068F34C /* ContactSelectorView.swift in Sources */,
