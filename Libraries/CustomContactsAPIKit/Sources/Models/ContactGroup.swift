@@ -6,6 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
+import Foundation
 import SwiftData
 
 @Model
@@ -13,12 +14,16 @@ public final class ContactGroup {
 	public let id: ContactGroup.ID
 	public var name: String
 	public var contactIDs: Set<Contact.ID>
-//	public var color: Color
 
 	public init(id: ContactGroup.ID, name: String, contactIDs: Set<Contact.ID>) {
 		self.id = id
 		self.name = name
 		self.contactIDs = contactIDs
+	}
+
+	/// TODO: workaround to appease the beta compiler
+	public static func create(name: String) -> ContactGroup {
+		ContactGroup(id: UUID().uuidString, name: name, contactIDs: [])
 	}
 }
 

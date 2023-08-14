@@ -19,7 +19,7 @@ struct GroupEditorView: View {
 			TextField("Group Name", text: $name)
 			Spacer()
 			Button("Save") {
-				let newGroup = ContactGroup(id: UUID().uuidString, name: name, contactIDs: [])
+				let newGroup = ContactGroup.create(name: name)
 				modelContext.insert(newGroup)
 				dismiss()
 			}
