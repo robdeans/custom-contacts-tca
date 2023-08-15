@@ -14,27 +14,45 @@ private enum Layout {
 }
 
 struct GroupCreationView: View {
-	@State private var name = ""
-	@State private(set) var selectedContactIDs = Set<Contact.ID>()
-	@State private var contactSelectorView: ContactSelectorView?
-
 	@Environment(\.modelContext) private var modelContext
 	@Environment(\.dismiss) private var dismiss
+
+	@State private var name = ""
+	@State private var color = Color.black
+	@State private(set) var selectedContactIDs = Set<Contact.ID>()
+
+	@State private var contactSelectorView: ContactSelectorView?
 
 	var body: some View {
 		ZStack {
 			VStack(spacing: 0) {
-				TextField("Group Name", text: $name)
-					.padding(Constants.UI.Padding.default)
+				Group {
+					ColorPicker(
+						selection: $color,
+						supportsOpacity: true,
+						label: {
+							TextField("Group Name", text: $name)
+								.foregroundStyle(color)
+								.fontWeight(.semibold)
+						}
+					)
+					.padding(.vertical, Constants.UI.Padding.default)
 
-				Button(Localizable.Groups.Edit.addRemove) {
-					contactSelectorView = ContactSelectorView(selectedContactIDs: selectedContactIDs) {
-						selectedContactIDs = $0
+					Button(Localizable.Groups.Edit.addRemove) {
+						contactSelectorView = ContactSelectorView(selectedContactIDs: selectedContactIDs) {
+							selectedContactIDs = $0
+						}
 					}
 				}
+				.padding(Constants.UI.Padding.default)
 
 				List {
-					ForEach(Array(selectedContactIDs.sorted()), id: \.hashValue) {
+					ForEach(
+						Array(selectedContactIDs),
+//							.compactMap { contactsRepository.contact(for: $0) }
+//							.sorted(by: { $0.fullName < $1.fullName })
+						id: \.hashValue
+					) {
 						Text($0)
 					}
 				}
@@ -53,7 +71,12 @@ struct GroupCreationView: View {
 
 				Button(
 					action: {
-						let newGroup = ContactGroup.create(id: id, name: name, contactIDs: selectedContactIDs)
+						let newGroup = ContactGroup.create(
+							id: id,
+							name: name,
+							contactIDs: selectedContactIDs,
+							colorHex: color.toHex ?? ""
+						)
 						modelContext.insert(newGroup)
 						dismiss()
 					},

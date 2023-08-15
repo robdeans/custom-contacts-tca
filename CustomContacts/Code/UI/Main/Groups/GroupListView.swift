@@ -43,7 +43,7 @@ struct GroupListView: View {
 				Text("+")
 					.frame(width: 55, height: 55)
 					.background(Color.blue)
-					.foregroundColor(.white)
+					.foregroundStyle(.white)
 					.cornerRadius()
 			}
 		)
