@@ -22,8 +22,8 @@ public final class ContactGroup {
 	}
 
 	/// TODO: workaround to appease the beta compiler
-	public static func create(id: String, name: String) -> ContactGroup {
-		ContactGroup(id: id, name: name, contactIDs: [])
+	public static func create(id: String, name: String, contactIDs: Set<Contact.ID>) -> ContactGroup {
+		ContactGroup(id: id, name: name, contactIDs: contactIDs)
 	}
 }
 

@@ -1,5 +1,5 @@
 //
-//  GroupEditorView.swift
+//  GroupCreationView.swift
 //  CustomContacts
 //
 //  Created by Robert Deans on 8/14/23.
@@ -13,8 +13,11 @@ private enum Layout {
 	static let bottomViewHeight = CGFloat(40)
 }
 
-struct GroupEditorView: View {
+struct GroupCreationView: View {
 	@State private var name = ""
+	@State private(set) var selectedContactIDs = Set<Contact.ID>()
+	@State private var contactSelectorView: ContactSelectorView?
+
 	@Environment(\.modelContext) private var modelContext
 	@Environment(\.dismiss) private var dismiss
 
@@ -24,7 +27,19 @@ struct GroupEditorView: View {
 				TextField("Group Name", text: $name)
 					.padding(Constants.UI.Padding.default)
 
-				ContactSelectorView()
+				Button(Localizable.Groups.Edit.addRemove) {
+					contactSelectorView = ContactSelectorView(selectedContactIDs: selectedContactIDs) {
+						selectedContactIDs = $0
+					}
+				}
+
+				List {
+					ForEach(Array(selectedContactIDs.sorted()), id: \.hashValue) {
+						Text($0)
+					}
+				}
+
+				Spacer()
 			}
 
 			HStack {
@@ -35,9 +50,10 @@ struct GroupEditorView: View {
 							.frame(maxWidth: .infinity)
 					}
 				)
+
 				Button(
 					action: {
-						let newGroup = ContactGroup.create(id: id, name: name)
+						let newGroup = ContactGroup.create(id: id, name: name, contactIDs: selectedContactIDs)
 						modelContext.insert(newGroup)
 						dismiss()
 					},
@@ -50,10 +66,11 @@ struct GroupEditorView: View {
 			.frame(height: Layout.bottomViewHeight)
 			.frame(maxHeight: .infinity, alignment: .bottom)
 		}
+		.sheet(item: $contactSelectorView) { $0 }
 	}
 }
 
-extension GroupEditorView: Identifiable {
+extension GroupCreationView: Identifiable {
 	var id: String {
 		UUID().uuidString
 	}

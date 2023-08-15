@@ -14,14 +14,14 @@ private enum Layout {
 }
 
 struct RootView: View {
-	@State private var showContactList = true
+	@State private var showContactList = false
 
 	var body: some View {
 		NavigationStack {
 			contentView
 				.toolbar {
 					ToolbarItem(placement: .topBarLeading) {
-						Button(showContactList ? "Groups" : "Contacts") {
+						Button("🔄") {
 							showContactList.toggle()
 						}
 					}
@@ -36,7 +36,7 @@ struct RootView: View {
 				ContactListView()
 			} else {
 				GroupListView()
-				// Handles mirror image
+					// Handles mirror image
 					.rotation3DEffect(.degrees(-180), axis: Layout.rotationAxis)
 			}
 		}

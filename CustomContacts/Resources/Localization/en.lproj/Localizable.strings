@@ -16,3 +16,17 @@
 // MAIN
 // Sample
 "Main.Sample.Title" = "Sample View Controller";
+
+// COMMON
+"Common.Actions.Ok" = "OK";
+"Common.Actions.Save" = "Save";
+"Common.Actions.Done" = "Done";
+"Common.Actions.Cancel" = "Cancel";
+"Common.Actions.Edit" = "Edit";
+
+//ROOT
+"Root.Contacts.Title" = "Contacts";
+"Root.Groups.Title" = "Groups";
+
+// GROUP
+"Groups.Edit.AddRemove" = "Add/Remove";
