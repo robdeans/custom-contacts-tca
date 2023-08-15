@@ -7,9 +7,11 @@
 //
 
 import CustomContactsAPIKit
+import Dependencies
 import SwiftUI
 
 struct GroupCardView: View {
+	@Dependency(\.contactsRepository) private var contactsRepository
 	let group: ContactGroup
 	let onGroupTapped: () -> Void
 
@@ -20,7 +22,7 @@ struct GroupCardView: View {
 			isExpanded: $isExpanded,
 			content: {
 				ForEach(Array(group.contactIDs), id: \.hashValue) {
-					Text($0)
+					Text(contactsRepository.contact(for: $0)?.fullName ?? Localizable.Groups.Card.nameMissing)
 				}
 			},
 			label: {

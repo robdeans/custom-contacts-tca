@@ -7,11 +7,13 @@
 //
 
 import CustomContactsAPIKit
+import Dependencies
 import SwiftUI
 
 struct ContactSelectorView: View {
+	@Dependency(\.uuid) private var uuid
+	@StateObject private var viewModel = ViewModel()
 	@Environment(\.dismiss) private var dismiss
-	@ObservedObject private var viewModel = ViewModel()
 
 	@State private var editMode = EditMode.active
 	@State private var selectedContactIDs: Set<Contact.ID>
@@ -45,33 +47,37 @@ struct ContactSelectorView: View {
 				}
 			}
 			.environment(\.editMode, $editMode)
+			.refreshable {
+				await viewModel.loadContacts(refresh: true)
+			}
 		}
 	}
 }
 
 extension ContactSelectorView: Identifiable {
 	var id: String {
-		UUID().uuidString
+		uuid().uuidString
 	}
 }
 
 extension ContactSelectorView {
-	@MainActor
 	private final class ViewModel: ObservableObject {
+		@Dependency(\.contactsRepository) private var contactsRepository
 		@Published private(set) var contacts: [Contact] = []
+		@Published private(set) var error: Error?
 
 		init() {
-			// TODO: this feels redundant. Can Contacts be stored in an @Environment repository?
 			Task {
-				do {
-					guard try await ContactsService.liveValue.requestContactsPermissions() else {
-						// Permissions denied state
-						return
-					}
-					contacts = try await ContactsService.liveValue.fetchContacts()
-				} catch {
-					//show error
-				}
+				// Contacts should already have loaded on earlier screen
+				await loadContacts()
+			}
+		}
+
+		func loadContacts(refresh: Bool = false) async {
+			do {
+				contacts = try await contactsRepository.getContacts(refresh: refresh)
+			} catch {
+				self.error = error
 			}
 		}
 	}

@@ -7,10 +7,11 @@
 //
 
 import CustomContactsAPIKit
+import Dependencies
 import SwiftUI
 
 struct ContactListView: View {
-	@ObservedObject private var viewModel = ViewModel()
+	@StateObject private var viewModel = ViewModel()
 
 	var body: some View {
 		List {
@@ -23,6 +24,9 @@ struct ContactListView: View {
 				)
 			}
 		}
+		.refreshable {
+			await viewModel.loadContacts(refresh: true)
+		}
 		.navigationTitle(Localizable.Root.Contacts.title)
 	}
 }
@@ -30,19 +34,21 @@ struct ContactListView: View {
 extension ContactListView {
 	@MainActor
 	private final class ViewModel: ObservableObject {
+		@Dependency(\.contactsRepository) private var contactsRepository
 		@Published private(set) var contacts: [Contact] = []
+		@Published private(set) var error: Error?
 
 		init() {
 			Task {
-				do {
-					guard try await ContactsService.liveValue.requestContactsPermissions() else {
-						// Permissions denied state
-						return
-					}
-					contacts = try await ContactsService.liveValue.fetchContacts()
-				} catch {
-					//show error
-				}
+				await loadContacts(refresh: true)
+			}
+		}
+
+		func loadContacts(refresh: Bool = false) async {
+			do {
+				contacts = try await contactsRepository.getContacts(refresh: refresh)
+			} catch {
+				self.error = error
 			}
 		}
 	}

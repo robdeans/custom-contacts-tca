@@ -7,10 +7,12 @@
 //
 
 import CustomContactsAPIKit
+import Dependencies
 import SwiftData
 import SwiftUI
 
 struct GroupDetailView: View {
+	@Dependency(\.contactsRepository) private var contactsRepository
 	@Bindable private(set) var group: ContactGroup
 
 	@State private var isEditing = false
@@ -28,7 +30,8 @@ struct GroupDetailView: View {
 				ColorPicker(
 					selection: color,
 					label: {
-						TextField("Group Name", text: $group.name)
+						// TODO: placeholder?
+						TextField(group.name, text: $group.name)
 							.foregroundStyle(group.color)
 							.fontWeight(.semibold)
 					}
@@ -46,12 +49,11 @@ struct GroupDetailView: View {
 
 			List {
 				ForEach(
-					Array(group.contactIDs),
-//						.compactMap { contactsRepository.contact(for: $0) }
-//						.sorted(by: { $0.fullName < $1.fullName })
-					id: \.hashValue
+					group.contactIDs
+						.compactMap { contactsRepository.contact(for: $0) }
+						.sorted(by: { $0.fullName < $1.fullName })
 				) {
-					Text($0)
+					Text($0.fullName)
 				}
 			}
 

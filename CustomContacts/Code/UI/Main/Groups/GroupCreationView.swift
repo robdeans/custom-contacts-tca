@@ -7,6 +7,7 @@
 //
 
 import CustomContactsAPIKit
+import Dependencies
 import SwiftUI
 
 private enum Layout {
@@ -14,6 +15,9 @@ private enum Layout {
 }
 
 struct GroupCreationView: View {
+	@Dependency(\.uuid) private var uuid
+	@Dependency(\.contactsRepository) private var contactsRepository
+
 	@Environment(\.modelContext) private var modelContext
 	@Environment(\.dismiss) private var dismiss
 
@@ -31,7 +35,7 @@ struct GroupCreationView: View {
 						selection: $color,
 						supportsOpacity: true,
 						label: {
-							TextField("Group Name", text: $name)
+							TextField(Localizable.Groups.Edit.groupName, text: $name)
 								.foregroundStyle(color)
 								.fontWeight(.semibold)
 						}
@@ -48,12 +52,11 @@ struct GroupCreationView: View {
 
 				List {
 					ForEach(
-						Array(selectedContactIDs),
-//							.compactMap { contactsRepository.contact(for: $0) }
-//							.sorted(by: { $0.fullName < $1.fullName })
-						id: \.hashValue
+						selectedContactIDs
+							.compactMap { contactsRepository.contact(for: $0) }
+							.sorted(by: { $0.fullName < $1.fullName })
 					) {
-						Text($0)
+						Text($0.fullName)
 					}
 				}
 
@@ -64,7 +67,7 @@ struct GroupCreationView: View {
 				Button(
 					action: { dismiss() },
 					label: {
-						Text("Cancel")
+						Text(Localizable.Common.Actions.cancel)
 							.frame(maxWidth: .infinity)
 					}
 				)
@@ -95,6 +98,6 @@ struct GroupCreationView: View {
 
 extension GroupCreationView: Identifiable {
 	var id: String {
-		UUID().uuidString
+		uuid().uuidString
 	}
 }

@@ -30,3 +30,7 @@
 
 // GROUP
 "Groups.Edit.AddRemove" = "Add/Remove Contacts";
+"Groups.Edit.GroupName" = "Group Name";
+
+"Groups.Detail.GroupName" = "Group Name";
+"Groups.Card.NameMissing" = "Name missing";
