@@ -8,8 +8,8 @@
 
 import Combine
 import CryptoKit
-import Dependencies
 import CustomContactsAPIKit
+import Dependencies
 import FueledUtilsCombine
 
 @MainActor
