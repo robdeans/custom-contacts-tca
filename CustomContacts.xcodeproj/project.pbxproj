@@ -53,7 +53,7 @@
 		E8D67B992A8AB1B800300FE0 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B982A8AB1B800300FE0 /* RootView.swift */; };
 		E8D67B9B2A8AB21C00300FE0 /* ContactListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9A2A8AB21C00300FE0 /* ContactListView.swift */; };
 		E8D67B9D2A8AB27200300FE0 /* GroupListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */; };
-		E8D67B9F2A8AB82A00300FE0 /* GroupEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9E2A8AB82A00300FE0 /* GroupEditorView.swift */; };
+		E8D67B9F2A8AB82A00300FE0 /* GroupCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9E2A8AB82A00300FE0 /* GroupCreationView.swift */; };
 		F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */; };
 		F4CD7028200003E10013EE7B /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD701B200003E10013EE7B /* ApplicationService.swift */; };
 		F4CD706420002E7C0013EE7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706220002E7C0013EE7B /* LaunchScreen.storyboard */; };
@@ -138,7 +138,7 @@
 		E8D67B982A8AB1B800300FE0 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		E8D67B9A2A8AB21C00300FE0 /* ContactListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListView.swift; sourceTree = "<group>"; };
 		E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListView.swift; sourceTree = "<group>"; };
-		E8D67B9E2A8AB82A00300FE0 /* GroupEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupEditorView.swift; sourceTree = "<group>"; };
+		E8D67B9E2A8AB82A00300FE0 /* GroupCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCreationView.swift; sourceTree = "<group>"; };
 		F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DecodingError+DisplayableError.swift"; sourceTree = "<group>"; };
 		F4AB7AB52534CC6F008372B6 /* CustomContactsAPIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CustomContactsAPIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4AB7AB62534CC6F008372B6 /* CustomContactsHelpers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CustomContactsHelpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -403,7 +403,7 @@
 			children = (
 				E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */,
 				E87A3DF92A8BE6F90068F34C /* GroupCardView.swift */,
-				E8D67B9E2A8AB82A00300FE0 /* GroupEditorView.swift */,
+				E8D67B9E2A8AB82A00300FE0 /* GroupCreationView.swift */,
 				E87A3DED2A8AC3B90068F34C /* GroupDetailView.swift */,
 			);
 			path = Groups;
@@ -755,7 +755,7 @@
 				A1FB88E22A0078F600E0C032 /* MarvelHeroDetailsView.swift in Sources */,
 				E87A3DF22A8AC8080068F34C /* ContactDetailView.swift in Sources */,
 				E8D67B992A8AB1B800300FE0 /* RootView.swift in Sources */,
-				E8D67B9F2A8AB82A00300FE0 /* GroupEditorView.swift in Sources */,
+				E8D67B9F2A8AB82A00300FE0 /* GroupCreationView.swift in Sources */,
 				E87A3DF82A8BE4A30068F34C /* NavigationLinkHelper.swift in Sources */,
 				52B6526D29640FDD008D3834 /* MarvelHeroesViewModel.swift in Sources */,
 				FCDAFBDD27C54741001314C2 /* Assets+Constants.generated.swift in Sources */,

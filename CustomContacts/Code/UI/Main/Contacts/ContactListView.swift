@@ -23,6 +23,7 @@ struct ContactListView: View {
 				)
 			}
 		}
+		.navigationTitle(Localizable.Root.Contacts.title)
 	}
 }
 

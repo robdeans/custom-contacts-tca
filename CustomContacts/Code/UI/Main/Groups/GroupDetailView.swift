@@ -7,17 +7,45 @@
 //
 
 import CustomContactsAPIKit
+import SwiftData
 import SwiftUI
 
 struct GroupDetailView: View {
-	let group: ContactGroup
+	@Bindable private(set) var group: ContactGroup
+
+	@State private var isEditing = false
+	@State private var contactSelectorView: ContactSelectorView?
 
 	var body: some View {
-		Text(group.name)
-		List {
-			ForEach(Array(group.contactIDs), id: \.hashValue) {
-				Text($0)
+		VStack {
+			Button(Localizable.Groups.Edit.addRemove) {
+				contactSelectorView = ContactSelectorView(selectedContactIDs: group.contactIDs) {
+					// TODO: only save/persist when `Done` is tapped
+					group.contactIDs = $0
+				}
+			}
+			.opacity(isEditing == true ? 1 : 0)
+
+			List {
+				ForEach(Array(group.contactIDs.sorted()), id: \.hashValue) {
+					Text($0)
+				}
+			}
+
+			Spacer()
+		}
+		.toolbar {
+			ToolbarItem(placement: .topBarTrailing) {
+				Button(
+					isEditing
+					? Localizable.Common.Actions.save
+					: Localizable.Common.Actions.edit
+				) {
+					isEditing.toggle()
+				}
 			}
 		}
+		.navigationTitle(group.name)
+		.sheet(item: $contactSelectorView) { $0 }
 	}
 }

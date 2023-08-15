@@ -26,7 +26,7 @@ private struct NavigationLinkHelper<T, Destination: View>: ViewModifier {
 	@Binding var segueType: T?
 	let destination: (T) -> Destination
 
-	public func body(content: Content) -> some View {
+	func body(content: Content) -> some View {
 		content
 			.navigationDestination(
 				isPresented: .init(
