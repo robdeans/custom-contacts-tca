@@ -33,5 +33,6 @@ struct GroupCardView: View {
 				)
 			}
 		)
+		.foregroundStyle(group.color)
 	}
 }
