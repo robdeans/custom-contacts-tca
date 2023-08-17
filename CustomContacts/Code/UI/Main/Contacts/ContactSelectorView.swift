@@ -30,9 +30,14 @@ struct ContactSelectorView: View {
 
 	var body: some View {
 		NavigationStack {
-			List(viewModel.contacts, selection: $selectedContactIDs) {
+			List(viewModel.contactsDisplayable, selection: $selectedContactIDs) {
 				Text($0.fullName)
 			}
+			.searchable(text: $viewModel.searchText)
+			.refreshable {
+				await viewModel.loadContacts(refresh: true)
+			}
+			.environment(\.editMode, $editMode)
 			.toolbar {
 				ToolbarItem(placement: .topBarLeading) {
 					Button(Localizable.Common.Actions.cancel) {
@@ -46,10 +51,6 @@ struct ContactSelectorView: View {
 					}
 				}
 			}
-			.environment(\.editMode, $editMode)
-			.refreshable {
-				await viewModel.loadContacts(refresh: true)
-			}
 		}
 	}
 }
@@ -61,10 +62,23 @@ extension ContactSelectorView: Identifiable {
 }
 
 extension ContactSelectorView {
+	@MainActor
 	private final class ViewModel: ObservableObject {
 		@Dependency(\.contactsRepository) private var contactsRepository
-		@Published private(set) var contacts: [Contact] = []
+
+		@Published private var contacts: [Contact] = []
+		@Published var searchText = ""
 		@Published private(set) var error: Error?
+
+		var contactsDisplayable: [Contact] {
+			if !searchText.isEmpty {
+				return contacts.filter {
+					// TODO: improve search filtering
+					$0.fullName.lowercased().contains(searchText.lowercased())
+				}
+			}
+			return contacts
+		}
 
 		init() {
 			Task {
