@@ -25,39 +25,54 @@ struct GroupDetailView: View {
 	@State private var contactSelectorView: ContactSelectorView?
 
 	var body: some View {
-		VStack {
-			ColorPicker(
-				selection: color,
-				label: {
-					// TODO: placeholder?
-					TextField(group.name, text: $group.name)
-						.foregroundStyle(group.color)
-						.fontWeight(.semibold)
-				}
-			)
-			.padding(Constants.UI.Padding.default)
-			.opacity(isEditing == true ? 1 : 0)
+		ZStack {
+			VStack {
+				ColorPicker(
+					selection: color,
+					label: {
+						// TODO: placeholder?
+						TextField(group.name, text: $group.name)
+							.foregroundStyle(group.color)
+							.fontWeight(.semibold)
+					}
+				)
+				.padding(Constants.UI.Padding.default)
+				.opacity(isEditing == true ? 1 : 0)
 
-			List {
-				ForEach(
-					group.contactIDs
-						.compactMap { contactsRepository.contact(for: $0) }
-						.sorted(by: { $0.fullName < $1.fullName })
-				) {
-					Text($0.fullName)
+				List {
+					ForEach(
+						group.contactIDs
+							.compactMap { contactsRepository.contact(for: $0) }
+							.sorted(by: { $0.fullName < $1.fullName })
+					) {
+						Text($0.fullName)
+					}
 				}
+
+				Spacer()
 			}
+			.ignoresSafeArea(edges: [.bottom])
 
-			Spacer()
-
-			Button(Localizable.Groups.Edit.addRemove) {
-				contactSelectorView = ContactSelectorView(selectedContactIDs: group.contactIDs) {
-					// TODO: only save/persist when `Done` is tapped
-					group.contactIDs = $0
-				}
+			if isEditing {
+				Button(
+					action: {
+						contactSelectorView = ContactSelectorView(selectedContactIDs: group.contactIDs) {
+							// TODO: only save/persist when `Done` is tapped
+							group.contactIDs = $0
+						}
+					},
+					label: {
+						Text(Localizable.Groups.Edit.addRemove)
+							.fontWeight(.semibold)
+							.foregroundStyle(Color.white)
+							.padding()
+							.background(group.color)
+							.cornerRadius()
+					}
+				)
+				.frame(maxHeight: .infinity, alignment: .bottom)
+				.padding(Constants.UI.Padding.default)
 			}
-			.padding(Constants.UI.Padding.default)
-			.opacity(isEditing == true ? 1 : 0)
 		}
 		.toolbar {
 			ToolbarItem(placement: .topBarTrailing) {
