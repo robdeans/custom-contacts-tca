@@ -9,10 +9,12 @@
 import Combine
 import CustomContactsAPIKit
 import Dependencies
+import Foundation
 
 protocol ContactsRepository {
 	func getContacts(refresh: Bool) async throws -> [Contact]
 	func contact(for id: Contact.ID) -> Contact?
+	func sortContacts(by sortOption: Contact.SortOption) -> [Contact]
 }
 
 private enum ContactsRepositoryKey: DependencyKey {
@@ -26,19 +28,21 @@ extension DependencyValues {
 	}
 }
 
+extension DefaultKeys {
+	fileprivate static var contactsSortOption = "contactsSortOption"
+}
+
 private final class ContactsRepositoryLive: ContactsRepository {
 	@Dependency(\.contactsService) private var contactsService
 
-	private var contacts: [Contact] = [] {
+	private var contacts: [Contact] = []
+	private var contactDictionary: [Contact.ID: Contact] = [:]
+	// TODO: @Dependency here
+	private var sortOption = Contact.SortOption(UserDefaults.standard.string(forKey: DefaultKeys.contactsSortOption) ?? "") ?? .firstName(ascending: true) {
 		didSet {
-			// TODO: could this be a computed variable, and work when refreshing?
-			contactDictionary = Dictionary(
-				contacts.map { ($0.id, $0) },
-				uniquingKeysWith: { _, last in last }
-			)
+			contacts = contacts.sorted(by: sortOption)
 		}
 	}
-	private var contactDictionary: [Contact.ID: Contact] = [:]
 
 	private func fetchContacts() async throws -> [Contact] {
 		guard try await contactsService.requestContactsPermissions() else {
@@ -46,6 +50,11 @@ private final class ContactsRepositoryLive: ContactsRepository {
 			return []
 		}
 		contacts = try await ContactsService.liveValue.fetchContacts()
+			.sorted(by: sortOption)
+		contactDictionary = Dictionary(
+			contacts.map { ($0.id, $0) },
+			uniquingKeysWith: { _, last in last }
+		)
 		return contacts
 	}
 
@@ -59,5 +68,12 @@ private final class ContactsRepositoryLive: ContactsRepository {
 
 	func contact(for id: Contact.ID) -> Contact? {
 		contactDictionary[id]
+	}
+
+	@discardableResult
+	func sortContacts(by sortOption: Contact.SortOption) -> [Contact] {
+		self.sortOption = sortOption
+		UserDefaults.standard.set(sortOption.rawValue, forKey: DefaultKeys.contactsSortOption)
+		return contacts
 	}
 }

@@ -29,6 +29,24 @@ struct ContactListView: View {
 			await viewModel.loadContacts(refresh: true)
 		}
 		.navigationTitle(Localizable.Root.Contacts.title)
+		.toolbar {
+			ToolbarItem(placement: .topBarTrailing) {
+				Menu("🔃") {
+					Button("First name A↔Z") {
+						viewModel.setSortOption(to: .firstName(ascending: true))
+					}
+					Button("First name Z↔A") {
+						viewModel.setSortOption(to: .firstName(ascending: false))
+					}
+					Button("Last name A↔Z") {
+						viewModel.setSortOption(to: .lastName(ascending: true))
+					}
+					Button("Last name Z↔A") {
+						viewModel.setSortOption(to: .lastName(ascending: false))
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -63,6 +81,10 @@ extension ContactListView {
 			} catch {
 				self.error = error
 			}
+		}
+
+		func setSortOption(to sortOption: Contact.SortOption) {
+			contacts = contactsRepository.sortContacts(by: sortOption)
 		}
 	}
 }
