@@ -41,6 +41,7 @@ struct GroupListView: View {
 			action: { createGroupView = GroupCreationView() },
 			label: {
 				Text("+")
+					.fontWeight(.heavy)
 					.frame(width: 55, height: 55)
 					.background(Color.blue)
 					.foregroundStyle(.white)
