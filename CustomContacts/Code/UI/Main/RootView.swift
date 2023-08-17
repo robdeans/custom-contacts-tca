@@ -14,7 +14,7 @@ private enum Layout {
 }
 
 struct RootView: View {
-	@State private var showContactList = false
+	@State private var showContactList = true
 
 	var body: some View {
 		NavigationStack {

@@ -12,7 +12,6 @@ public struct Contact: Identifiable {
 	public let id: Contact.ID
 	public var firstName: String
 	public var lastName: String
-//	public var groups: Set<ContactGroup>
 }
 
 extension Contact {
@@ -47,31 +46,3 @@ extension Contact {
 		lastName: "Belcher"
 	)
 }
-
-/*
-extension Contact {
-	func adding(group: ContactGroup) -> Contact {
-		Contact(
-			id: self.id,
-			firstName: self.firstName,
-			lastName: self.lastName,
-			groups: self.groups.union(Set([group]))
-		)
-	}
-
-	// TODO: Could this be more efficient? Is re-writing possible or is removing/re-adding necessary
-	func updating(group: ContactGroup) -> Contact {
-		self.removing(group: group)
-			.adding(group: group)
-	}
-
-	func removing(group: ContactGroup) -> Contact {
-		Contact(
-			id: self.id,
-			firstName: self.firstName,
-			lastName: self.lastName,
-			groups: self.groups.subtracting(Set([group]))
-		)
-	}
-}
-*/
