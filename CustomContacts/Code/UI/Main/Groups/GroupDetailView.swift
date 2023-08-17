@@ -26,25 +26,16 @@ struct GroupDetailView: View {
 
 	var body: some View {
 		VStack {
-			Group {
-				ColorPicker(
-					selection: color,
-					label: {
-						// TODO: placeholder?
-						TextField(group.name, text: $group.name)
-							.foregroundStyle(group.color)
-							.fontWeight(.semibold)
-					}
-				)
-				.padding(Constants.UI.Padding.default)
-
-				Button(Localizable.Groups.Edit.addRemove) {
-					contactSelectorView = ContactSelectorView(selectedContactIDs: group.contactIDs) {
-						// TODO: only save/persist when `Done` is tapped
-						group.contactIDs = $0
-					}
+			ColorPicker(
+				selection: color,
+				label: {
+					// TODO: placeholder?
+					TextField(group.name, text: $group.name)
+						.foregroundStyle(group.color)
+						.fontWeight(.semibold)
 				}
-			}
+			)
+			.padding(Constants.UI.Padding.default)
 			.opacity(isEditing == true ? 1 : 0)
 
 			List {
@@ -58,6 +49,15 @@ struct GroupDetailView: View {
 			}
 
 			Spacer()
+
+			Button(Localizable.Groups.Edit.addRemove) {
+				contactSelectorView = ContactSelectorView(selectedContactIDs: group.contactIDs) {
+					// TODO: only save/persist when `Done` is tapped
+					group.contactIDs = $0
+				}
+			}
+			.padding(Constants.UI.Padding.default)
+			.opacity(isEditing == true ? 1 : 0)
 		}
 		.toolbar {
 			ToolbarItem(placement: .topBarTrailing) {
@@ -70,7 +70,32 @@ struct GroupDetailView: View {
 				}
 			}
 		}
+		.toolbarBackground(group.color, for: .navigationBar)
+		.toolbarBackground(.visible, for: .navigationBar)
+		.toolbarColorScheme(.dark, for: .navigationBar)
 		.navigationTitle(group.name)
 		.sheet(item: $contactSelectorView) { $0 }
+		.ignoresSafeArea(edges: [.bottom])
 	}
 }
+
+#Preview {
+	MainActor.assumeIsolated {
+		let container = previewContainer
+		return GroupDetailView(
+			group: .mock
+		)
+			.modelContainer(container)
+	}
+}
+
+@MainActor
+private let previewContainer: ModelContainer = {
+	do {
+		let container = try ModelContainer(for: ContactGroup.self, ModelConfiguration(inMemory: true))
+		container.mainContext.insert(ContactGroup.mock)
+		return container
+	} catch {
+		fatalError("Failed to create container")
+	}
+}()

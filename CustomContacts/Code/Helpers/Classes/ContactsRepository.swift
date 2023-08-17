@@ -19,6 +19,7 @@ protocol ContactsRepository {
 
 private enum ContactsRepositoryKey: DependencyKey {
 	static let liveValue: ContactsRepository = ContactsRepositoryLive()
+	static let previewValue: ContactsRepository = ContactsRepositoryPreview()
 }
 
 extension DependencyValues {
@@ -75,5 +76,19 @@ private final class ContactsRepositoryLive: ContactsRepository {
 		self.sortOption = sortOption
 		UserDefaults.standard.set(sortOption.rawValue, forKey: DefaultKeys.contactsSortOption)
 		return contacts
+	}
+}
+
+private final class ContactsRepositoryPreview: ContactsRepository {
+	func getContacts(refresh: Bool) async throws -> [Contact] {
+		Contact.mockArray
+	}
+
+	func contact(for id: Contact.ID) -> Contact? {
+		Contact.mockArray.first(where: { $0.id == id })
+	}
+
+	func sortContacts(by sortOption: Contact.SortOption) -> [Contact] {
+		Contact.mockArray
 	}
 }
