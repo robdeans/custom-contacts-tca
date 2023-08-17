@@ -7,6 +7,7 @@
 //
 
 import CustomContactsAPIKit
+import Foundation
 
 extension Contact {
 	enum SortOption {
@@ -36,11 +37,19 @@ extension Contact {
 				return ascending ? "lastNameAscending" : "lastNameDescending"
 			}
 		}
+
+		static var current: SortOption {
+			self.init(UserDefaults.standard.string(forKey: DefaultKeys.contactsSortOption) ?? "") ?? .lastName()
+		}
 	}
 }
 
+extension DefaultKeys {
+	static let contactsSortOption = "contactsSortOption"
+}
+
 extension Sequence where Element == Contact {
-	func sorted(by sortOption: Contact.SortOption) -> [Contact] {
+	func sorted(by sortOption: Contact.SortOption = .current) -> [Contact] {
 		switch sortOption {
 		case let .firstName(ascending):
 			return self.sorted {

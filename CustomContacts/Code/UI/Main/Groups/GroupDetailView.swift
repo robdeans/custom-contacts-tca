@@ -43,7 +43,7 @@ struct GroupDetailView: View {
 					ForEach(
 						group.contactIDs
 							.compactMap { contactsRepository.contact(for: $0) }
-							.sorted(by: { $0.fullName < $1.fullName })
+							.sorted()
 					) {
 						Text($0.fullName)
 					}

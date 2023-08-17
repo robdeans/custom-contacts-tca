@@ -29,17 +29,13 @@ extension DependencyValues {
 	}
 }
 
-extension DefaultKeys {
-	fileprivate static var contactsSortOption = "contactsSortOption"
-}
-
 private final class ContactsRepositoryLive: ContactsRepository {
 	@Dependency(\.contactsService) private var contactsService
 
 	private var contacts: [Contact] = []
 	private var contactDictionary: [Contact.ID: Contact] = [:]
 	// TODO: @Dependency here
-	private var sortOption = Contact.SortOption(UserDefaults.standard.string(forKey: DefaultKeys.contactsSortOption) ?? "") ?? .firstName(ascending: true) {
+	private var sortOption = Contact.SortOption.current {
 		didSet {
 			contacts = contacts.sorted(by: sortOption)
 		}

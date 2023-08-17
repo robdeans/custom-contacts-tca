@@ -21,8 +21,12 @@ struct GroupCardView: View {
 		DisclosureGroup(
 			isExpanded: $isExpanded,
 			content: {
-				ForEach(Array(group.contactIDs), id: \.hashValue) {
-					Text(contactsRepository.contact(for: $0)?.fullName ?? Localizable.Groups.Card.nameMissing)
+				ForEach(
+					group.contactIDs
+						.compactMap { contactsRepository.contact(for: $0) }
+						.sorted()
+				) {
+					Text($0.fullName)
 				}
 			},
 			label: {
