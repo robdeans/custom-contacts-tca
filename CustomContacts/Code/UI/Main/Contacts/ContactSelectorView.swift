@@ -31,7 +31,7 @@ struct ContactSelectorView: View {
 	var body: some View {
 		NavigationStack {
 			List(viewModel.contactsDisplayable, selection: $selectedContactIDs) {
-				Text($0.fullName)
+				ContactCardView(contact: $0)
 			}
 			.searchable(text: $viewModel.searchText)
 			.refreshable {

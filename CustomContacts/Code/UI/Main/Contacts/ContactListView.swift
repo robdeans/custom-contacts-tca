@@ -20,7 +20,7 @@ struct ContactListView: View {
 					destination: {
 						ContactDetailView(contact: contact)
 					},
-					label: { Text(contact.fullName) }
+					label: { ContactCardView(contact: contact) }
 				)
 			}
 		}
