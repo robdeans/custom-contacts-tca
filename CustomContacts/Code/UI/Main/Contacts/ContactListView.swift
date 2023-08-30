@@ -14,14 +14,24 @@ struct ContactListView: View {
 	@StateObject private var viewModel = ViewModel()
 
 	var body: some View {
-		List {
-			ForEach(viewModel.contactsDisplayable) { contact in
-				NavigationLink(
-					destination: {
-						ContactDetailView(contact: contact)
-					},
-					label: { ContactCardView(contact: contact) }
-				)
+		VStack {
+			FilterView(
+				filterQueries: viewModel.filterQueries,
+				onAddQueryTapped: { viewModel.addQuery($0) },
+				onRemoveQueryTapped: { viewModel.removeQuery($0) }
+			)
+
+			List {
+				ForEach(viewModel.contactsDisplayable) { contact in
+					NavigationLink(
+						destination: {
+							ContactDetailView(contact: contact)
+						},
+						label: {
+							ContactCardView(contact: contact)
+						}
+					)
+				}
 			}
 		}
 		.searchable(text: $viewModel.searchText)
@@ -54,10 +64,11 @@ extension ContactListView {
 	@MainActor
 	private final class ViewModel: ObservableObject {
 		@Dependency(\.contactsRepository) private var contactsRepository
-
 		@Published private var contacts: [Contact] = []
-		@Published var searchText = ""
 		@Published private(set) var error: Error?
+
+		@Published var searchText = ""
+		@Published private(set) var filterQueries: [FilterQuery] = []
 
 		var contactsDisplayable: [Contact] {
 			if !searchText.isEmpty {
@@ -85,6 +96,16 @@ extension ContactListView {
 
 		func setSortOption(to sortOption: Contact.SortOption) {
 			contacts = contactsRepository.sortContacts(by: sortOption)
+		}
+
+		func addQuery(_ query: FilterQuery) {
+			filterQueries.append(query)
+		}
+
+		func removeQuery(_ query: FilterQuery) {
+			if let index = filterQueries.firstIndex(where: { $0.id == query.id }) {
+				filterQueries.remove(at: index)
+			}
 		}
 	}
 }
