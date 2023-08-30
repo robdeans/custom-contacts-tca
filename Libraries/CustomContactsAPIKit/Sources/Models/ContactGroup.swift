@@ -54,5 +54,5 @@ extension ContactGroup: Hashable {
 }
 
 extension ContactGroup {
-	public static let mock = ContactGroup(id: "1", name: "Group Name", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "000000")
+	public static let mock = ContactGroup(id: "1", name: "Group Name", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "0000FF")
 }
