@@ -11,11 +11,23 @@ import SwiftData
 import SwiftUI
 
 struct FilterView: View {
+	@State private var isExpanded = false
+
 	let filterQueries: [FilterQuery]
 	let onAddQueryTapped: (FilterQuery) -> Void
 	let onRemoveQueryTapped: (FilterQuery) -> Void
+	let onClearTapped: () -> Void
 
 	var body: some View {
+		DisclosureGroup(
+			isExpanded: $isExpanded,
+			content: { filterContent },
+			label: { toggleExpandButton }
+		)
+		.padding(.horizontal, Constants.UI.Padding.default)
+	}
+
+	private var filterContent: some View {
 		VStack {
 			Text("Show me all contacts who are...")
 				.frame(maxWidth: .infinity, alignment: .leading)
@@ -24,32 +36,56 @@ struct FilterView: View {
 					FilterRowView(filterQuery: query, isFirstRow: index == 0)
 				}
 
-				Button("Add filter") {
-					onAddQueryTapped(FilterQuery())
+				HStack {
+					Button("Clear") {
+						withAnimation {
+							onClearTapped()
+						}
+					}
+					.frame(maxWidth: .infinity)
+
+					Button("Add filter") {
+						withAnimation {
+							onAddQueryTapped(FilterQuery(isFirstQuery: filterQueries.isEmpty))
+						}
+					}
+					.frame(maxWidth: .infinity)
 				}
 				.padding(.top, Constants.UI.Padding.default)
 			}
 		}
-		.padding(.horizontal, Constants.UI.Padding.default)
+	}
+
+	private var toggleExpandButton: some View {
+		Button(
+			action: {
+				withAnimation {
+					isExpanded.toggle()
+				}
+			},
+			label: { Text("Venn with friends!") }
+		)
 	}
 }
 
-let filterQueries: [FilterQuery] = [
-	FilterQuery(),
-	FilterQuery(),
-]
-
+// MARK: - Preview Content
 #Preview {
 	MainActor.assumeIsolated {
 		let container = previewContainer
 		return FilterView(
 			filterQueries: filterQueries,
 			onAddQueryTapped: { _ in },
-			onRemoveQueryTapped: { _ in }
+			onRemoveQueryTapped: { _ in },
+			onClearTapped: {}
 		)
 		.modelContainer(container)
 	}
 }
+
+private let filterQueries: [FilterQuery] = [
+	FilterQuery(isFirstQuery: true),
+	FilterQuery(isFirstQuery: false),
+]
 
 @MainActor
 private let previewContainer: ModelContainer = {
@@ -61,120 +97,3 @@ private let previewContainer: ModelContainer = {
 		fatalError("Failed to create container")
 	}
 }()
-
-struct FilterRowView: View {
-	@StateObject var filterQuery: FilterQuery
-	let isFirstRow: Bool
-
-	@Environment(\.modelContext) private var modelContext
-	@Query(sort: [SortDescriptor(\ContactGroup.name)])
-	private var groups: [ContactGroup]
-
-	var body: some View {
-		Group {
-			if isFirstRow {
-				firstRowContentView
-			} else {
-				rowContentView
-			}
-		}
-		.border(filterQuery.group?.color ?? .clear)
-	}
-}
-
-// MARK: - View Components
-extension FilterRowView {
-	@ViewBuilder
-	private var firstRowContentView: some View {
-		HStack {
-			pickerView(for: FilterQuery.Relation.allCases, selected: $filterQuery.relation)
-
-			Text("within the group")
-
-			groupsPickerView
-		}
-		.frame(maxWidth: .infinity, alignment: .leading)
-	}
-
-	@ViewBuilder
-	private var rowContentView: some View {
-		VStack {
-			HStack {
-				pickerView(for: FilterQuery.AndOr.allCases, selected: $filterQuery.andOr)
-
-				Text("contacts who are")
-
-				pickerView(for: FilterQuery.Relation.allCases, selected: $filterQuery.relation)
-			}
-			.frame(maxWidth: .infinity, alignment: .leading)
-
-			HStack {
-				Text("within the group")
-
-				groupsPickerView
-			}
-			.frame(maxWidth: .infinity, alignment: .leading)
-		}
-	}
-
-	private var groupsPickerView: some View {
-		Picker("", selection: $filterQuery.group) {
-			ForEach(groups) {
-				Text($0.name)
-					.tag($0 as ContactGroup?)
-				// cast as optional to handle `nil` default value
-			}
-		}
-	}
-
-	private func pickerView<T: PickerProtocol>(for collection: [T], selected: Binding<T>) -> some View {
-		Picker("", selection: selected) {
-			ForEach(collection) {
-				Text($0.title)
-					.tag($0)
-			}
-		}
-	}
-}
-
-private protocol PickerProtocol: Identifiable, Hashable {
-	var title: String { get }
-}
-
-final class FilterQuery: ObservableObject, Identifiable {
-	enum Relation: String, CaseIterable, PickerProtocol {
-		case included
-		case excluded
-
-		var title: String {
-			switch self {
-			case .included:
-				return "Found"
-			case .excluded:
-				return "Not found"
-			}
-		}
-
-		var id: String {
-			rawValue
-		}
-	}
-
-	enum AndOr: String, CaseIterable, PickerProtocol {
-		case and
-		case or
-
-		var title: String {
-			rawValue.capitalized
-		}
-
-		var id: String {
-			rawValue
-		}
-	}
-
-	@Published var group: ContactGroup?
-	@Published var relation = Relation.included
-	@Published var andOr = AndOr.and
-	let id = UUID().uuidString
-}

@@ -18,11 +18,12 @@ struct ContactListView: View {
 			FilterView(
 				filterQueries: viewModel.filterQueries,
 				onAddQueryTapped: { viewModel.addQuery($0) },
-				onRemoveQueryTapped: { viewModel.removeQuery($0) }
+				onRemoveQueryTapped: { viewModel.removeQuery($0) },
+				onClearTapped: { viewModel.removeAllQueries() }
 			)
 
 			List {
-				ForEach(viewModel.contactsDisplayable) { contact in
+				ForEach(viewModel.contactsDisplayable()) { contact in
 					NavigationLink(
 						destination: {
 							ContactDetailView(contact: contact)
@@ -33,10 +34,10 @@ struct ContactListView: View {
 					)
 				}
 			}
-		}
-		.searchable(text: $viewModel.searchText)
-		.refreshable {
-			await viewModel.loadContacts(refresh: true)
+			.searchable(text: $viewModel.searchText)
+			.refreshable {
+				await viewModel.loadContacts(refresh: true)
+			}
 		}
 		.navigationTitle(Localizable.Root.Contacts.title)
 		.toolbar {
@@ -60,6 +61,7 @@ struct ContactListView: View {
 	}
 }
 
+import Combine
 extension ContactListView {
 	@MainActor
 	private final class ViewModel: ObservableObject {
@@ -68,16 +70,68 @@ extension ContactListView {
 		@Published private(set) var error: Error?
 
 		@Published var searchText = ""
-		@Published private(set) var filterQueries: [FilterQuery] = []
+		@Published private(set) var filterQueries: [FilterQuery] = [] {
+			didSet {
+				trackQueryChanges()
+			}
+		}
 
-		var contactsDisplayable: [Contact] {
-			if !searchText.isEmpty {
-				return contacts.filter {
-					// TODO: improve search filtering
-					$0.fullName.lowercased().contains(searchText.lowercased())
+		private var cancellables = [AnyCancellable]()
+		private func trackQueryChanges() {
+			cancellables = filterQueries.map {
+				$0.objectWillChange.sink { [weak self] in
+					self?.objectWillChange.send()
 				}
 			}
-			return contacts
+		}
+
+		func contactsDisplayable() -> [Contact] {
+			var filteredContactIDs = Set<Contact.ID>()
+			if !filterQueries.isEmpty {
+				filterQueries.forEach {
+					// handle nil group better?
+					guard let group = $0.group else {
+						return
+					}
+					switch $0.andOr {
+					case .and:
+						switch $0.relation {
+						case .included:
+							filteredContactIDs.formIntersection(group.contactIDs)
+						case .excluded:
+							var allContactIDsExcludingGroup = contactsRepository.contactIDs
+							group.contactIDs.forEach {
+								filteredContactIDs.remove($0)
+								allContactIDsExcludingGroup.remove($0)
+							}
+							filteredContactIDs.formUnion(allContactIDsExcludingGroup)
+						}
+					case .or:
+						switch $0.relation {
+						case .included:
+							filteredContactIDs.formUnion(group.contactIDs)
+						case .excluded:
+							var allContactIDsExcludingGroup = contactsRepository.contactIDs
+							group.contactIDs.forEach {
+								allContactIDsExcludingGroup.remove($0)
+							}
+							filteredContactIDs.formUnion(allContactIDsExcludingGroup)
+						}
+					}
+				}
+			} else {
+				filteredContactIDs = contactsRepository.contactIDs
+			}
+
+			return filteredContactIDs
+				.compactMap(contactsRepository.contact)
+				.filter { contact in
+					guard !searchText.isEmpty else {
+						return true
+					}
+					return contact.fullName.lowercased().contains(searchText.lowercased())
+				}
+				.sorted()
 		}
 
 		init() {
@@ -106,6 +160,10 @@ extension ContactListView {
 			if let index = filterQueries.firstIndex(where: { $0.id == query.id }) {
 				filterQueries.remove(at: index)
 			}
+		}
+
+		func removeAllQueries() {
+			filterQueries.removeAll()
 		}
 	}
 }

@@ -13,8 +13,10 @@ import Foundation
 
 protocol ContactsRepository {
 	func getContacts(refresh: Bool) async throws -> [Contact]
-	func contact(for id: Contact.ID) -> Contact?
 	func sortContacts(by sortOption: Contact.SortOption) -> [Contact]
+	var contactIDs: Set<Contact.ID> { get }
+	var allContactsGroup: ContactGroup { get }
+	func contact(for id: Contact.ID) -> Contact?
 }
 
 private enum ContactsRepositoryKey: DependencyKey {
@@ -32,7 +34,12 @@ extension DependencyValues {
 private final class ContactsRepositoryLive: ContactsRepository {
 	@Dependency(\.contactsService) private var contactsService
 
+	var allContactsGroup: ContactGroup {
+		ContactGroup.create(id: "", name: "All Contacts", contactIDs: contactIDs, colorHex: "")
+	}
+
 	private var contacts: [Contact] = []
+	private(set) var contactIDs: Set<Contact.ID> = []
 	private var contactDictionary: [Contact.ID: Contact] = [:]
 	// TODO: @Dependency here
 	private var sortOption = Contact.SortOption.current {
@@ -48,6 +55,7 @@ private final class ContactsRepositoryLive: ContactsRepository {
 		}
 		contacts = try await ContactsService.liveValue.fetchContacts()
 			.sorted(by: sortOption)
+		contactIDs = Set(contacts.map { $0.id })
 		contactDictionary = Dictionary(
 			contacts.map { ($0.id, $0) },
 			uniquingKeysWith: { _, last in last }
@@ -86,5 +94,13 @@ private final class ContactsRepositoryPreview: ContactsRepository {
 
 	func sortContacts(by sortOption: Contact.SortOption) -> [Contact] {
 		Contact.mockArray
+	}
+
+	var contactIDs: Set<Contact.ID> {
+		Set(Contact.mockArray.map { $0.id })
+	}
+
+	var allContactsGroup: ContactGroup {
+		ContactGroup.create(id: "", name: "All Contacts", contactIDs: contactIDs, colorHex: "")
 	}
 }
