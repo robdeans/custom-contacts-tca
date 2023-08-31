@@ -45,4 +45,22 @@ extension Contact {
 		firstName: "Tina",
 		lastName: "Belcher"
 	)
+
+	public static let mockArray = [
+		Contact(
+			id: "123",
+			firstName: "Tina",
+			lastName: "Belcher"
+		),
+		Contact(
+			id: "456",
+			firstName: "Bob",
+			lastName: "Belcher"
+		),
+		Contact(
+			id: "789",
+			firstName: "Gene",
+			lastName: "Belcher"
+		),
+	]
 }

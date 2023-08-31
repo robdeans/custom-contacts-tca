@@ -12,6 +12,9 @@ enum Constants {
 	enum UI {
 		enum Padding {
 			static let `default` = CGFloat(20)
+			static let extraLarge = CGFloat(24)
+			static let large = CGFloat(16)
+			static let small = CGFloat(8)
 		}
 	}
 }

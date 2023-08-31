@@ -30,6 +30,13 @@ struct GroupListView: View {
 
 			createGroupButton
 		}
+		.toolbar {
+			ToolbarItem(placement: .topBarTrailing) {
+				Menu("🌐") {
+					// Venn with friends
+				}
+			}
+		}
 		.navigationTitle(Localizable.Root.Groups.title)
 		.sheet(item: $createGroupView) { $0 }
 		.navigationDestination(to: $groupDetailView) { $0 }
