@@ -34,6 +34,7 @@
 "Contacts.Sort.FirstNameZA" = "First name Z↔A";
 "Contacts.Sort.LastNameAZ" = "Last name A↔Z";
 "Contacts.Sort.LastNameZA" = "Last name Z↔A";
+"Contacts.Filter.Remove" = "Remove";
 
 // GROUP
 "Groups.Edit.AddRemove" = "Add/Remove Contacts";
