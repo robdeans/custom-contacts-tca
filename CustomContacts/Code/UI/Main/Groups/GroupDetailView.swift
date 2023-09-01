@@ -120,7 +120,7 @@ struct GroupDetailView: View {
 @MainActor
 private let previewContainer: ModelContainer = {
 	do {
-		let container = try ModelContainer(for: ContactGroup.self, ModelConfiguration(inMemory: true))
+		let container = try ModelContainer(for: ContactGroup.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
 		container.mainContext.insert(ContactGroup.mock)
 		return container
 	} catch {

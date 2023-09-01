@@ -18,29 +18,33 @@ struct GroupListView: View {
 	@State private var createGroupView: GroupCreationView?
 	@State private var groupDetailView: GroupDetailView?
 
+	let onToggleTapped: () -> Void
+
 	var body: some View {
-		ZStack {
-			List {
-				ForEach(groups) { group in
-					GroupCardView(group: group) {
-						groupDetailView = GroupDetailView(group: group)
+		NavigationStack {
+			ZStack {
+				List {
+					ForEach(groups) { group in
+						GroupCardView(group: group) {
+							groupDetailView = GroupDetailView(group: group)
+						}
+					}
+				}
+
+				createGroupButton
+			}
+			.navigationTitle(Localizable.Root.Groups.title)
+			.sheet(item: $createGroupView) { $0 }
+			.navigationDestination(to: $groupDetailView) { $0 }
+			.modelContainer(for: ContactGroup.self)
+			.toolbar {
+				ToolbarItem(placement: .topBarLeading) {
+					Button("🔄") {
+						onToggleTapped()
 					}
 				}
 			}
-
-			createGroupButton
 		}
-		.toolbar {
-			ToolbarItem(placement: .topBarTrailing) {
-				Menu("🌐") {
-					// Venn with friends
-				}
-			}
-		}
-		.navigationTitle(Localizable.Root.Groups.title)
-		.sheet(item: $createGroupView) { $0 }
-		.navigationDestination(to: $groupDetailView) { $0 }
-		.modelContainer(for: ContactGroup.self)
 	}
 
 	private var createGroupButton: some View {
