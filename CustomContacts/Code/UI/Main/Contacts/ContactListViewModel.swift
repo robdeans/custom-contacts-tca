@@ -11,7 +11,6 @@ import CustomContactsAPIKit
 import Dependencies
 
 extension ContactListView {
-	@MainActor
 	final class ViewModel: ObservableObject {
 		@Dependency(\.contactsRepository) private var contactsRepository
 		@Published private var contacts: [Contact] = []
@@ -36,7 +35,7 @@ extension ContactListView {
 			}
 		}
 
-		func loadContacts(refresh: Bool = false) async {
+		@MainActor func loadContacts(refresh: Bool = false) async {
 			do {
 				contacts = try await contactsRepository.getContacts(refresh: refresh)
 			} catch {
