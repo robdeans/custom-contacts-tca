@@ -18,25 +18,36 @@ struct RootView: View {
 	private let contactListViewModel = ContactListView.ViewModel()
 
 	var body: some View {
-		contentView
-			.ignoresSafeArea()
+		NavigationStack {
+			contentView
+		}
 	}
 
-	@ViewBuilder
 	private var contentView: some View {
+		/// Ideally `contentView` would be a `Group { ... }` containing a switch statement,
+		/// and each View maintain its own `NavigationStack`.
+		/// However there is a bug when rotating/flipping the `GroupList` which causes the tappable button area to be mirrored.
+		/// In the future animation and structure could be improved once this bug is addressed.
 		ZStack {
-			ContactListView(
-				viewModel: contactListViewModel,
-				onToggleTapped: { showContactList.toggle() }
-			)
-			.opacity(showContactList ? 1 : 0)
-
-			GroupListView(onToggleTapped: { showContactList.toggle() })
-				// Handles mirror image
-				.rotation3DEffect(.degrees(-180), axis: Layout.rotationAxis)
-				.opacity(showContactList ? 0 : 1)
+			if showContactList {
+				ContactListView(
+					viewModel: contactListViewModel,
+					onToggleTapped: { showContactList.toggle() }
+				)
+			} else {
+				GroupListView(onToggleTapped: { showContactList.toggle() })
+					// Handles mirror image
+					.rotation3DEffect(-Layout.rotationAngle, axis: Layout.rotationAxis)
+			}
 		}
 		.rotation3DEffect(showContactList ? .zero : Layout.rotationAngle, axis: Layout.rotationAxis)
 		.animation(.easeInOut, value: showContactList)
 	}
 }
+
+/*
+
+Rotate on swipe-from-left-edge in continuous rotation
+ UIScreenEdgePanGestureRecognizer
+
+*/
