@@ -20,67 +20,15 @@ extension ContactListView {
 		@Published var searchText = ""
 		@Published private(set) var filterQueries: [FilterQuery] = [] {
 			didSet {
-				trackQueryChanges()
+				cancellables = filterQueries.map {
+					$0.objectWillChange.sink { [weak self] in
+						self?.objectWillChange.send()
+					}
+				}
 			}
 		}
 
 		private var cancellables = [AnyCancellable]()
-		private func trackQueryChanges() {
-			cancellables = filterQueries.map {
-				$0.objectWillChange.sink { [weak self] in
-					self?.objectWillChange.send()
-				}
-			}
-		}
-
-		func contactsDisplayable() -> [Contact] {
-			var filteredContactIDs = Set<Contact.ID>()
-			if !filterQueries.isEmpty {
-				filterQueries.forEach {
-					// handle nil group better?
-					guard let group = $0.group else {
-						return
-					}
-					switch $0.andOr {
-					case .and:
-						switch $0.relation {
-						case .included:
-							filteredContactIDs.formIntersection(group.contactIDs)
-						case .excluded:
-							var allContactIDsExcludingGroup = contactsRepository.contactIDs
-							group.contactIDs.forEach {
-								filteredContactIDs.remove($0)
-								allContactIDsExcludingGroup.remove($0)
-							}
-							filteredContactIDs.formUnion(allContactIDsExcludingGroup)
-						}
-					case .or:
-						switch $0.relation {
-						case .included:
-							filteredContactIDs.formUnion(group.contactIDs)
-						case .excluded:
-							var allContactIDsExcludingGroup = contactsRepository.contactIDs
-							group.contactIDs.forEach {
-								allContactIDsExcludingGroup.remove($0)
-							}
-							filteredContactIDs.formUnion(allContactIDsExcludingGroup)
-						}
-					}
-				}
-			} else {
-				filteredContactIDs = contactsRepository.contactIDs
-			}
-
-			return filteredContactIDs
-				.compactMap(contactsRepository.contact)
-				.filter { contact in
-					guard !searchText.isEmpty else {
-						return true
-					}
-					return contact.fullName.lowercased().contains(searchText.lowercased())
-				}
-				.sorted()
-		}
 
 		init() {
 			Task {
@@ -95,23 +43,71 @@ extension ContactListView {
 				self.error = error
 			}
 		}
+	}
+}
 
-		func setSortOption(to sortOption: Contact.SortOption) {
-			contacts = contactsRepository.sortContacts(by: sortOption)
+extension ContactListView.ViewModel {
+	func setSortOption(to sortOption: Contact.SortOption) {
+		contacts = contactsRepository.sortContacts(by: sortOption)
+	}
+
+	func addQuery(_ query: FilterQuery) {
+		filterQueries.append(query)
+	}
+
+	func removeQuery(_ query: FilterQuery) {
+		if let index = filterQueries.firstIndex(where: { $0.id == query.id }) {
+			filterQueries.remove(at: index)
 		}
+	}
 
-		func addQuery(_ query: FilterQuery) {
-			filterQueries.append(query)
-		}
+	func removeAllQueries() {
+		filterQueries.removeAll()
+	}
 
-		func removeQuery(_ query: FilterQuery) {
-			if let index = filterQueries.firstIndex(where: { $0.id == query.id }) {
-				filterQueries.remove(at: index)
+	// TODO: add test coverage
+	func contactsDisplayable() -> [Contact] {
+		var filteredContactIDs = Set<Contact.ID>()
+		if !filterQueries.isEmpty {
+			filterQueries.forEach {
+				switch $0.operator {
+				case .and:
+					switch $0.filter {
+					case .include:
+						filteredContactIDs.formIntersection($0.group.contactIDs)
+					case .exclude:
+						var allContactIDsExcludingGroup = contactsRepository.contactIDs
+						$0.group.contactIDs.forEach {
+							filteredContactIDs.remove($0)
+							allContactIDsExcludingGroup.remove($0)
+						}
+						filteredContactIDs.formUnion(allContactIDsExcludingGroup)
+					}
+				case .or:
+					switch $0.filter {
+					case .include:
+						filteredContactIDs.formUnion($0.group.contactIDs)
+					case .exclude:
+						var allContactIDsExcludingGroup = contactsRepository.contactIDs
+						$0.group.contactIDs.forEach {
+							allContactIDsExcludingGroup.remove($0)
+						}
+						filteredContactIDs.formUnion(allContactIDsExcludingGroup)
+					}
+				}
 			}
+		} else {
+			filteredContactIDs = contactsRepository.contactIDs
 		}
 
-		func removeAllQueries() {
-			filterQueries.removeAll()
-		}
+		return filteredContactIDs
+			.compactMap(contactsRepository.contact)
+			.filter { contact in
+				guard !searchText.isEmpty else {
+					return true
+				}
+				return contact.fullName.lowercased().contains(searchText.lowercased())
+			}
+			.sorted()
 	}
 }

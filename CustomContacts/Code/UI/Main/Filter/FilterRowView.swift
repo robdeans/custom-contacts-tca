@@ -29,39 +29,32 @@ struct FilterRowView: View {
 				rowContentView
 			}
 		}
-		.border(filterQuery.group?.color ?? .clear)
+		.border(filterQuery.group.color)
 	}
 }
 
 // MARK: - View Components
 extension FilterRowView {
-	@ViewBuilder
 	private var firstRowContentView: some View {
 		HStack {
-			pickerView(for: FilterQuery.Relation.allCases, selected: $filterQuery.relation)
-
+			pickerView(for: FilterQuery.Filter.allCases, selected: $filterQuery.filter)
 			Text("within the group")
-
 			groupsPickerView
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
 	}
 
-	@ViewBuilder
 	private var rowContentView: some View {
 		VStack {
 			HStack {
-				pickerView(for: FilterQuery.AndOr.allCases, selected: $filterQuery.andOr)
-
+				pickerView(for: FilterQuery.Operator.allCases, selected: $filterQuery.operator)
 				Text("contacts who are")
-
-				pickerView(for: FilterQuery.Relation.allCases, selected: $filterQuery.relation)
+				pickerView(for: FilterQuery.Filter.allCases, selected: $filterQuery.filter)
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
 
 			HStack {
 				Text("within the group")
-
 				groupsPickerView
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
@@ -71,11 +64,10 @@ extension FilterRowView {
 	private var groupsPickerView: some View {
 		Picker("", selection: $filterQuery.group) {
 			Text(contactsRepository.allContactsGroup.name)
-				.tag(contactsRepository.allContactsGroup as ContactGroup?)
+				.tag(contactsRepository.allContactsGroup)
 			ForEach(groups) {
 				Text($0.name)
-					.tag($0 as ContactGroup?)
-					// cast as optional to handle `nil` default value
+					.tag($0)
 			}
 		}
 	}
@@ -94,18 +86,26 @@ private protocol PickerProtocol: Identifiable, Hashable {
 	var title: String { get }
 }
 
-extension FilterQuery.AndOr: PickerProtocol {
-	var title: String {
+extension FilterQuery.Operator: PickerProtocol {
+	var id: String {
+		rawValue
+	}
+
+	fileprivate var title: String {
 		rawValue.capitalized
 	}
 }
 
-extension FilterQuery.Relation: PickerProtocol {
-	var title: String {
+extension FilterQuery.Filter: PickerProtocol {
+	var id: String {
+		rawValue
+	}
+
+	fileprivate var title: String {
 		switch self {
-		case .included:
+		case .include:
 			return "Found"
-		case .excluded:
+		case .exclude:
 			return "Not found"
 		}
 	}

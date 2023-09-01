@@ -14,13 +14,13 @@ final class FilterQuery: ObservableObject {
 	@Dependency(\.uuid) private var uuid
 	@Dependency(\.contactsRepository) private var contactsRepository
 
-	@Published var group: ContactGroup?
-	@Published var relation = Relation.included
-	@Published var andOr = AndOr.or
+	@Published var group = ContactGroup.empty
+	@Published var filter = Filter.include
+	@Published var `operator` = Operator.or
 
 	init(isFirstQuery: Bool) {
-		// First query should be `or` so base group is as open as possible
-		andOr = isFirstQuery ? .or : .and
+		// First query should be `or` so base group is more inclusive of future clauses
+		self.operator = isFirstQuery ? .or : .and
 		group = contactsRepository.allContactsGroup
 	}
 }
@@ -32,21 +32,13 @@ extension FilterQuery: Identifiable {
 }
 
 extension FilterQuery {
-	enum Relation: String, CaseIterable {
-		case included
-		case excluded
-
-		var id: String {
-			rawValue
-		}
+	enum Filter: String, CaseIterable {
+		case include
+		case exclude
 	}
 
-	enum AndOr: String, CaseIterable {
+	enum Operator: String, CaseIterable {
 		case and
 		case or
-
-		var id: String {
-			rawValue
-		}
 	}
 }

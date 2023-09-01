@@ -14,4 +14,8 @@ extension ContactGroup {
 	var color: Color {
 		Color(hex: colorHex)
 	}
+
+	static var empty: ContactGroup {
+		ContactGroup.create(id: "", name: "", contactIDs: [], colorHex: "")
+	}
 }

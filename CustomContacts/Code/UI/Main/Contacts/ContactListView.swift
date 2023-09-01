@@ -48,6 +48,7 @@ struct ContactListView: View {
 				}
 				ToolbarItem(placement: .topBarTrailing) {
 					Menu("🔃") {
+						// TODO: simplify with section for sort and order (First name/Last name/etc + ascending/descending)
 						Button("First name A↔Z") {
 							viewModel.setSortOption(to: .firstName(ascending: true))
 						}

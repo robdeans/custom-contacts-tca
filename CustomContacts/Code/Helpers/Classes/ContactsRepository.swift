@@ -14,9 +14,10 @@ import Foundation
 protocol ContactsRepository {
 	func getContacts(refresh: Bool) async throws -> [Contact]
 	func sortContacts(by sortOption: Contact.SortOption) -> [Contact]
+	func contact(for id: Contact.ID) -> Contact?
+
 	var contactIDs: Set<Contact.ID> { get }
 	var allContactsGroup: ContactGroup { get }
-	func contact(for id: Contact.ID) -> Contact?
 }
 
 private enum ContactsRepositoryKey: DependencyKey {
@@ -41,7 +42,6 @@ private final class ContactsRepositoryLive: ContactsRepository {
 	private var contacts: [Contact] = []
 	private(set) var contactIDs: Set<Contact.ID> = []
 	private var contactDictionary: [Contact.ID: Contact] = [:]
-	// TODO: @Dependency here
 	private var sortOption = Contact.SortOption.current {
 		didSet {
 			contacts = contacts.sorted(by: sortOption)

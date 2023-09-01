@@ -245,6 +245,7 @@ identifier_name:
     - t
     - v
     - on
+    - or
     - no
     - qa
     - to
