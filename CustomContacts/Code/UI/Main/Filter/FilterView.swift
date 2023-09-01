@@ -29,7 +29,7 @@ struct FilterView: View {
 
 	private var filterContent: some View {
 		VStack {
-			Text("Show me all contacts who are...")
+			Text(Localizable.Filter.Content.title)
 				.frame(maxWidth: .infinity, alignment: .leading)
 			Group {
 				ForEach(Array(filterQueries.enumerated()), id: \.element.id) { index, query in
@@ -37,14 +37,14 @@ struct FilterView: View {
 				}
 
 				HStack {
-					Button("Clear") {
+					Button(Localizable.Common.Actions.clear) {
 						withAnimation {
 							onClearTapped()
 						}
 					}
 					.frame(maxWidth: .infinity)
 
-					Button("Add filter") {
+					Button(Localizable.Filter.Content.addFilter) {
 						withAnimation {
 							onAddQueryTapped(FilterQuery(isFirstQuery: filterQueries.isEmpty))
 						}
@@ -63,7 +63,7 @@ struct FilterView: View {
 					isExpanded.toggle()
 				}
 			},
-			label: { Text("Venn with friends!") }
+			label: { Text(Localizable.Filter.Content.expandSection) }
 		)
 	}
 }

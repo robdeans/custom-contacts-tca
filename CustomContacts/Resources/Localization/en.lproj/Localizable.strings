@@ -23,10 +23,17 @@
 "Common.Actions.Done" = "Done";
 "Common.Actions.Cancel" = "Cancel";
 "Common.Actions.Edit" = "Edit";
+"Common.Actions.Clear" = "Clear";
 
 //ROOT
 "Root.Contacts.Title" = "Contacts";
 "Root.Groups.Title" = "Groups";
+
+// CONTACTS
+"Contacts.Sort.FirstNameAZ" = "First name A↔Z";
+"Contacts.Sort.FirstNameZA" = "First name Z↔A";
+"Contacts.Sort.LastNameAZ" = "Last name A↔Z";
+"Contacts.Sort.LastNameZA" = "Last name Z↔A";
 
 // GROUP
 "Groups.Edit.AddRemove" = "Add/Remove Contacts";
@@ -34,3 +41,12 @@
 
 "Groups.Detail.GroupName" = "Group Name";
 "Groups.Card.NameMissing" = "Name missing";
+
+// FILTER
+"Filter.Content.ExpandSection" = "Venn with friends!";
+"Filter.Content.Title" = "Show me all contacts who are...";
+"Filter.Content.AddFilter" = "Add filter";
+"Filter.Row.ContactsWhoAre" = "contacts who are";
+"Filter.Row.WithinTheGroup" = "within the group";
+"Filter.Row.Found" = "Found";
+"Filter.Row.NotFound" = "Not found";

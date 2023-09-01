@@ -84,7 +84,7 @@ struct GroupCreationView: View {
 						dismiss()
 					},
 					label: {
-						Text("Save")
+						Text(Localizable.Common.Actions.save)
 							.frame(maxWidth: .infinity)
 					}
 				)

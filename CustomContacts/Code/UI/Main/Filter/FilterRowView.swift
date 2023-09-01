@@ -38,7 +38,7 @@ extension FilterRowView {
 	private var firstRowContentView: some View {
 		HStack {
 			pickerView(for: FilterQuery.Filter.allCases, selected: $filterQuery.filter)
-			Text("within the group")
+			Text(Localizable.Filter.Row.withinTheGroup)
 			groupsPickerView
 		}
 		.frame(maxWidth: .infinity, alignment: .leading)
@@ -48,13 +48,13 @@ extension FilterRowView {
 		VStack {
 			HStack {
 				pickerView(for: FilterQuery.Operator.allCases, selected: $filterQuery.operator)
-				Text("contacts who are")
+				Text(Localizable.Filter.Row.contactsWhoAre)
 				pickerView(for: FilterQuery.Filter.allCases, selected: $filterQuery.filter)
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
 
 			HStack {
-				Text("within the group")
+				Text(Localizable.Filter.Row.withinTheGroup)
 				groupsPickerView
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
@@ -104,9 +104,9 @@ extension FilterQuery.Filter: PickerProtocol {
 	fileprivate var title: String {
 		switch self {
 		case .include:
-			return "Found"
+			return Localizable.Filter.Row.found
 		case .exclude:
-			return "Not found"
+			return Localizable.Filter.Row.notFound
 		}
 	}
 }
