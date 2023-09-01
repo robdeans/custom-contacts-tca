@@ -49,16 +49,16 @@ struct ContactListView: View {
 				ToolbarItem(placement: .topBarTrailing) {
 					Menu("🔃") {
 						// TODO: simplify with section for sort and order (First name/Last name/etc + ascending/descending)
-						Button("First name A↔Z") {
+						Button(Localizable.Contacts.Sort.firstNameAZ) {
 							viewModel.setSortOption(to: .firstName(ascending: true))
 						}
-						Button("First name Z↔A") {
+						Button(Localizable.Contacts.Sort.firstNameZA) {
 							viewModel.setSortOption(to: .firstName(ascending: false))
 						}
-						Button("Last name A↔Z") {
+						Button(Localizable.Contacts.Sort.lastNameAZ) {
 							viewModel.setSortOption(to: .lastName(ascending: true))
 						}
-						Button("Last name Z↔A") {
+						Button(Localizable.Contacts.Sort.lastNameZA) {
 							viewModel.setSortOption(to: .lastName(ascending: false))
 						}
 					}
