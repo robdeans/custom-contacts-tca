@@ -75,7 +75,7 @@ extension FilterRowView {
 			ForEach(groups) {
 				Text($0.name)
 					.tag($0 as ContactGroup?)
-				// cast as optional to handle `nil` default value
+					// cast as optional to handle `nil` default value
 			}
 		}
 	}

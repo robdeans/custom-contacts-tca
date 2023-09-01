@@ -17,28 +17,19 @@ struct RootView: View {
 	@State private var showContactList = true
 
 	var body: some View {
-		NavigationStack {
-			contentView
-				.toolbar {
-					ToolbarItem(placement: .topBarLeading) {
-						Button("🔄") {
-							showContactList.toggle()
-						}
-					}
-				}
-		}
+		contentView
+			.ignoresSafeArea()
 	}
 
 	@ViewBuilder
 	private var contentView: some View {
 		ZStack {
-			if showContactList {
-				ContactListView()
-			} else {
-				GroupListView()
-					// Handles mirror image
-					.rotation3DEffect(.degrees(-180), axis: Layout.rotationAxis)
-			}
+			ContactListView(onToggleTapped: { showContactList.toggle() })
+				.opacity(showContactList ? 1 : 0)
+			GroupListView(onToggleTapped: { showContactList.toggle() })
+				// Handles mirror image
+				.rotation3DEffect(.degrees(-180), axis: Layout.rotationAxis)
+				.opacity(showContactList ? 0 : 1)
 		}
 		.rotation3DEffect(showContactList ? .zero : Layout.rotationAngle, axis: Layout.rotationAxis)
 		.animation(.easeInOut, value: showContactList)

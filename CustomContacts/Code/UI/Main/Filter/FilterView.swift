@@ -90,7 +90,7 @@ private let filterQueries: [FilterQuery] = [
 @MainActor
 private let previewContainer: ModelContainer = {
 	do {
-		let container = try ModelContainer(for: ContactGroup.self, ModelConfiguration(inMemory: true))
+		let container = try ModelContainer(for: ContactGroup.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
 		ContactGroup.mockArray.forEach { container.mainContext.insert($0) }
 		return container
 	} catch {

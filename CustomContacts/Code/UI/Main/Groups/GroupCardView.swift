@@ -35,10 +35,10 @@ struct GroupCardView: View {
 					label: {
 						Text(group.name)
 							.fontWeight(.bold)
+							.foregroundStyle(group.color)
 					}
 				)
 			}
 		)
-		.foregroundStyle(group.color)
 	}
 }
