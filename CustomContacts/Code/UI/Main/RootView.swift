@@ -15,6 +15,7 @@ private enum Layout {
 
 struct RootView: View {
 	@State private var showContactList = true
+	private let contactListViewModel = ContactListView.ViewModel()
 
 	var body: some View {
 		contentView
@@ -24,8 +25,12 @@ struct RootView: View {
 	@ViewBuilder
 	private var contentView: some View {
 		ZStack {
-			ContactListView(onToggleTapped: { showContactList.toggle() })
-				.opacity(showContactList ? 1 : 0)
+			ContactListView(
+				viewModel: contactListViewModel,
+				onToggleTapped: { showContactList.toggle() }
+			)
+			.opacity(showContactList ? 1 : 0)
+
 			GroupListView(onToggleTapped: { showContactList.toggle() })
 				// Handles mirror image
 				.rotation3DEffect(.degrees(-180), axis: Layout.rotationAxis)

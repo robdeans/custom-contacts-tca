@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ContactListView: View {
-	@StateObject private var viewModel = ViewModel()
+	@StateObject var viewModel: ViewModel
 	let onToggleTapped: () -> Void
 
 	var body: some View {
