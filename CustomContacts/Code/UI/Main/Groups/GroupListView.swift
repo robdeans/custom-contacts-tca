@@ -36,7 +36,6 @@ struct GroupListView: View {
 			.navigationTitle(Localizable.Root.Groups.title)
 			.sheet(item: $createGroupView) { $0 }
 			.navigationDestination(to: $groupDetailView) { $0 }
-			.modelContainer(for: ContactGroup.self)
 			.toolbar {
 				ToolbarItem(placement: .topBarLeading) {
 					Button("🔄") {
@@ -45,6 +44,7 @@ struct GroupListView: View {
 				}
 			}
 		}
+		.modelContainer(for: ContactGroup.self)
 	}
 
 	private var createGroupButton: some View {
@@ -60,6 +60,6 @@ struct GroupListView: View {
 			}
 		)
 		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-		.padding(Constants.UI.Padding.default)
+		.padding(Constants.UI.Padding.default * 2)
 	}
 }

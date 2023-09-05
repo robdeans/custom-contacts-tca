@@ -11,7 +11,6 @@ import Dependencies
 import SwiftUI
 
 struct ContactSelectorView: View {
-	@Dependency(\.uuid) private var uuid
 	@StateObject private var viewModel = ViewModel()
 	@Environment(\.dismiss) private var dismiss
 
@@ -57,12 +56,13 @@ struct ContactSelectorView: View {
 
 extension ContactSelectorView: Identifiable {
 	var id: String {
-		uuid().uuidString
+		viewModel.id
 	}
 }
 
 extension ContactSelectorView {
 	private final class ViewModel: ObservableObject {
+		let id: String
 		@Dependency(\.contactsRepository) private var contactsRepository
 
 		@Published private var contacts: [Contact] = []
@@ -80,6 +80,9 @@ extension ContactSelectorView {
 		}
 
 		init() {
+			@Dependency(\.uuid) var uuid
+			self.id = uuid().uuidString
+
 			Task {
 				// Contacts should already have loaded on earlier screen
 				await loadContacts()

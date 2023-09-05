@@ -10,24 +10,22 @@ import Combine
 import CustomContactsAPIKit
 import Dependencies
 
-final class FilterQuery: ObservableObject {
-	@Dependency(\.uuid) private var uuid
-	@Dependency(\.contactsRepository) private var contactsRepository
+final class FilterQuery: ObservableObject, Identifiable {
+	let id: String
 
-	@Published var group = ContactGroup.empty
+	@Published var group: ContactGroup
 	@Published var filter = Filter.include
 	@Published var `operator` = Operator.or
 
 	init(isFirstQuery: Bool) {
 		// First query should be `or` so base group is more inclusive of future clauses
 		self.operator = isFirstQuery ? .or : .and
-		group = contactsRepository.allContactsGroup
-	}
-}
 
-extension FilterQuery: Identifiable {
-	var id: String {
-		uuid().uuidString
+		@Dependency(\.uuid) var uuid
+		self.id = uuid().uuidString
+
+		@Dependency(\.contactsRepository) var contactsRepository
+		group = contactsRepository.allContactsGroup
 	}
 }
 

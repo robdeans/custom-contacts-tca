@@ -13,31 +13,29 @@ struct ContactListView: View {
 	let onToggleTapped: () -> Void
 
 	var body: some View {
-		NavigationStack {
-			VStack {
-				FilterView(
-					filterQueries: viewModel.filterQueries,
-					onAddQueryTapped: { viewModel.addQuery($0) },
-					onRemoveQueryTapped: { viewModel.removeQuery($0) },
-					onClearTapped: { viewModel.removeAllQueries() }
-				)
+		VStack {
+			FilterView(
+				filterQueries: viewModel.filterQueries,
+				onAddQueryTapped: { viewModel.addQuery($0) },
+				onRemoveQueryTapped: { viewModel.removeQuery($0) },
+				onClearTapped: { viewModel.removeAllQueries() }
+			)
 
-				List {
-					ForEach(viewModel.contactsDisplayable()) { contact in
-						NavigationLink(
-							destination: {
-								ContactDetailView(contact: contact)
-							},
-							label: {
-								ContactCardView(contact: contact)
-							}
-						)
-					}
+			List {
+				ForEach(viewModel.contactsDisplayable()) { contact in
+					NavigationLink(
+						destination: {
+							ContactDetailView(contact: contact)
+						},
+						label: {
+							ContactCardView(contact: contact)
+						}
+					)
 				}
-				.searchable(text: $viewModel.searchText)
-				.refreshable {
-					await viewModel.loadContacts(refresh: true)
-				}
+			}
+			.searchable(text: $viewModel.searchText)
+			.refreshable {
+				await viewModel.loadContacts(refresh: true)
 			}
 			.navigationTitle(Localizable.Root.Contacts.title)
 			.toolbar {
