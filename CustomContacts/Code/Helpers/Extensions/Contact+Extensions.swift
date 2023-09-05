@@ -7,58 +7,44 @@
 //
 
 import CustomContactsAPIKit
-import Foundation
+import SwiftyUserDefaults
 
 extension Contact {
-	enum SortOption {
-		case firstName(ascending: Bool = true)
-		case lastName(ascending: Bool = true)
-
-		init?(_ rawValue: String) {
-			switch rawValue {
-			case "firstNameAscending":
-				self = .firstName(ascending: true)
-			case "firstNameDescending":
-				self = .firstName(ascending: false)
-			case "lastNameAscending":
-				self = .lastName(ascending: true)
-			case "lastNameDescending":
-				self = .lastName(ascending: false)
-			default:
-				return nil
-			}
+	struct SortOption: Codable, DefaultsSerializable {
+		enum Parameter: String, Codable, CaseIterable {
+			case firstName
+			case lastName
 		}
-
-		var rawValue: String {
-			switch self {
-			case .firstName(ascending: let ascending):
-				return ascending ? "firstNameAscending" : "firstNameDescending"
-			case .lastName(ascending: let ascending):
-				return ascending ? "lastNameAscending" : "lastNameDescending"
-			}
-		}
+		var parameter: Parameter
+		var ascending: Bool
 
 		static var current: SortOption {
-			self.init(UserDefaults.standard.string(forKey: DefaultKeys.contactsSortOption) ?? "") ?? .lastName()
+			Defaults[\.contactsSortOption]
 		}
 	}
 }
 
+extension DefaultsKeys {
+	var contactsSortOption: DefaultsKey<Contact.SortOption> {
+		.init("contactsSortOption", defaultValue: Contact.SortOption(parameter: .lastName, ascending: true))
+	}
+}
+
 extension DefaultKeys {
-	static let contactsSortOption = "contactsSortOption"
+	private static let contactsSortOption = "contactsSortOption"
 }
 
 extension Sequence where Element == Contact {
 	func sorted(by sortOption: Contact.SortOption = .current) -> [Contact] {
-		switch sortOption {
-		case let .firstName(ascending):
+		switch sortOption.parameter {
+		case .firstName:
 			return self.sorted {
-				ascending ? $0.firstName < $1.firstName
+				sortOption.ascending ? $0.firstName < $1.firstName
 				: $0.firstName > $1.firstName
 			}
-		case let .lastName(ascending):
+		case .lastName:
 			return self.sorted {
-				ascending ? $0.lastName < $1.lastName
+				sortOption.ascending ? $0.lastName < $1.lastName
 				: $0.lastName > $1.lastName
 			}
 		}

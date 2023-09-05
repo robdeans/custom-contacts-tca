@@ -63,6 +63,7 @@
 		E8D67B9D2A8AB27200300FE0 /* GroupListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */; };
 		E8D67B9F2A8AB82A00300FE0 /* GroupCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8D67B9E2A8AB82A00300FE0 /* GroupCreationView.swift */; };
 		E8FA23DC2AA77847006DE429 /* PreferenceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FA23DB2AA77847006DE429 /* PreferenceKeys.swift */; };
+		E8FA23DF2AA7940F006DE429 /* SwiftyUserDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = E8FA23DE2AA7940F006DE429 /* SwiftyUserDefaults */; };
 		F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */; };
 		F4CD7028200003E10013EE7B /* ApplicationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CD701B200003E10013EE7B /* ApplicationService.swift */; };
 		F4CD706420002E7C0013EE7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706220002E7C0013EE7B /* LaunchScreen.storyboard */; };
@@ -196,6 +197,7 @@
 				FC3DC8C528AE1FE6009EA293 /* FueledUtilsCore in Frameworks */,
 				FC9016C327B4638900C935FE /* CustomContactsHelpers in Frameworks */,
 				FC9016C127B4638900C935FE /* CustomContactsAPIKit in Frameworks */,
+				E8FA23DF2AA7940F006DE429 /* SwiftyUserDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +586,7 @@
 				1390FB352947427D00A292D3 /* ArkanaKeys */,
 				52B6146629647BCB00F00820 /* NukeUI */,
 				0F9AFBD929E8004C00496F61 /* Dependencies */,
+				E8FA23DE2AA7940F006DE429 /* SwiftyUserDefaults */,
 			);
 			productName = CustomContacts;
 			productReference = 3DFCFB511E5DA85B00D4A874 /* CustomContacts.app */;
@@ -670,6 +673,7 @@
 				FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */,
 				52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */,
 				0F9AFBD829E8004C00496F61 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+				E8FA23DD2AA7940F006DE429 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */,
 			);
 			productRefGroup = 3DFCFB521E5DA85B00D4A874 /* Products */;
 			projectDirPath = "";
@@ -1594,6 +1598,14 @@
 				minimumVersion = 0.8.3;
 			};
 		};
+		E8FA23DD2AA7940F006DE429 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sunshinejr/SwiftyUserDefaults";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.0;
+			};
+		};
 		FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Fueled/ios-utilities/";
@@ -1618,6 +1630,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */;
 			productName = NukeUI;
+		};
+		E8FA23DE2AA7940F006DE429 /* SwiftyUserDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E8FA23DD2AA7940F006DE429 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */;
+			productName = SwiftyUserDefaults;
 		};
 		FC3DC8C428AE1FE6009EA293 /* FueledUtilsCore */ = {
 			isa = XCSwiftPackageProductDependency;

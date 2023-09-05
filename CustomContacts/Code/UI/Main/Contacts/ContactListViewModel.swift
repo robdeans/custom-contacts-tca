@@ -45,9 +45,14 @@ extension ContactListView {
 	}
 }
 
+// TODO: add test coverage
 extension ContactListView.ViewModel {
-	func setSortOption(to sortOption: Contact.SortOption) {
-		contacts = contactsRepository.sortContacts(by: sortOption)
+	func setSortOption(to parameter: Contact.SortOption.Parameter? = nil, ascending: Bool? = nil) {
+		let updatedSortOption = Contact.SortOption(
+			parameter: parameter ?? Contact.SortOption.current.parameter,
+			ascending: ascending ?? Contact.SortOption.current.ascending
+		)
+		contacts = contactsRepository.sortContacts(by: updatedSortOption)
 	}
 
 	func addQuery(_ query: FilterQuery) {
@@ -64,7 +69,6 @@ extension ContactListView.ViewModel {
 		filterQueries.removeAll()
 	}
 
-	// TODO: add test coverage
 	func contactsDisplayable() -> [Contact] {
 		var filteredContactIDs = Set<Contact.ID>()
 		if !filterQueries.isEmpty {

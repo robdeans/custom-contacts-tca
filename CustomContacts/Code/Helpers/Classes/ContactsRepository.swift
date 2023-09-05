@@ -9,7 +9,7 @@
 import Combine
 import CustomContactsAPIKit
 import Dependencies
-import Foundation
+import SwiftyUserDefaults
 
 protocol ContactsRepository {
 	func getContacts(refresh: Bool) async throws -> [Contact]
@@ -78,7 +78,7 @@ private final class ContactsRepositoryLive: ContactsRepository {
 	@discardableResult
 	func sortContacts(by sortOption: Contact.SortOption) -> [Contact] {
 		self.sortOption = sortOption
-		UserDefaults.standard.set(sortOption.rawValue, forKey: DefaultKeys.contactsSortOption)
+		Defaults[\.contactsSortOption] = sortOption
 		return contacts
 	}
 }

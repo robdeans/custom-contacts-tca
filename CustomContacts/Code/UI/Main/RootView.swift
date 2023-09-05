@@ -47,7 +47,6 @@ struct RootView: View {
 
 /*
 
-Rotate on swipe-from-left-edge in continuous rotation
- UIScreenEdgePanGestureRecognizer
+Rotate on swipe-from-left-edge in continuous rotation UIScreenEdgePanGestureRecognizer
 
 */
