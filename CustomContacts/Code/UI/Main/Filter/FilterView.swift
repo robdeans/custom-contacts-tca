@@ -34,6 +34,13 @@ struct FilterView: View {
 			Group {
 				ForEach(Array(filterQueries.enumerated()), id: \.element.id) { index, query in
 					FilterRowView(filterQuery: query, isFirstRow: index == 0)
+						.swipeable(
+							onDelete: {
+								withAnimation {
+									onRemoveQueryTapped(query)
+								}
+							}
+						)
 				}
 
 				HStack {

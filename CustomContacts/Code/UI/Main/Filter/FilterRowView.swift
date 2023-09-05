@@ -21,6 +21,13 @@ struct FilterRowView: View {
 	@Query(sort: [SortDescriptor(\ContactGroup.name)])
 	private var groups: [ContactGroup]
 
+	private var borderColor: Color {
+		if filterQuery.group == contactsRepository.allContactsGroup {
+			return .clear
+		}
+		return filterQuery.group.color
+	}
+
 	var body: some View {
 		Group {
 			if isFirstRow {
@@ -29,7 +36,7 @@ struct FilterRowView: View {
 				rowContentView
 			}
 		}
-		.border(filterQuery.group.color)
+		.border(borderColor)
 	}
 }
 
