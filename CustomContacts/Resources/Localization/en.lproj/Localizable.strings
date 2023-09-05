@@ -30,10 +30,10 @@
 "Root.Groups.Title" = "Groups";
 
 // CONTACTS
-"Contacts.Sort.FirstNameAZ" = "First name A↔Z";
-"Contacts.Sort.FirstNameZA" = "First name Z↔A";
-"Contacts.Sort.LastNameAZ" = "Last name A↔Z";
-"Contacts.Sort.LastNameZA" = "Last name Z↔A";
+"Contacts.Sort.FirstName" = "First name";
+"Contacts.Sort.LastName" = "Last name";
+"Contacts.Sort.Ascending" = "Ascending";
+"Contacts.Sort.Descending" = "Descending";
 "Contacts.Filter.Remove" = "Remove";
 
 // GROUP

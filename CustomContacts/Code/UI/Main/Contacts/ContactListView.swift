@@ -6,6 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
+import CustomContactsAPIKit
 import SwiftUI
 
 struct ContactListView: View {
@@ -46,22 +47,38 @@ struct ContactListView: View {
 				}
 				ToolbarItem(placement: .topBarTrailing) {
 					Menu("🔃") {
-						// TODO: simplify with section for sort and order (First name/Last name/etc + ascending/descending)
-						Button(Localizable.Contacts.Sort.firstNameAZ) {
-							viewModel.setSortOption(to: .firstName(ascending: true))
+						ForEach(Contact.SortOption.Parameter.allCases, id: \.rawValue) { parameter in
+							Button(parameter.title) {
+								viewModel.setSortOption(to: parameter)
+							}
 						}
-						Button(Localizable.Contacts.Sort.firstNameZA) {
-							viewModel.setSortOption(to: .firstName(ascending: false))
-						}
-						Button(Localizable.Contacts.Sort.lastNameAZ) {
-							viewModel.setSortOption(to: .lastName(ascending: true))
-						}
-						Button(Localizable.Contacts.Sort.lastNameZA) {
-							viewModel.setSortOption(to: .lastName(ascending: false))
-						}
+						Divider()
+						sortOrderButton(ascending: true)
+						sortOrderButton(ascending: false)
 					}
 				}
 			}
+		}
+	}
+
+	private func sortOrderButton(ascending: Bool) -> some View {
+		let title = ascending ? Localizable.Contacts.Sort.ascending
+		: Localizable.Contacts.Sort.descending
+		let checkmark = Contact.SortOption.current.ascending == ascending ? " ✓" : ""
+		return Button(title + checkmark) {
+			viewModel.setSortOption(ascending: ascending)
+		}
+	}
+}
+
+extension Contact.SortOption.Parameter {
+	var title: String {
+		let checkmark = Contact.SortOption.current.parameter == self ? " ✓" : ""
+		switch self {
+		case .firstName:
+			return Localizable.Contacts.Sort.firstName + checkmark
+		case .lastName:
+			return Localizable.Contacts.Sort.lastName + checkmark
 		}
 	}
 }
