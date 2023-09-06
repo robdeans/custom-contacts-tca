@@ -44,6 +44,8 @@
 		E88DA2A02AA12188002797AB /* FilterQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88DA29F2AA12188002797AB /* FilterQuery.swift */; };
 		E8A497EA2AABA6F20057C78B /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A497E92AABA6F20057C78B /* Color+Extensions.swift */; };
 		E89BEC672AA90E9E00011FA0 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E89BEC662AA90E9E00011FA0 /* ComposableArchitecture */; };
+		E89BEC6A2AA9151E00011FA0 /* GroupsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89BEC692AA9151E00011FA0 /* GroupsFeature.swift */; };
+		E89BEC6C2AA9176100011FA0 /* AddGroupFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89BEC6B2AA9176100011FA0 /* AddGroupFeature.swift */; };
 		E8C33FF32A9F982A0004E455 /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF22A9F982A0004E455 /* ContactCardView.swift */; };
 		E8C33FF52A9FE04E0004E455 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF42A9FE04E0004E455 /* FilterView.swift */; };
 		E8C33FF82AA0E4C50004E455 /* SwipeableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */; };
@@ -120,6 +122,8 @@
 		E88DA29D2AA120E2002797AB /* FilterRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRowView.swift; sourceTree = "<group>"; };
 		E88DA29F2AA12188002797AB /* FilterQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterQuery.swift; sourceTree = "<group>"; };
 		E8A497E92AABA6F20057C78B /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		E89BEC692AA9151E00011FA0 /* GroupsFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsFeature.swift; sourceTree = "<group>"; };
+		E89BEC6B2AA9176100011FA0 /* AddGroupFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupFeature.swift; sourceTree = "<group>"; };
 		E8C33FF22A9F982A0004E455 /* ContactCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardView.swift; sourceTree = "<group>"; };
 		E8C33FF42A9FE04E0004E455 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableRowView.swift; sourceTree = "<group>"; };
@@ -281,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				E8D67B982A8AB1B800300FE0 /* RootView.swift */,
+				E89BEC682AA9150F00011FA0 /* TCA */,
 				E87A3DF32A8AC9290068F34C /* Contacts */,
 				E87A3DF42A8AC9300068F34C /* Groups */,
 				E8C33FF62A9FE0520004E455 /* Filter */,
@@ -319,6 +324,15 @@
 				E87A3DED2A8AC3B90068F34C /* GroupDetailView.swift */,
 			);
 			path = Groups;
+			sourceTree = "<group>";
+		};
+		E89BEC682AA9150F00011FA0 /* TCA */ = {
+			isa = PBXGroup;
+			children = (
+				E89BEC692AA9151E00011FA0 /* GroupsFeature.swift */,
+				E89BEC6B2AA9176100011FA0 /* AddGroupFeature.swift */,
+			);
+			path = TCA;
 			sourceTree = "<group>";
 		};
 		E8C33FF62A9FE0520004E455 /* Filter */ = {
@@ -659,12 +673,14 @@
 				E88DA29E2AA120E2002797AB /* FilterRowView.swift in Sources */,
 				E84C26052AA23624008D3FB6 /* ContactListViewModel.swift in Sources */,
 				E87A3DF82A8BE4A30068F34C /* NavigationLinkHelper.swift in Sources */,
+				E89BEC6C2AA9176100011FA0 /* AddGroupFeature.swift in Sources */,
 				E87A3DFE2A8C139C0068F34C /* ContactGroup+Extensions.swift in Sources */,
 				FCDAFBDD27C54741001314C2 /* Assets+Constants.generated.swift in Sources */,
 				FCDAFBE027C54741001314C2 /* JSON.generated.swift in Sources */,
 				E8A497EA2AABA6F20057C78B /* Color+Extensions.swift in Sources */,
 				FCDAFBD927C54741001314C2 /* AutoCodable.generated.swift in Sources */,
 				DF3B36F521ECAF8A0033C858 /* NSError+DisplayableError.swift in Sources */,
+				E89BEC6A2AA9151E00011FA0 /* GroupsFeature.swift in Sources */,
 				FCDAFBDF27C54741001314C2 /* Fonts+Constants.generated.swift in Sources */,
 				E87A3DEE2A8AC3B90068F34C /* GroupDetailView.swift in Sources */,
 				E8C33FF82AA0E4C50004E455 /* SwipeableRowView.swift in Sources */,
