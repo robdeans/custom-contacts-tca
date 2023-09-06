@@ -6,6 +6,9 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
+import ComposableArchitecture
+import CustomContactsAPIKit
+import SwiftData
 import SwiftUI
 
 private enum Layout {
@@ -16,6 +19,7 @@ private enum Layout {
 struct RootView: View {
 	@State private var showContactList = true
 	private let contactListViewModel = ContactListView.ViewModel()
+	private let container = try! ModelContainer(for: ContactGroup.self)
 
 	var body: some View {
 		NavigationStack {
@@ -23,6 +27,7 @@ struct RootView: View {
 		}
 	}
 
+	@MainActor
 	private var contentView: some View {
 		/// Ideally `contentView` would be a `Group { ... }` containing a switch statement,
 		/// and each View maintain its own `NavigationStack`.
@@ -35,7 +40,16 @@ struct RootView: View {
 					onToggleTapped: { showContactList.toggle() }
 				)
 			} else {
-				GroupListView(onToggleTapped: { showContactList.toggle() })
+				let groups = try! container.mainContext.fetch(FetchDescriptor<ContactGroup>())
+				GroupsView(
+					store: Store(
+						initialState: GroupsFeature.State(
+							groups: IdentifiedArrayOf(uniqueElements: groups)
+						)
+					) {
+						GroupsFeature()
+					}
+				)
 					// Handles mirror image
 					.rotation3DEffect(-Layout.rotationAngle, axis: Layout.rotationAxis)
 			}
