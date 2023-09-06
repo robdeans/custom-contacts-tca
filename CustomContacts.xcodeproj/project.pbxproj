@@ -43,6 +43,7 @@
 		E88DA29E2AA120E2002797AB /* FilterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88DA29D2AA120E2002797AB /* FilterRowView.swift */; };
 		E88DA2A02AA12188002797AB /* FilterQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88DA29F2AA12188002797AB /* FilterQuery.swift */; };
 		E8A497EA2AABA6F20057C78B /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A497E92AABA6F20057C78B /* Color+Extensions.swift */; };
+		E89BEC672AA90E9E00011FA0 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = E89BEC662AA90E9E00011FA0 /* ComposableArchitecture */; };
 		E8C33FF32A9F982A0004E455 /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF22A9F982A0004E455 /* ContactCardView.swift */; };
 		E8C33FF52A9FE04E0004E455 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF42A9FE04E0004E455 /* FilterView.swift */; };
 		E8C33FF82AA0E4C50004E455 /* SwipeableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */; };
@@ -161,6 +162,7 @@
 			files = (
 				0F9AFBDA29E8004C00496F61 /* Dependencies in Frameworks */,
 				1390FB362947427D00A292D3 /* ArkanaKeys in Frameworks */,
+				E89BEC672AA90E9E00011FA0 /* ComposableArchitecture in Frameworks */,
 				52B6146729647BCB00F00820 /* NukeUI in Frameworks */,
 				FC3DC8C928AE1FE6009EA293 /* FueledUtilsSwiftUI in Frameworks */,
 				FC3DC8C528AE1FE6009EA293 /* FueledUtilsCore in Frameworks */,
@@ -473,6 +475,7 @@
 				52B6146629647BCB00F00820 /* NukeUI */,
 				0F9AFBD929E8004C00496F61 /* Dependencies */,
 				E8FA23DE2AA7940F006DE429 /* SwiftyUserDefaults */,
+				E89BEC662AA90E9E00011FA0 /* ComposableArchitecture */,
 			);
 			productName = CustomContacts;
 			productReference = 3DFCFB511E5DA85B00D4A874 /* CustomContacts.app */;
@@ -539,6 +542,7 @@
 				52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */,
 				0F9AFBD829E8004C00496F61 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 				E8FA23DD2AA7940F006DE429 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */,
+				E89BEC652AA90E9E00011FA0 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			productRefGroup = 3DFCFB521E5DA85B00D4A874 /* Products */;
 			projectDirPath = "";
@@ -1335,6 +1339,14 @@
 				minimumVersion = 0.8.3;
 			};
 		};
+		E89BEC652AA90E9E00011FA0 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		E8FA23DD2AA7940F006DE429 /* XCRemoteSwiftPackageReference "SwiftyUserDefaults" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sunshinejr/SwiftyUserDefaults";
@@ -1367,6 +1379,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */;
 			productName = NukeUI;
+		};
+		E89BEC662AA90E9E00011FA0 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E89BEC652AA90E9E00011FA0 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 		E8FA23DE2AA7940F006DE429 /* SwiftyUserDefaults */ = {
 			isa = XCSwiftPackageProductDependency;
