@@ -17,7 +17,7 @@ private enum Layout {
 }
 
 struct RootView: View {
-	@State private var showContactList = true
+	@State private var showContactList = false
 	private let contactListViewModel = ContactListView.ViewModel()
 	private let container = try! ModelContainer(for: ContactGroup.self)
 
@@ -45,13 +45,13 @@ struct RootView: View {
 					store: Store(
 						initialState: GroupsFeature.State(
 							groups: IdentifiedArrayOf(uniqueElements: groups)
-						)
-					) {
-						GroupsFeature()
-					}
+						),
+						reducer: { GroupsFeature() }
+					),
+					onToggleTapped: { showContactList.toggle() }
 				)
-					// Handles mirror image
-					.rotation3DEffect(-Layout.rotationAngle, axis: Layout.rotationAxis)
+				// Handles mirror image
+				.rotation3DEffect(-Layout.rotationAngle, axis: Layout.rotationAxis)
 			}
 		}
 		.rotation3DEffect(showContactList ? .zero : Layout.rotationAngle, axis: Layout.rotationAxis)
