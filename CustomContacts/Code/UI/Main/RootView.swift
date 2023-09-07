@@ -8,7 +8,6 @@
 
 import ComposableArchitecture
 import CustomContactsAPIKit
-import SwiftData
 import SwiftUI
 
 private enum Layout {
@@ -19,7 +18,6 @@ private enum Layout {
 struct RootView: View {
 	@State private var showContactList = false
 	private let contactListViewModel = ContactListView.ViewModel()
-	private let container = try! ModelContainer(for: ContactGroup.self)
 
 	var body: some View {
 		NavigationStack {
@@ -40,12 +38,9 @@ struct RootView: View {
 					onToggleTapped: { showContactList.toggle() }
 				)
 			} else {
-				let groups = try! container.mainContext.fetch(FetchDescriptor<ContactGroup>())
 				GroupsView(
 					store: Store(
-						initialState: GroupsFeature.State(
-							groups: IdentifiedArrayOf(uniqueElements: groups)
-						),
+						initialState: GroupsFeature.State(),
 						reducer: { GroupsFeature() }
 					),
 					onToggleTapped: { showContactList.toggle() }

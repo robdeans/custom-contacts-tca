@@ -43,8 +43,9 @@ struct AddGroupFeature: Reducer {
 
 			case .saveButtonTapped:
 				return .run { [group = state.group] send in
+					@Dependency(\.groupsRepository) var groupsRepository
+					try groupsRepository.addGroup(group)
 					await send(.delegate(.saveGroup(group)))
-					//modelContext.insert(newGroup)
 					await self.dismiss()
 				}
 

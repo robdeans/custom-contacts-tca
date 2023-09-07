@@ -51,6 +51,9 @@ struct GroupsView: View {
 				AddGroupView(store: addGroupStore)
 			}
 		}
+		.task {
+			store.send(.fetchGroups)
+		}
 	}
 
 	private var createGroupButton: some View {

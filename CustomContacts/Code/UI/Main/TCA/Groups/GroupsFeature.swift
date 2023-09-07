@@ -18,11 +18,24 @@ struct GroupsFeature: Reducer {
 	enum Action: Equatable {
 		case addButtonTapped
 		case addGroup(PresentationAction<AddGroupFeature.Action>)
+		case fetchGroups
+		case updateGroups([ContactGroup])
 	}
 
 	var body: some ReducerOf<Self> {
 		Reduce { state, action in
 			switch action {
+			case .fetchGroups:
+				return .run { send in
+					@Dependency(\.groupsRepository) var groupsRepository
+					let groups = try! groupsRepository.fetchGroups()
+					await send(.updateGroups(groups))
+				}
+
+			case let .updateGroups(groups):
+				state.groups = IdentifiedArrayOf(uniqueElements: groups)
+				return .none
+
 			case .addButtonTapped:
 				state.addGroup = AddGroupFeature.State(
 					group: .empty
