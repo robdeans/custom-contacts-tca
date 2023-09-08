@@ -22,7 +22,7 @@ struct GroupCreationView: View {
 	@Environment(\.dismiss) private var dismiss
 
 	@State private var name = ""
-	@State private var color = Color.black
+	@State private var color = Color.random
 	@State private(set) var selectedContactIDs = Set<Contact.ID>()
 
 	@State private var contactSelectorView: ContactSelectorView?
@@ -36,6 +36,7 @@ struct GroupCreationView: View {
 						supportsOpacity: true,
 						label: {
 							TextField(Localizable.Groups.Edit.groupName, text: $name)
+								.autocorrectionDisabled()
 								.foregroundStyle(color)
 								.fontWeight(.semibold)
 						}
