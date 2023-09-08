@@ -8,6 +8,7 @@
 
 import CustomContactsAPIKit
 import CustomContactsHelpers
+import Dependencies
 import SwiftUI
 
 extension ContactGroup {
@@ -16,6 +17,12 @@ extension ContactGroup {
 	}
 
 	static var empty: ContactGroup {
-		ContactGroup.create(id: "", name: "", contactIDs: [], colorHex: "")
+		@Dependency(\.uuid) var uuid
+		return ContactGroup.create(
+			id: uuid().uuidString,
+			name: "",
+			contactIDs: [],
+			colorHex: Color.random.toHex ?? ""
+		)
 	}
 }

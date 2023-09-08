@@ -16,7 +16,6 @@ final class APIClientLive: APIClient {
 	func request<Response>(_ request: APIRequest<Response>) async throws -> Response where Response: Decodable {
 		do {
 			let urlRequest = try request.makeRequest(using: apiKitEnvironment.environment.baseURL)
-			// TODO: add shared headers
 			let (data, _) = try await URLSession.shared.data(for: urlRequest)
 			return try request.decoder.decode(Response.self, from: data)
 		} catch {
