@@ -49,11 +49,11 @@ private final class ContactsRepositoryLive: ContactsRepository {
 	}
 
 	private func fetchContacts() async throws -> [Contact] {
-		guard try await contactsService.requestContactsPermissions() else {
+		guard try await contactsService.requestPermissions() else {
 			// Permissions denied state; throw error?
 			return []
 		}
-		contacts = try await ContactsService.liveValue.fetchContacts()
+		contacts = try await contactsService.fetchContacts()
 			.sorted(by: sortOption)
 		contactIDs = Set(contacts.map { $0.id })
 		contactDictionary = Dictionary(
