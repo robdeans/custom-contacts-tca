@@ -12,8 +12,9 @@ import SwiftyUserDefaults
 extension Contact {
 	struct SortOption: Codable, DefaultsSerializable {
 		enum Parameter: String, Codable, CaseIterable {
-			case firstName
-			case lastName
+			/// silences swiftlint warning `raw_value_for_camel_cased_codable_enum`
+			case firstName = "first_name"
+			case lastName = "last_name"
 		}
 		var parameter: Parameter
 		var ascending: Bool
@@ -48,5 +49,14 @@ extension Sequence where Element == Contact {
 				: $0.lastName > $1.lastName
 			}
 		}
+	}
+
+	func filter(searchText: String) -> [Contact] {
+		if !searchText.isEmpty {
+			return self.filter {
+				$0.fullName.lowercased().contains(searchText.lowercased())
+			}
+		}
+		return self.map { $0 as Contact }
 	}
 }

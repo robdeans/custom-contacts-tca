@@ -72,13 +72,7 @@ extension ContactSelectorView {
 		private(set) var error: Error?
 
 		var contactsDisplayable: [Contact] {
-			if !searchText.isEmpty {
-				return contacts.filter {
-					// TODO: improve search filtering
-					$0.fullName.lowercased().contains(searchText.lowercased())
-				}
-			}
-			return contacts
+			contacts.filter(searchText: searchText)
 		}
 
 		init() {

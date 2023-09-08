@@ -86,7 +86,7 @@ struct GroupDetailView: View {
 		Button(
 			action: {
 				contactSelectorView = ContactSelectorView(selectedContactIDs: group.contactIDs) {
-					// TODO: only save/persist when `Done` is tapped
+					// TODO: only save/persist when `Done` is tapped? SwiftData updates immediately
 					group.contactIDs = $0
 				}
 			},

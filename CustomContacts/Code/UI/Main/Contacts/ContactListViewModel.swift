@@ -102,12 +102,7 @@ extension ContactListView.ViewModel {
 
 		return filteredContactIDs
 			.compactMap(contactsRepository.contact)
-			.filter { contact in
-				guard !searchText.isEmpty else {
-					return true
-				}
-				return contact.fullName.lowercased().contains(searchText.lowercased())
-			}
+			.filter(searchText: searchText)
 			.sorted()
 	}
 }
