@@ -45,7 +45,8 @@ struct ContactSelectorFeature: Reducer {
 			case let .loadContacts(refresh):
 				return .run { send in
 					@Dependency(\.contactsRepository) var contactsRepository
-					let contacts = try! await contactsRepository.getContacts(refresh: refresh)
+					let contacts = try await contactsRepository.getContacts(refresh: refresh)
+					// TODO: handle error
 					await send(.updateContacts(contacts))
 				}
 

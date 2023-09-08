@@ -12,6 +12,8 @@ import CustomContactsAPIKit
 struct GroupsFeature: Reducer {
 	struct State: Equatable {
 		@PresentationState var addGroup: AddGroupFeature.State?
+		@PresentationState var alert: AlertState<Action.Alert>?
+
 		var groups: IdentifiedArrayOf<ContactGroup> = []
 	}
 
@@ -19,7 +21,13 @@ struct GroupsFeature: Reducer {
 		case addButtonTapped
 		case addGroup(PresentationAction<AddGroupFeature.Action>)
 		case fetchGroups
-		case updateGroups([ContactGroup])
+		case groupsResponse([ContactGroup])
+		case error(GroupsError)
+		case alert(PresentationAction<Alert>)
+
+		enum Alert: Equatable {
+			case retry
+		}
 	}
 
 	var body: some ReducerOf<Self> {
@@ -28,12 +36,36 @@ struct GroupsFeature: Reducer {
 			case .fetchGroups:
 				return .run { send in
 					@Dependency(\.groupsRepository) var groupsRepository
-					let groups = try! groupsRepository.fetchGroups()
-					await send(.updateGroups(groups))
+					do {
+						let groups = try groupsRepository.fetchGroups()
+						await send(.groupsResponse(groups))
+					} catch {
+						// TODO: better way to enforce errors?
+						await send(.error(error as! GroupsError))
+					}
 				}
 
-			case let .updateGroups(groups):
+			case let .groupsResponse(groups):
 				state.groups = IdentifiedArrayOf(uniqueElements: groups)
+				return .none
+
+			case let .error(error):
+				state.alert = AlertState {
+					TextState(error.userFriendlyDescription)
+				} actions: {
+					ButtonState(role: .cancel) {
+						TextState(Localizable.Common.Actions.cancel)
+					}
+					ButtonState(action: .retry) {
+						TextState(Localizable.Common.Actions.retry)
+					}
+				}
+				return .none
+
+			case .alert(.presented(.retry)):
+				return .send(.fetchGroups)
+
+			case .alert:
 				return .none
 
 			case .addButtonTapped:

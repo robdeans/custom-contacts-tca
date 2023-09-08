@@ -24,7 +24,7 @@ struct GroupsView: View {
 					List {
 						ForEach(viewStore.state) { group in
 							GroupCardView(group: group) {
-								//groupDetailView = GroupDetailView(group: group)
+								// TODO: navigate to GroupDetail
 							}
 						}
 					}
@@ -47,10 +47,14 @@ struct GroupsView: View {
 				action: { .addGroup($0) }
 			)
 		) { addGroupStore in
-			NavigationStack {
-				AddGroupView(store: addGroupStore)
-			}
+			AddGroupView(store: addGroupStore)
 		}
+		.alert(
+			store: self.store.scope(
+				state: \.$alert,
+				action: { .alert($0) }
+			)
+		)
 		.task {
 			store.send(.fetchGroups)
 		}

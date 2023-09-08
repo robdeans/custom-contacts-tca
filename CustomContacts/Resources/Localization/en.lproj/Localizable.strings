@@ -24,6 +24,7 @@
 "Common.Actions.Cancel" = "Cancel";
 "Common.Actions.Edit" = "Edit";
 "Common.Actions.Clear" = "Clear";
+"Common.Actions.Retry" = "Retry";
 
 //ROOT
 "Root.Contacts.Title" = "Contacts";

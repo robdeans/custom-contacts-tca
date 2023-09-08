@@ -8,6 +8,7 @@
 
 import Combine
 import CustomContactsAPIKit
+import CustomContactsHelpers
 import Dependencies
 import SwiftData
 
@@ -34,22 +35,42 @@ private final class GroupsRepositoryLive: GroupsRepository {
 	private var groups: [ContactGroup] = []
 
 	init() {
-		container = try! ModelContainer(for: ContactGroup.self)
+		do {
+			container = try ModelContainer(for: ContactGroup.self)
+		} catch {
+			// TODO: how should this be handled?
+			LogFatal("Failed to initialize ContactGroup container")
+		}
 	}
 
 	@MainActor func fetchGroups() throws -> [ContactGroup] {
-		groups = try container.mainContext.fetch(FetchDescriptor<ContactGroup>())
-		return groups
+		do {
+			groups = try container.mainContext.fetch(FetchDescriptor<ContactGroup>())
+			return groups
+		} catch {
+			LogError(error.localizedDescription)
+			throw GroupsError.failedFetch
+		}
 	}
 
 	@MainActor func addGroup(_ group: ContactGroup) throws {
-		container.mainContext.insert(group)
-		try container.mainContext.save()
+		do {
+			container.mainContext.insert(group)
+			try container.mainContext.save()
+		} catch {
+			LogError(error.localizedDescription)
+			throw GroupsError.failedAdd
+		}
 	}
 
 	@MainActor func removeGroup(_ group: ContactGroup) throws {
-		container.mainContext.delete(group)
-		try container.mainContext.save()
+		do {
+			container.mainContext.delete(group)
+			try container.mainContext.save()
+		} catch {
+			LogError(error.localizedDescription)
+			throw GroupsError.failedRemove
+		}
 	}
 }
 
@@ -75,5 +96,33 @@ private final class GroupsRepositoryPreview: GroupsRepository {
 
 	@MainActor func removeGroup(_ group: ContactGroup) {
 		container.mainContext.delete(group)
+	}
+}
+
+// TODO: expand
+enum GroupsError: Error {
+	case failedFetch
+	case failedAdd
+	case failedRemove
+}
+
+extension GroupsError: DisplayableSwiftError {
+	var title: String? {
+		nil
+	}
+
+	var message: String? {
+		switch self {
+		case .failedFetch:
+			return "Failed to fetch groups."
+		case .failedAdd:
+			return "Failed to add group."
+		case .failedRemove:
+			return "Failed to remove group."
+		}
+	}
+
+	var buttonTitle: String? {
+		nil
 	}
 }

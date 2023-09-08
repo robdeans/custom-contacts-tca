@@ -45,6 +45,7 @@ struct AddGroupFeature: Reducer {
 				return .run { [group = state.group] send in
 					@Dependency(\.groupsRepository) var groupsRepository
 					try groupsRepository.addGroup(group)
+					// TODO: handle error
 					await send(.delegate(.saveGroup(group)))
 					await self.dismiss()
 				}
