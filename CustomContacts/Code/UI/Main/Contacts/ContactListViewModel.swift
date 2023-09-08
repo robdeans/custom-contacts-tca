@@ -9,25 +9,16 @@
 import Combine
 import CustomContactsAPIKit
 import Dependencies
+import Observation
 
 extension ContactListView {
-	final class ViewModel: ObservableObject {
-		@Dependency(\.contactsRepository) private var contactsRepository
-		@Published private var contacts: [Contact] = []
-		@Published private(set) var error: Error?
+	@Observable final class ViewModel {
+		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
+		private(set) var contacts: [Contact] = []
+		private(set) var error: Error?
 
-		@Published var searchText = ""
-		@Published private(set) var filterQueries: [FilterQuery] = [] {
-			didSet {
-				cancellables = filterQueries.map {
-					$0.objectWillChange.sink { [weak self] in
-						self?.objectWillChange.send()
-					}
-				}
-			}
-		}
-
-		private var cancellables = [AnyCancellable]()
+		var searchText = ""
+		private(set) var filterQueries: [FilterQuery] = []
 
 		init() {
 			Task {
@@ -69,11 +60,11 @@ extension ContactListView.ViewModel {
 		filterQueries.removeAll()
 	}
 
-	func contactsDisplayable() -> [Contact] {
+	var contactsDisplayable: [Contact] {
 		var filteredContactIDs = Set<Contact.ID>()
 		if !filterQueries.isEmpty {
 			filterQueries.forEach {
-				switch $0.operator {
+				switch $0.logic {
 				case .and:
 					switch $0.filter {
 					case .include:

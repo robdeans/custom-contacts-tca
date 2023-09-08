@@ -14,7 +14,7 @@ import SwiftUI
 struct FilterRowView: View {
 	@Dependency(\.contactsRepository) private var contactsRepository
 
-	@StateObject var filterQuery: FilterQuery
+	@Bindable var filterQuery: FilterQuery
 	let isFirstRow: Bool
 
 	@Environment(\.modelContext) private var modelContext
@@ -54,7 +54,7 @@ extension FilterRowView {
 	private var rowContentView: some View {
 		VStack {
 			HStack {
-				pickerView(for: FilterQuery.Operator.allCases, selected: $filterQuery.operator)
+				pickerView(for: FilterQuery.LogicOperator.allCases, selected: $filterQuery.logic)
 				Text(Localizable.Filter.Row.contactsWhoAre)
 				pickerView(for: FilterQuery.Filter.allCases, selected: $filterQuery.filter)
 			}
@@ -93,7 +93,7 @@ private protocol PickerProtocol: Identifiable, Hashable {
 	var title: String { get }
 }
 
-extension FilterQuery.Operator: PickerProtocol {
+extension FilterQuery.LogicOperator: PickerProtocol {
 	var id: String {
 		rawValue
 	}

@@ -8,10 +8,11 @@
 
 import CustomContactsAPIKit
 import Dependencies
+import Observation
 import SwiftUI
 
 struct ContactSelectorView: View {
-	@StateObject private var viewModel = ViewModel()
+	@Bindable private var viewModel = ViewModel()
 	@Environment(\.dismiss) private var dismiss
 
 	@State private var editMode = EditMode.active
@@ -62,12 +63,13 @@ extension ContactSelectorView: Identifiable {
 }
 
 extension ContactSelectorView {
-	private final class ViewModel: ObservableObject {
-		@Dependency(\.contactsRepository) private var contactsRepository
+	@Observable
+	fileprivate final class ViewModel {
+		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
 
-		@Published private var contacts: [Contact] = []
-		@Published var searchText = ""
-		@Published private(set) var error: Error?
+		private var contacts: [Contact] = []
+		var searchText = ""
+		private(set) var error: Error?
 
 		var contactsDisplayable: [Contact] {
 			if !searchText.isEmpty {
