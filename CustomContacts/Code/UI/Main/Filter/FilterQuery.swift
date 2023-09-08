@@ -9,17 +9,19 @@
 import Combine
 import CustomContactsAPIKit
 import Dependencies
+import Observation
 
-final class FilterQuery: ObservableObject, Identifiable {
+@Observable
+final class FilterQuery: Identifiable {
 	let id: String
 
-	@Published var group: ContactGroup
-	@Published var filter = Filter.include
-	@Published var `operator` = Operator.or
+	var group: ContactGroup
+	var filter = Filter.include
+	var logic = LogicOperator.or
 
 	init(isFirstQuery: Bool) {
 		// First query should be `or` so base group is more inclusive of future clauses
-		self.operator = isFirstQuery ? .or : .and
+		self.logic = isFirstQuery ? .or : .and
 
 		@Dependency(\.uuid) var uuid
 		self.id = uuid().uuidString
@@ -35,7 +37,7 @@ extension FilterQuery {
 		case exclude
 	}
 
-	enum Operator: String, CaseIterable {
+	enum LogicOperator: String, CaseIterable {
 		case and
 		case or
 	}

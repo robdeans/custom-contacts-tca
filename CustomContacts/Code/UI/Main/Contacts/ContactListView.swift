@@ -10,7 +10,7 @@ import CustomContactsAPIKit
 import SwiftUI
 
 struct ContactListView: View {
-	@StateObject var viewModel: ViewModel
+	@Bindable var viewModel: ViewModel
 	let onToggleTapped: () -> Void
 
 	var body: some View {
@@ -23,7 +23,7 @@ struct ContactListView: View {
 			)
 
 			List {
-				ForEach(viewModel.contactsDisplayable()) { contact in
+				ForEach(viewModel.contactsDisplayable) { contact in
 					NavigationLink(
 						destination: {
 							ContactDetailView(contact: contact)

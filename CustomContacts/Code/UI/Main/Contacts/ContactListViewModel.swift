@@ -9,25 +9,16 @@
 import Combine
 import CustomContactsAPIKit
 import Dependencies
+import Observation
 
 extension ContactListView {
-	final class ViewModel: ObservableObject {
-		@Dependency(\.contactsRepository) private var contactsRepository
-		@Published private var contacts: [Contact] = []
-		@Published private(set) var error: Error?
+	@Observable final class ViewModel {
+		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
+		private var contacts: [Contact] = []
+		private(set) var error: Error?
 
-		@Published var searchText = ""
-		@Published private(set) var filterQueries: [FilterQuery] = [] {
-			didSet {
-				cancellables = filterQueries.map {
-					$0.objectWillChange.sink { [weak self] in
-						self?.objectWillChange.send()
-					}
-				}
-			}
-		}
-
-		private var cancellables = [AnyCancellable]()
+		var searchText = ""
+		private(set) var filterQueries: [FilterQuery] = []
 
 		init() {
 			Task {
@@ -45,7 +36,6 @@ extension ContactListView {
 	}
 }
 
-// TODO: add test coverage
 extension ContactListView.ViewModel {
 	func setSortOption(to parameter: Contact.SortOption.Parameter? = nil, ascending: Bool? = nil) {
 		let updatedSortOption = Contact.SortOption(
@@ -69,11 +59,18 @@ extension ContactListView.ViewModel {
 		filterQueries.removeAll()
 	}
 
-	func contactsDisplayable() -> [Contact] {
+	// This seems like an intensive use for a Computed Property and may be better suited as a method.
+	// However given the switch case and usage of Set methods, it could be efficient.
+	// TODO: re-test with larger contacts data set and
+	// TODO: add test coverage
+	var contactsDisplayable: [Contact] {
+		/// Forces `contactsDisplayable` to update when `\.contacts` changes (?)
+		access(keyPath: \.contacts)
+
 		var filteredContactIDs = Set<Contact.ID>()
 		if !filterQueries.isEmpty {
 			filterQueries.forEach {
-				switch $0.operator {
+				switch $0.logic {
 				case .and:
 					switch $0.filter {
 					case .include:
