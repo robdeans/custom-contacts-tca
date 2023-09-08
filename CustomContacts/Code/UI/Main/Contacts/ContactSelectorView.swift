@@ -63,8 +63,8 @@ extension ContactSelectorView: Identifiable {
 }
 
 extension ContactSelectorView {
-	@Observable
-	fileprivate final class ViewModel {
+	// Could be `private` if not for Xcode warnings re: @Observable
+	@Observable final class ViewModel {
 		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
 
 		private var contacts: [Contact] = []

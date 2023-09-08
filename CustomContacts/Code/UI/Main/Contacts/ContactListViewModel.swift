@@ -14,7 +14,7 @@ import Observation
 extension ContactListView {
 	@Observable final class ViewModel {
 		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
-		private(set) var contacts: [Contact] = []
+		private var contacts: [Contact] = []
 		private(set) var error: Error?
 
 		var searchText = ""
@@ -36,7 +36,6 @@ extension ContactListView {
 	}
 }
 
-// TODO: add test coverage
 extension ContactListView.ViewModel {
 	func setSortOption(to parameter: Contact.SortOption.Parameter? = nil, ascending: Bool? = nil) {
 		let updatedSortOption = Contact.SortOption(
@@ -60,7 +59,14 @@ extension ContactListView.ViewModel {
 		filterQueries.removeAll()
 	}
 
+	// This seems like an intensive use for a Computed Property and may be better suited as a method.
+	// However given the switch case and usage of Set methods, it could be efficient.
+	// TODO: re-test with larger contacts data set and
+	// TODO: add test coverage
 	var contactsDisplayable: [Contact] {
+		/// Forces `contactsDisplayable` to update when `\.contacts` changes (?)
+		access(keyPath: \.contacts)
+
 		var filteredContactIDs = Set<Contact.ID>()
 		if !filterQueries.isEmpty {
 			filterQueries.forEach {
