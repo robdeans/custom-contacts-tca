@@ -290,8 +290,8 @@
 			isa = PBXGroup;
 			children = (
 				E87A3DF72A8BE4A30068F34C /* NavigationLinkHelper.swift */,
-				E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */,
 				E8FA23DB2AA77847006DE429 /* PreferenceKeys.swift */,
+				E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -399,11 +399,11 @@
 		F4CD704C2000095C0013EE7B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				E8A497E92AABA6F20057C78B /* Color+Extensions.swift */,
+				E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */,
+				E87A3DFD2A8C139C0068F34C /* ContactGroup+Extensions.swift */,
 				DF3B36BF21ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift */,
 				DF3B370021ECAFDD0033C858 /* String+Localization.swift */,
-				E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */,
-				E8A497E92AABA6F20057C78B /* Color+Extensions.swift */,
-				E87A3DFD2A8C139C0068F34C /* ContactGroup+Extensions.swift */,
 				E87A3DE82A8AC03D0068F34C /* View+Extensions.swift */,
 			);
 			path = Extensions;
