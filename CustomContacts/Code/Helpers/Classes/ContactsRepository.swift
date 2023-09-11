@@ -32,6 +32,7 @@ extension DependencyValues {
 	}
 }
 
+// MARK: - Live Repo
 private final class ContactsRepositoryLive: ContactsRepository {
 	@Dependency(\.contactsService) private var contactsService
 
@@ -83,6 +84,7 @@ private final class ContactsRepositoryLive: ContactsRepository {
 	}
 }
 
+// MARK: - Previews Repo
 private final class ContactsRepositoryPreview: ContactsRepository {
 	func getContacts(refresh: Bool) async throws -> [Contact] {
 		Contact.mockArray
