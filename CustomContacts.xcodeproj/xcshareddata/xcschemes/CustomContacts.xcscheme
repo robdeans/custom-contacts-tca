@@ -97,17 +97,6 @@
                ReferencedContainer = "container:CustomContacts.xcodeproj">
             </BuildableReference>
          </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A1FB88F82A00955D00E0C032"
-               BuildableName = "CustomContactsUITests.xctest"
-               BlueprintName = "CustomContactsUITests"
-               ReferencedContainer = "container:CustomContacts.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
