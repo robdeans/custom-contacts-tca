@@ -11,50 +11,45 @@ import SwiftUI
 
 struct ContactListView: View {
 	@Bindable var viewModel: ViewModel
-	let onToggleTapped: () -> Void
 
 	var body: some View {
-		VStack {
-			FilterView(
-				filterQueries: viewModel.filterQueries,
-				onAddQueryTapped: { viewModel.addQuery($0) },
-				onRemoveQueryTapped: { viewModel.removeQuery($0) },
-				onClearTapped: { viewModel.removeAllQueries() }
-			)
-
-			List {
-				ForEach(viewModel.contactsDisplayable) { contact in
-					NavigationLink(
-						destination: {
-							ContactDetailView(contact: contact)
-						},
-						label: {
-							ContactCardView(contact: contact)
-						}
-					)
-				}
-			}
-			.searchable(text: $viewModel.searchText)
-			.refreshable {
-				await viewModel.loadContacts(refresh: true)
-			}
-			.navigationTitle(Localizable.Root.Contacts.title)
-			.toolbar {
-				ToolbarItem(placement: .topBarLeading) {
-					Button("🔄") {
-						onToggleTapped()
+		NavigationStack {
+			VStack {
+				FilterView(
+					filterQueries: viewModel.filterQueries,
+					onAddQueryTapped: { viewModel.addQuery($0) },
+					onRemoveQueryTapped: { viewModel.removeQuery($0) },
+					onClearTapped: { viewModel.removeAllQueries() }
+				)
+				List {
+					ForEach(viewModel.contactsDisplayable) { contact in
+						NavigationLink(
+							destination: {
+								ContactDetailView(contact: contact)
+							},
+							label: {
+								ContactCardView(contact: contact)
+							}
+						)
 					}
 				}
-				ToolbarItem(placement: .topBarTrailing) {
-					Menu("🔃") {
-						ForEach(Contact.SortOption.Parameter.allCases, id: \.rawValue) { parameter in
-							Button(parameter.title) {
-								viewModel.setSortOption(to: parameter)
+				.searchable(text: $viewModel.searchText)
+				.refreshable {
+					await viewModel.loadContacts(refresh: true)
+				}
+				.navigationTitle(Localizable.Root.Contacts.title)
+				.toolbar {
+					ToolbarItem(placement: .topBarTrailing) {
+						Menu("🔃") {
+							ForEach(Contact.SortOption.Parameter.allCases, id: \.rawValue) { parameter in
+								Button(parameter.title) {
+									viewModel.setSortOption(to: parameter)
+								}
 							}
+							Divider()
+							sortOrderButton(ascending: true)
+							sortOrderButton(ascending: false)
 						}
-						Divider()
-						sortOrderButton(ascending: true)
-						sortOrderButton(ascending: false)
 					}
 				}
 			}

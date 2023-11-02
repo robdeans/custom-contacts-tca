@@ -18,8 +18,6 @@ struct GroupListView: View {
 	@State private var createGroupView: GroupCreationView?
 	@State private var groupDetailView: GroupDetailView?
 
-	let onToggleTapped: () -> Void
-
 	var body: some View {
 		NavigationStack {
 			ZStack {
@@ -36,13 +34,6 @@ struct GroupListView: View {
 			.navigationTitle(Localizable.Root.Groups.title)
 			.sheet(item: $createGroupView) { $0 }
 			.navigationDestination(to: $groupDetailView) { $0 }
-			.toolbar {
-				ToolbarItem(placement: .topBarLeading) {
-					Button("🔄") {
-						onToggleTapped()
-					}
-				}
-			}
 		}
 		.modelContainer(for: ContactGroup.self)
 	}

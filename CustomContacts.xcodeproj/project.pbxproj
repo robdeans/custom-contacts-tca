@@ -29,6 +29,8 @@
 		DF3B36FD21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B36DF21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift */; };
 		DF3B370121ECAFDD0033C858 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B370021ECAFDD0033C858 /* String+Localization.swift */; };
 		E81C37AD2AAFAC3A00FE487F /* CustomContactsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81C37AC2AAFAC3A00FE487F /* CustomContactsTest.swift */; };
+		E821393C2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */; };
+		E821393E2B1A5C49009ABF4E /* ScreenSizeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E821393D2B1A5C49009ABF4E /* ScreenSizeKey.swift */; };
 		E8233DD22A8695EB00D52D84 /* Contact+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */; };
 		E84C26052AA23624008D3FB6 /* ContactListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84C26042AA23624008D3FB6 /* ContactListViewModel.swift */; };
 		E87A3DE72A8ABE0F0068F34C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DE62A8ABE0F0068F34C /* Constants.swift */; };
@@ -105,6 +107,8 @@
 		DF3B370021ECAFDD0033C858 /* String+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		E81C37AB2AAFAC3A00FE487F /* CustomContactsTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomContactsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		E81C37AC2AAFAC3A00FE487F /* CustomContactsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomContactsTest.swift; sourceTree = "<group>"; };
+		E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeSwipeCardFlipModifier.swift; sourceTree = "<group>"; };
+		E821393D2B1A5C49009ABF4E /* ScreenSizeKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSizeKey.swift; sourceTree = "<group>"; };
 		E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact+Extensions.swift"; sourceTree = "<group>"; };
 		E84C26042AA23624008D3FB6 /* ContactListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListViewModel.swift; sourceTree = "<group>"; };
 		E87A3DE62A8ABE0F0068F34C /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -289,8 +293,10 @@
 		E87A3DEC2A8AC0D30068F34C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */,
 				E87A3DF72A8BE4A30068F34C /* NavigationLinkHelper.swift */,
 				E8FA23DB2AA77847006DE429 /* PreferenceKeys.swift */,
+				E821393D2B1A5C49009ABF4E /* ScreenSizeKey.swift */,
 				E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */,
 			);
 			path = Common;
@@ -635,6 +641,7 @@
 				DF3B36C021ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift in Sources */,
 				E8D67B9D2A8AB27200300FE0 /* GroupListView.swift in Sources */,
 				FCDAFBD827C54741001314C2 /* AutoDebugDescription.generated.swift in Sources */,
+				E821393E2B1A5C49009ABF4E /* ScreenSizeKey.swift in Sources */,
 				FCDAFBD627C54741001314C2 /* AutoLenses.generated.swift in Sources */,
 				E8233DD22A8695EB00D52D84 /* Contact+Extensions.swift in Sources */,
 				E8D67B9B2A8AB21C00300FE0 /* ContactListView.swift in Sources */,
@@ -667,6 +674,7 @@
 				F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */,
 				E87A3DFA2A8BE6F90068F34C /* GroupCardView.swift in Sources */,
 				E8FA23DC2AA77847006DE429 /* PreferenceKeys.swift in Sources */,
+				E821393C2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift in Sources */,
 				E8C33FF52A9FE04E0004E455 /* FilterView.swift in Sources */,
 				FCDAFBDB27C54741001314C2 /* PluggableApplicationDelegate.generated.swift in Sources */,
 				0F79D60A29F1F50000346E43 /* App.swift in Sources */,
