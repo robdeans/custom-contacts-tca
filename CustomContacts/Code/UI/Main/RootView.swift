@@ -6,6 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
+import CustomContactsHelpers
 import SwiftUI
 
 private enum Layout {
@@ -22,14 +23,14 @@ struct RootView: View {
 		contentView
 			.rotation3DEffect(rotationAngle, axis: Layout.rotationAxis)
 			.onEdgeSwipe(
-				onChanged: { angle, showTopCard in
+				onChanged: { angle in
 					rotationAngle = angle
-					showContactList = showTopCard
+					showContactList = Self.showTopCard(angle: angle)
 				},
-				onEnded: { angle, showTopCard in
+				onEnded: { angle in
 					withAnimation {
 						rotationAngle = angle
-						showContactList = showTopCard
+						showContactList = Self.showTopCard(angle: angle)
 					}
 				}
 			)
@@ -50,6 +51,31 @@ struct RootView: View {
 					Layout.flippedAngle,
 					axis: Layout.rotationAxis
 				)
+		}
+	}
+}
+
+extension RootView {
+	private static func showTopCard(angle: Angle) -> Bool {
+		switch angle.degrees {
+		case 0...90:
+			return true
+		case 90...180:
+			return false
+		case 180...270:
+			return false
+		case 270...360:
+			return true
+		case -90...0:
+			return true
+		case -180...(-90):
+			return false
+		case -270...(-180):
+			return false
+		case -360...(-270):
+			return true
+		default:
+			LogFatal("Should never exceed 360 degrees")
 		}
 	}
 }
