@@ -10,10 +10,11 @@ import CustomContactsAPIKit
 import SwiftUI
 
 struct ContactListView: View {
+	@StateObject private var contactListNavigation = ContactListNavigation()
 	@Bindable var viewModel: ViewModel
 
 	var body: some View {
-		NavigationStack {
+		NavigationStack(path: $contactListNavigation.path) {
 			VStack {
 				FilterView(
 					filterQueries: viewModel.filterQueries,
@@ -23,37 +24,36 @@ struct ContactListView: View {
 				)
 				List {
 					ForEach(viewModel.contactsDisplayable) { contact in
-						NavigationLink(
-							destination: {
-								ContactDetailView(contact: contact)
-							},
-							label: {
-								ContactCardView(contact: contact)
+						ContactCardView(contact: contact)
+							.contentShape(Rectangle())
+							.onTapGesture {
+								contactListNavigation.path.append(.contactDetail(contact))
 							}
-						)
 					}
 				}
 				.searchable(text: $viewModel.searchText)
 				.refreshable {
 					await viewModel.loadContacts(refresh: true)
 				}
-				.navigationTitle(Localizable.Root.Contacts.title)
-				.toolbar {
-					ToolbarItem(placement: .topBarTrailing) {
-						Menu("🔃") {
-							ForEach(Contact.SortOption.Parameter.allCases, id: \.rawValue) { parameter in
-								Button(parameter.title) {
-									viewModel.setSortOption(to: parameter)
-								}
+			}
+			.navigationDestination(for: contactListNavigation)
+			.navigationTitle(Localizable.Root.Contacts.title)
+			.toolbar {
+				ToolbarItem(placement: .topBarTrailing) {
+					Menu("🔃") {
+						ForEach(Contact.SortOption.Parameter.allCases, id: \.rawValue) { parameter in
+							Button(parameter.title) {
+								viewModel.setSortOption(to: parameter)
 							}
-							Divider()
-							sortOrderButton(ascending: true)
-							sortOrderButton(ascending: false)
 						}
+						Divider()
+						sortOrderButton(ascending: true)
+						sortOrderButton(ascending: false)
 					}
 				}
 			}
 		}
+		.environmentObject(contactListNavigation)
 	}
 
 	private func sortOrderButton(ascending: Bool) -> some View {
