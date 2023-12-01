@@ -41,16 +41,15 @@ struct RootView: View {
 
 	private var contentView: some View {
 		ZStack {
-			if showContactList {
-				ContactListView(viewModel: contactListViewModel)
-			} else {
-				GroupListView()
-					// Handles mirrored image
-					.rotation3DEffect(
-						Layout.flippedAngle,
-						axis: Layout.rotationAxis
-					)
-			}
+			ContactListView(viewModel: contactListViewModel)
+				.opacity(showContactList ? 1 : 0)
+			GroupListView()
+				.opacity(showContactList ? 0 : 1)
+				// Handles mirrored image
+				.rotation3DEffect(
+					Layout.flippedAngle,
+					axis: Layout.rotationAxis
+				)
 		}
 	}
 }
