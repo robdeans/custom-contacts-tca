@@ -52,6 +52,8 @@ struct RootView: View {
 					axis: Layout.rotationAxis
 				)
 		}
+		// Hack to prevent NavigationStack resizing jitters
+		.frame(height: UIScreen.main.bounds.height + 25)
 	}
 }
 
