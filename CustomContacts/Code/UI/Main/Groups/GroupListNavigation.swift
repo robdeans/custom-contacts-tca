@@ -16,14 +16,18 @@ final class GroupListNavigation: NavigationStackManager {
 extension GroupListNavigation {
 	enum Path: NavigationPath {
 		case groupDetail(ContactGroup)
+		case contactDetail(Contact)
 	}
 }
 
 extension GroupListNavigation.Path {
+	@ViewBuilder
 	var destination: some View {
 		switch self {
 		case .groupDetail(let group):
 			GroupDetailView(group: group)
+		case .contactDetail(let contact):
+			ContactDetailView(contact: contact)
 		}
 	}
 }

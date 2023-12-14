@@ -11,6 +11,7 @@ import Dependencies
 import SwiftUI
 
 struct GroupCardView: View {
+	@EnvironmentObject private var groupNavigation: GroupListNavigation
 	@Dependency(\.contactsRepository) private var contactsRepository
 	let group: ContactGroup
 	let onGroupTapped: () -> Void
@@ -25,8 +26,16 @@ struct GroupCardView: View {
 					group.contactIDs
 						.compactMap { contactsRepository.contact(for: $0) }
 						.sorted()
-				) {
-					Text($0.fullName)
+				) { contact in
+					Button(
+						action: {
+							groupNavigation.path.append(.contactDetail(contact))
+						},
+						label: {
+							Text(contact.fullName)
+						}
+					)
+					.buttonStyle(PlainButtonStyle())
 				}
 			},
 			label: {
