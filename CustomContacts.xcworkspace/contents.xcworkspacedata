@@ -8,31 +8,6 @@
       location = "group:Templates"
       name = "Templates">
       <Group
-         location = "group:Sourcery"
-         name = "Sourcery">
-         <FileRef
-            location = "group:AutoInit.stencil">
-         </FileRef>
-         <FileRef
-            location = "group:PluggableApplicationDelegate.swifttemplate">
-         </FileRef>
-         <FileRef
-            location = "group:AutoHashable.stencil">
-         </FileRef>
-         <FileRef
-            location = "group:AutoCodable.swifttemplate">
-         </FileRef>
-         <FileRef
-            location = "group:AutoEquatable.stencil">
-         </FileRef>
-         <FileRef
-            location = "group:AutoLenses.stencil">
-         </FileRef>
-         <FileRef
-            location = "group:AutoDebugDescription.swifttemplate">
-         </FileRef>
-      </Group>
-      <Group
          location = "group:SwiftGen"
          name = "SwiftGen">
          <FileRef
@@ -65,9 +40,6 @@
       </FileRef>
       <FileRef
          location = "group:tools_helpers.rb">
-      </FileRef>
-      <FileRef
-         location = "group:run_sourcery.sh">
       </FileRef>
       <Group
          location = "group:Configs"
