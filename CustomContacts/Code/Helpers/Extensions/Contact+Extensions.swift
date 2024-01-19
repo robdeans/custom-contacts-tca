@@ -31,10 +31,6 @@ extension DefaultsKeys {
 	}
 }
 
-extension DefaultKeys {
-	private static let contactsSortOption = "contactsSortOption"
-}
-
 extension Sequence where Element == Contact {
 	func sorted(by sortOption: Contact.SortOption = .current) -> [Contact] {
 		switch sortOption.parameter {

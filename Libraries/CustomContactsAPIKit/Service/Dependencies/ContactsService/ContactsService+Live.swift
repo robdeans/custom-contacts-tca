@@ -9,7 +9,7 @@
 import Contacts
 import CustomContactsModels
 
-final class ContactsServiceLive: ContactsService {
+final class ContactsServiceLive {
 	private static let store = CNContactStore()
 	private static let keysToFetch: [Any] = [
 		CNContactIdentifierKey,
@@ -22,7 +22,9 @@ final class ContactsServiceLive: ContactsService {
 		CNContactPostalAddressesKey,
 		CNContactPhoneNumbersKey,
 	]
+}
 
+extension ContactsServiceLive: ContactsService {
 	func fetchContacts() async throws -> [Contact] {
 		let request = CNContactFetchRequest(keysToFetch: Self.keysToFetch.compactMap { $0 as? CNKeyDescriptor })
 		return try await withCheckedThrowingContinuation { continuation in
