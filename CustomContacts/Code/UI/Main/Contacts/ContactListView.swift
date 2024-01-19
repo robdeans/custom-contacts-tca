@@ -16,12 +16,17 @@ struct ContactListView: View {
 	var body: some View {
 		NavigationStack(path: $contactListNavigation.path) {
 			VStack {
+/*
+
+Disable until functionality and placement can be better considered
+ 
 				FilterView(
 					filterQueries: viewModel.filterQueries,
 					onAddQueryTapped: { viewModel.addQuery($0) },
 					onRemoveQueryTapped: { viewModel.removeQuery($0) },
 					onClearTapped: { viewModel.removeAllQueries() }
 				)
+*/
 				List {
 					ForEach(viewModel.contactsSections(), id: \.0) { letter, contacts in
 						Section(letter.capitalized) {
