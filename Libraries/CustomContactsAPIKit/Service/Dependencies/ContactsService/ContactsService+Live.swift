@@ -7,6 +7,7 @@
 //
 
 import Contacts
+import CustomContactsModels
 
 final class ContactsServiceLive: ContactsService {
 	private static let store = CNContactStore()

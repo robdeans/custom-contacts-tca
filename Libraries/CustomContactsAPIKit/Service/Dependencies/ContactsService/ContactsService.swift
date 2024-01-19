@@ -6,6 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
+import CustomContactsModels
 import Dependencies
 
 public protocol ContactsService {

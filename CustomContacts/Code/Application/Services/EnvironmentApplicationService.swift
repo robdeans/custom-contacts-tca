@@ -6,8 +6,6 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsAPIKit
-import CustomContactsHelpers
 import Dependencies
 import UIKit
 

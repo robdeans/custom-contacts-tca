@@ -7,7 +7,8 @@
 //
 
 import Combine
-import CustomContactsAPIKit
+import CustomContactsModels
+import CustomContactsService
 import Dependencies
 import SwiftyUserDefaults
 

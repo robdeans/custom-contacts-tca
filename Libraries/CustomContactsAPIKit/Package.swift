@@ -17,7 +17,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "CustomContactsAPIKit",
-			targets: ["CustomContactsAPIKit"]
+			targets: ["CustomContactsService", "CustomContactsModels"]
 		),
 	],
 	dependencies: [
@@ -30,15 +30,23 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "CustomContactsAPIKit",
+			name: "CustomContactsService",
 			dependencies: [
 				// global
 				.product(name: "Dependencies", package: "swift-dependencies"),
 				// local
 				"ArkanaKeys",
 				"CustomContactsHelpers",
+				"CustomContactsModels",
 			],
-			path: "./Sources"
+			path: "./Service"
 		),
+		.target(
+			name: "CustomContactsModels",
+			dependencies: [
+				"CustomContactsHelpers",
+			],
+			path: "./Models"
+		)
 	]
 )

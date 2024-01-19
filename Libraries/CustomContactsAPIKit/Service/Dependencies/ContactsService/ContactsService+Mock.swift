@@ -6,7 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import Contacts
+import CustomContactsModels
 
 final class ContactsServiceMock: ContactsService {
 	func fetchContacts() async throws -> [Contact] {

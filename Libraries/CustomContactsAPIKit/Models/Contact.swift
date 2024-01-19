@@ -27,7 +27,7 @@ extension Contact {
 extension Contact {
 	public typealias ID = String
 
-	init(_ cnContact: CNContact) {
+	public init(_ cnContact: CNContact) {
 		id = cnContact.identifier
 		firstName = cnContact.givenName
 		lastName = cnContact.familyName
