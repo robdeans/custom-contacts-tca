@@ -7,11 +7,12 @@
 //
 
 import Contacts
+import CustomContactsHelpers
 
 public struct Contact: Identifiable {
 	public let id: Contact.ID
-	public var firstName: String
-	public var lastName: String
+	public let firstName: String
+	public let lastName: String
 	public let displayName: String
 }
 
@@ -30,7 +31,13 @@ extension Contact {
 		id = cnContact.identifier
 		firstName = cnContact.givenName
 		lastName = cnContact.familyName
-		displayName = Self.contactNameFormatter.string(from: cnContact) ?? ""
+		displayName = Self.contactNameFormatter.string(from: cnContact)
+		?? cnContact.emailAddresses.first.map { String($0.value) }
+		?? cnContact.phoneNumbers.first.map { String($0.value.stringValue) }
+		?? ""
+		if displayName.isEmpty {
+			LogWarning("Blank displayName: \(cnContact)")
+		}
 	}
 }
 

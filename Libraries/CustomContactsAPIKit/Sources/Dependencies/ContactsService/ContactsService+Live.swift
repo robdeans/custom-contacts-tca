@@ -19,6 +19,7 @@ final class ContactsServiceLive: ContactsService {
 		CNContactOrganizationNameKey,
 		CNContactEmailAddressesKey,
 		CNContactPostalAddressesKey,
+		CNContactPhoneNumbersKey,
 	]
 
 	func fetchContacts() async throws -> [Contact] {
