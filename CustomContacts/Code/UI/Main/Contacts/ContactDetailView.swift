@@ -13,6 +13,6 @@ struct ContactDetailView: View {
 	let contact: Contact
 
 	var body: some View {
-		Text(contact.fullName)
+		Text(contact.displayName)
 	}
 }

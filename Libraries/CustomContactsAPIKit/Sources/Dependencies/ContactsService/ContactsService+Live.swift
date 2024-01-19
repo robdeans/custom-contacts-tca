@@ -11,9 +11,14 @@ import Contacts
 final class ContactsServiceLive: ContactsService {
 	private static let store = CNContactStore()
 	private static let keysToFetch: [Any] = [
+		CNContactIdentifierKey,
+		CNContactTypeKey,
 		CNContactGivenNameKey,
 		CNContactFamilyNameKey,
 		CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
+		CNContactOrganizationNameKey,
+		CNContactEmailAddressesKey,
+		CNContactPostalAddressesKey,
 	]
 
 	func fetchContacts() async throws -> [Contact] {

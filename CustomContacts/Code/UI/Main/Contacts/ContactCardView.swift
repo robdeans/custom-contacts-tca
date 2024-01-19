@@ -23,7 +23,7 @@ struct ContactCardView: View {
 
 	var body: some View {
 		HStack {
-			Text(contact.fullName)
+			Text(contact.displayName)
 			self.contactGroupIndicatorView
 			Spacer()
 		}

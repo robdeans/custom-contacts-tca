@@ -32,7 +32,7 @@ struct GroupCardView: View {
 							groupNavigation.path.append(.contactDetail(contact))
 						},
 						label: {
-							Text(contact.fullName)
+							Text(contact.displayName)
 						}
 					)
 					.buttonStyle(PlainButtonStyle())
