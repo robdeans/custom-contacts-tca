@@ -66,7 +66,6 @@ private struct EdgeSwipeCardFlipModifier: ViewModifier {
 							}
 						}
 
-						print("changed angle: \(relativeAngle.degrees)")
 						onChanged?(relativeAngle)
 					}
 					.onEnded { gesture in
@@ -121,7 +120,6 @@ private struct EdgeSwipeCardFlipModifier: ViewModifier {
 						}
 
 						onEnded?(endAngle)
-						print("end angle: \(rotationAngle.degrees)")
 
 						switch endAngle.degrees {
 						case 360, -360:
@@ -129,7 +127,6 @@ private struct EdgeSwipeCardFlipModifier: ViewModifier {
 						default:
 							rotationAngle = endAngle
 						}
-						print("rotation angle: \(rotationAngle.degrees)")
 					}
 			)
 	}
