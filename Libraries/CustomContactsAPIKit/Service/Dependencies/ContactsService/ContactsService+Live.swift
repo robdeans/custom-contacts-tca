@@ -32,7 +32,7 @@ final class ContactsServiceLive: ContactsService {
 				try Self.store.enumerateContacts(with: request) { cnContact, _ in
 					contacts.append(Contact(cnContact))
 				}
-				LogInfo("Returnings \(contacts.count) contacts")
+				LogInfo("Returning \(contacts.count) contacts")
 				continuation.resume(returning: contacts)
 			} catch {
 				continuation.resume(throwing: error)

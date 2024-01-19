@@ -15,18 +15,19 @@ extension ContactListView {
 	@Observable final class ViewModel {
 		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
 		private var contacts: [Contact] = []
+		private(set) var isLoading = false
 		private(set) var error: Error?
 
 		var searchText = ""
 		private(set) var filterQueries: [FilterQuery] = []
 
-		init() {
-			Task {
-				await loadContacts(refresh: true)
-			}
-		}
-
 		@MainActor func loadContacts(refresh: Bool = false) async {
+			defer {
+				isLoading = false
+			}
+			error = nil
+			isLoading = true
+
 			do {
 				contacts = try await contactsRepository.getContacts(refresh: refresh)
 			} catch {
@@ -43,9 +44,9 @@ extension ContactListView.ViewModel {
 			let letter = {
 				switch Contact.SortOption.current.parameter {
 				case .firstName:
-					contact.firstName.first.map { String($0) } ?? "-"
+					contact.firstName.first.map { String($0).uppercased() } ?? "-"
 				case .lastName:
-					contact.lastName.first.map { String($0) } ?? "-"
+					contact.lastName.first.map { String($0).uppercased() } ?? "-"
 				}
 			}()
 			var contacts = valueDictionary[letter] ?? []
