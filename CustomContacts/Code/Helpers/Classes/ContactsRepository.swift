@@ -38,7 +38,7 @@ private final class ContactsRepositoryLive: ContactsRepository {
 	@Dependency(\.contactsService) private var contactsService
 
 	var allContactsGroup: ContactGroup {
-		ContactGroup.create(id: "", name: "All Contacts", contactIDs: contactIDs, colorHex: "")
+		ContactGroup(id: "", name: "All Contacts", contactIDs: contactIDs, colorHex: "")
 	}
 
 	private var contacts: [Contact] = []
@@ -104,6 +104,6 @@ private final class ContactsRepositoryPreview: ContactsRepository {
 	}
 
 	var allContactsGroup: ContactGroup {
-		ContactGroup.create(id: "", name: "All Contacts", contactIDs: contactIDs, colorHex: "")
+		ContactGroup(id: "", name: "All Contacts", contactIDs: contactIDs, colorHex: "")
 	}
 }

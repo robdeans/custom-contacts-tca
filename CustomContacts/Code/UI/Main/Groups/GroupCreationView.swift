@@ -75,7 +75,7 @@ struct GroupCreationView: View {
 
 				Button(
 					action: {
-						let newGroup = ContactGroup.create(
+						let newGroup = ContactGroup(
 							id: id,
 							name: name,
 							contactIDs: selectedContactIDs,

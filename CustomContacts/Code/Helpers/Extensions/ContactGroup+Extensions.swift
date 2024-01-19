@@ -18,7 +18,7 @@ extension ContactGroup {
 
 	static var empty: ContactGroup {
 		@Dependency(\.uuid) var uuid
-		return ContactGroup.create(
+		return ContactGroup(
 			id: uuid().uuidString,
 			name: "",
 			contactIDs: [],
