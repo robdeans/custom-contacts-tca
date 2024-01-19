@@ -56,3 +56,22 @@ extension Sequence where Element == Contact {
 		return self.map { $0 as Contact }
 	}
 }
+
+extension Sequence where Element == (String, [Contact]) {
+	func sorted(by sortOption: Contact.SortOption = .current) -> [(String, [Contact])] {
+		switch sortOption.parameter {
+		case .firstName:
+			return self.sorted {
+				sortOption.ascending ? $0.0 < $1.0
+				: $0.0 > $1.0
+			}
+			.map { ($0.0, $0.1.sorted()) }
+		case .lastName:
+			return self.sorted {
+				sortOption.ascending ? $0.0 < $1.0
+				: $0.0 > $1.0
+			}
+			.map { ($0.0, $0.1.sorted()) }
+		}
+	}
+}

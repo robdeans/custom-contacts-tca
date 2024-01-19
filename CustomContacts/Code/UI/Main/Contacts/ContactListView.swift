@@ -23,14 +23,19 @@ struct ContactListView: View {
 					onClearTapped: { viewModel.removeAllQueries() }
 				)
 				List {
-					ForEach(viewModel.contactsDisplayable) { contact in
-						ContactCardView(contact: contact)
-							.contentShape(Rectangle())
-							.onTapGesture {
-								contactListNavigation.path.append(.contactDetail(contact))
+					ForEach(viewModel.contactsSections(), id: \.0) { letter, contacts in
+						Section(letter.capitalized) {
+							ForEach(contacts) { contact in
+								ContactCardView(contact: contact)
+									.contentShape(Rectangle())
+									.onTapGesture {
+										contactListNavigation.path.append(.contactDetail(contact))
+									}
 							}
+						}
 					}
 				}
+				.listStyle(.plain)
 				.searchable(text: $viewModel.searchText)
 				.refreshable {
 					await viewModel.loadContacts(refresh: true)
