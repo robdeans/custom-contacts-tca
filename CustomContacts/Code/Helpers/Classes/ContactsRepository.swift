@@ -24,6 +24,7 @@ protocol ContactsRepository {
 private enum ContactsRepositoryKey: DependencyKey {
 	static let liveValue: ContactsRepository = ContactsRepositoryLive()
 	static let previewValue: ContactsRepository = ContactsRepositoryPreview()
+	static let testValue: ContactsRepository = ContactsRepositoryPreview()
 }
 
 extension DependencyValues {

@@ -6,8 +6,8 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsModels
 import CustomContactsHelpers
+import CustomContactsModels
 import Dependencies
 import SwiftUI
 

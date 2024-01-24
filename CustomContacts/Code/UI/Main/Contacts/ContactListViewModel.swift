@@ -14,7 +14,7 @@ import Observation
 extension ContactListView {
 	@Observable final class ViewModel {
 		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
-		private var contacts: [Contact] = []
+		private(set) var contacts: [Contact] = []
 		private(set) var isLoading = false
 		private(set) var error: Error?
 
