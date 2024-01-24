@@ -15,16 +15,17 @@ struct GroupListView: View {
 	@Query(sort: [SortDescriptor(\ContactGroup.name)])
 	var groups: [ContactGroup]
 
+	@StateObject private var groupListNavigation = GroupListNavigation()
+
 	@State private var createGroupView: GroupCreationView?
-	@State private var groupDetailView: GroupDetailView?
 
 	var body: some View {
-		NavigationStack {
+		NavigationStack(path: $groupListNavigation.path) {
 			ZStack {
 				List {
 					ForEach(groups) { group in
 						GroupCardView(group: group) {
-							groupDetailView = GroupDetailView(group: group)
+							groupListNavigation.path.append(.groupDetail(group))
 						}
 					}
 				}
@@ -33,9 +34,10 @@ struct GroupListView: View {
 			}
 			.navigationTitle(Localizable.Root.Groups.title)
 			.sheet(item: $createGroupView) { $0 }
-			.navigationDestination(to: $groupDetailView) { $0 }
+			.navigationDestination(for: groupListNavigation)
 		}
 		.modelContainer(for: ContactGroup.self)
+		.environmentObject(groupListNavigation)
 	}
 
 	private var createGroupButton: some View {

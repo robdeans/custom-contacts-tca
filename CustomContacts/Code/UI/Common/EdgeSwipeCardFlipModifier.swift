@@ -16,8 +16,8 @@ extension View {
 	/// and returns an angle of rotation, as well as a Boolean indicating whether the top card is visibile.
 	func onEdgeSwipe(
 		minThreshold: CGFloat = 20.0,
-		onChanged: ((Angle, Bool) -> Void)? = nil,
-		onEnded: ((Angle, Bool) -> Void)? = nil
+		onChanged: ((Angle) -> Void)? = nil,
+		onEnded: ((Angle) -> Void)? = nil
 	) -> some View {
 		modifier(EdgeSwipeCardFlipModifier(minThreshold: minThreshold, onChanged: onChanged, onEnded: onEnded))
 	}
@@ -27,8 +27,8 @@ private struct EdgeSwipeCardFlipModifier: ViewModifier {
 	@Environment(\.screenSize) private var screenSize
 
 	let minThreshold: CGFloat
-	let onChanged: ((Angle, Bool) -> Void)?
-	let onEnded: ((Angle, Bool) -> Void)?
+	let onChanged: ((Angle) -> Void)?
+	let onEnded: ((Angle) -> Void)?
 
 	@State private var rotationAngle = Angle.zero
 
@@ -45,56 +45,88 @@ private struct EdgeSwipeCardFlipModifier: ViewModifier {
 						/ screenSize.width
 						* 180
 
+						let relativeAngle: Angle
 						switch rotationAngle.degrees {
 						case 360, -360:
-							rotationAngle = .zero
-						case -179...179:
-							rotationAngle = Angle(degrees: rotationDegrees)
+							relativeAngle = .zero
+						case -360...(-180):
+							relativeAngle = Angle(degrees: rotationDegrees - 180)
+						case -180..<180:
+							relativeAngle = Angle(degrees: rotationDegrees)
 						case 180..<360:
-							rotationAngle = Angle(degrees: rotationDegrees + 180)
-						case -359...(-180):
-							rotationAngle = Angle(degrees: rotationDegrees - 180)
+							relativeAngle = Angle(degrees: rotationDegrees + 180)
 						default:
+							LogWarning("These cases should never be accessible")
 							if rotationDegrees > 360 {
-								rotationAngle = Angle(degrees: rotationDegrees - 360)
+								relativeAngle = Angle(degrees: rotationDegrees - 360)
 							} else if rotationDegrees < -360 {
-								rotationAngle = Angle(degrees: rotationDegrees + 360)
+								relativeAngle = Angle(degrees: rotationDegrees + 360)
+							} else {
+								relativeAngle = .zero
 							}
 						}
 
-						onChanged?(rotationAngle, Self.showTopCard(degrees: rotationAngle.degrees))
+						onChanged?(relativeAngle)
 					}
 					.onEnded { gesture in
 						guard gestureExceedsThreshold(gesture) else {
 							return
 						}
-						var endAngle = Angle.zero
+						let startAngle = rotationAngle
+						let endAngle: Angle
 
 						// If is swiping from left
 						if 0...minThreshold ~= gesture.startLocation.x {
 							// and predictedEndLocation is more than half the screen
 							if gesture.predictedEndLocation.x > (screenSize.width / 2) {
 								// continue to full rotation
-								endAngle = Angle(degrees: rotationAngle.degrees > 180 ? 360 : 180)
+								switch startAngle.degrees {
+								case .zero:
+									endAngle = Angle(degrees: 180)
+								case 180:
+									endAngle = Angle(degrees: 360)
+								case -180:
+									endAngle = Angle(degrees: 0)
+								default:
+									LogFatal("DO NOT DO THIS")
+								}
 							} else {
 								// otherwise cancel rotation
-								endAngle = Angle(degrees: rotationAngle.degrees > 180 ? 180 : .zero)
+								endAngle = startAngle
 							}
 						}
 						// If is swiping from right
 						else if (screenSize.width - minThreshold)...screenSize.width ~= gesture.startLocation.x {
 							// and predictedEndLocation is more than half the screen
 							if gesture.predictedEndLocation.x < (screenSize.width / 2) {
-								// continue to full rotation, and flip the card if it hasn't already been flipped
-								endAngle = Angle(degrees: rotationAngle.degrees < -180 ? -360 : -180)
+								// continue to full rotation
+								switch startAngle.degrees {
+								case .zero:
+									endAngle = Angle(degrees: -180)
+								case 180:
+									endAngle = Angle(degrees: 0)
+								case -180:
+									endAngle = Angle(degrees: -360)
+								default:
+									LogFatal("DO NOT DO THIS")
+								}
 							} else {
 								// otherwise cancel rotation, and unflip the card if it has already been flipped
-								endAngle = Angle(degrees: rotationAngle.degrees < -180 ? -180 : .zero)
+								endAngle = startAngle
 							}
+						} else {
+							LogWarning("End angle not initialized correctly")
+							endAngle = .zero
 						}
 
-						onEnded?(endAngle, Self.showTopCard(degrees: endAngle.degrees))
-						rotationAngle = endAngle
+						onEnded?(endAngle)
+
+						switch endAngle.degrees {
+						case 360, -360:
+							rotationAngle = Angle(degrees: 0)
+						default:
+							rotationAngle = endAngle
+						}
 					}
 			)
 	}
@@ -104,28 +136,5 @@ extension EdgeSwipeCardFlipModifier {
 	private func gestureExceedsThreshold(_ gesture: DragGesture.Value) -> Bool {
 		gesture.startLocation.x <= minThreshold
 		|| gesture.startLocation.x >= (screenSize.width - minThreshold)
-	}
-
-	private static func showTopCard(degrees: Double) -> Bool {
-		switch degrees {
-		case 0...90:
-			return true
-		case 90...180:
-			return false
-		case 180...270:
-			return false
-		case 270...360:
-			return true
-		case -90...0:
-			return true
-		case -180...(-90):
-			return false
-		case -270...(-180):
-			return false
-		case -360...(-270):
-			return true
-		default:
-			LogFatal("Should never exceed 360 degrees")
-		}
 	}
 }
