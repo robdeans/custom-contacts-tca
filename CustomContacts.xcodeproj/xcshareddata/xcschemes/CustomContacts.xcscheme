@@ -25,22 +25,6 @@
          <ExecutionAction
             ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
             <ActionContent
-               title = "Run Sourcery"
-               scriptText = "${PROJECT_DIR}/Tools/run_sourcery.sh&#10;">
-               <EnvironmentBuildable>
-                  <BuildableReference
-                     BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "3DFCFB501E5DA85B00D4A874"
-                     BuildableName = "CustomContacts.app"
-                     BlueprintName = "CustomContacts"
-                     ReferencedContainer = "container:CustomContacts.xcodeproj">
-                  </BuildableReference>
-               </EnvironmentBuildable>
-            </ActionContent>
-         </ExecutionAction>
-         <ExecutionAction
-            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
-            <ActionContent
                title = "Disable com.apple.CoreTelephony errors logging"
                scriptText = "xcrun simctl spawn booted log config --mode &quot;level:off&quot; --subsystem com.apple.CoreTelephony&#10;exit 0&#10;">
             </ActionContent>

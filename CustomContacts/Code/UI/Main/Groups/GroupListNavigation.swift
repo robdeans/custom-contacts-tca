@@ -6,7 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsAPIKit
+import CustomContactsModels
 import SwiftUI
 
 final class GroupListNavigation: NavigationStackManager {

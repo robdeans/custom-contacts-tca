@@ -6,7 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsAPIKit
+import CustomContactsModels
 import CustomContactsHelpers
 import Dependencies
 import SwiftUI
@@ -18,7 +18,7 @@ extension ContactGroup {
 
 	static var empty: ContactGroup {
 		@Dependency(\.uuid) var uuid
-		return ContactGroup.create(
+		return ContactGroup(
 			id: uuid().uuidString,
 			name: "",
 			contactIDs: [],

@@ -6,7 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsAPIKit
+import CustomContactsModels
 import SwiftyUserDefaults
 
 extension Contact {
@@ -29,10 +29,6 @@ extension DefaultsKeys {
 	var contactsSortOption: DefaultsKey<Contact.SortOption> {
 		.init("contactsSortOption", defaultValue: Contact.SortOption(parameter: .lastName, ascending: true))
 	}
-}
-
-extension DefaultKeys {
-	private static let contactsSortOption = "contactsSortOption"
 }
 
 extension Sequence where Element == Contact {

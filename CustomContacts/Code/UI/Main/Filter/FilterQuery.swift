@@ -7,7 +7,7 @@
 //
 
 import Combine
-import CustomContactsAPIKit
+import CustomContactsModels
 import Dependencies
 import Observation
 

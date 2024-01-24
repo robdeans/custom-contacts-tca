@@ -27,16 +27,6 @@ public final class ContactGroup {
 		self.contactIDs = contactIDs
 		self.colorHex = colorHex
 	}
-
-	/// TODO: workaround to appease the beta compiler
-	public static func create(
-		id: String,
-		name: String,
-		contactIDs: Set<Contact.ID>,
-		colorHex: String
-	) -> ContactGroup {
-		ContactGroup(id: id, name: name, contactIDs: contactIDs, colorHex: colorHex)
-	}
 }
 
 extension ContactGroup {

@@ -6,13 +6,11 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsAPIKit
+import CustomContactsModels
 import SwiftUI
 
 @main
 struct CustomContactsApp: App {
-	@UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-
 	var body: some Scene {
 		WindowGroup {
 			RootView()
