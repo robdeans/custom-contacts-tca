@@ -9,19 +9,14 @@
 import CustomContactsModels
 import Dependencies
 
-public protocol ContactsService {
-	func fetchContacts() async throws -> [Contact]
-	func requestPermissions() async throws -> Bool
-}
-
-private enum ContactsServiceKey: DependencyKey {
-	static let liveValue: ContactsService = ContactsServiceLive()
-	static let previewValue: ContactsService = ContactsServiceMock()
-}
-
 extension DependencyValues {
 	public var contactsService: ContactsService {
-		get { self[ContactsServiceKey.self] }
-		set { self[ContactsServiceKey.self] = newValue }
+		get { self[ContactsService.self] }
+		set { self[ContactsService.self] = newValue }
 	}
+}
+
+public struct ContactsService: DependencyKey {
+	public var fetchContacts: () async throws -> [Contact]
+	public var requestPermissions: () async throws -> Bool
 }

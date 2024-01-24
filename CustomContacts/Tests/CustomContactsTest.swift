@@ -16,4 +16,18 @@ final class CustomContactsTest: XCTestCase {
 		XCTAssert(!viewModel.contacts.isEmpty)
 
 	}
+
+	func testLoadContactsError() async {
+		let viewModel = withDependencies {
+			$0.contactsService.fetchContacts = {
+				struct SomeError: Error {}
+				throw SomeError()
+			}
+		} operation: {
+			ContactListView.ViewModel()
+		}
+		await viewModel.loadContacts(refresh: true)
+		XCTAssert(viewModel.error != nil)
+
+	}
 }
