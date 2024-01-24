@@ -12,6 +12,15 @@ import CustomContactsService
 import Dependencies
 import SwiftyUserDefaults
 
+struct ContactsRepository1 {
+	var getContacts: (_ refresh: Bool) async throws -> [Contact]
+	var sortContacts: (_ sortOption: Contact.SortOption) -> [Contact]
+	var contact: (_ id: Contact.ID) -> Contact?
+
+	var contactIDs: Set<Contact.ID>
+	var allContactsGroup: ContactGroup
+}
+
 protocol ContactsRepository {
 	func getContacts(refresh: Bool) async throws -> [Contact]
 	func sortContacts(by sortOption: Contact.SortOption) -> [Contact]
@@ -23,8 +32,7 @@ protocol ContactsRepository {
 
 private enum ContactsRepositoryKey: DependencyKey {
 	static let liveValue: ContactsRepository = ContactsRepositoryLive()
-	static let previewValue: ContactsRepository = ContactsRepositoryPreview()
-	static let testValue: ContactsRepository = ContactsRepositoryPreview()
+	static let testValue: ContactsRepository = liveValue
 }
 
 extension DependencyValues {
@@ -86,25 +94,36 @@ private final class ContactsRepositoryLive: ContactsRepository {
 	}
 }
 
-// MARK: - Previews Repo
-private final class ContactsRepositoryPreview: ContactsRepository {
-	func getContacts(refresh: Bool) async throws -> [Contact] {
-		Contact.mockArray
-	}
+extension ContactsRepository1: DependencyKey {
+	static var liveValue: Self {
+		@Dependency(\.contactsService) var contactsService
 
-	func contact(for id: Contact.ID) -> Contact? {
-		Contact.mockArray.first(where: { $0.id == id })
+		return Self(
+			getContacts: <#T##(Bool) async throws -> [Contact]##(Bool) async throws -> [Contact]##(_ refresh: Bool) async throws -> [Contact]#>,
+			sortContacts: <#T##(Contact.SortOption) -> [Contact]##(Contact.SortOption) -> [Contact]##(_ sortOption: Contact.SortOption) -> [Contact]#>,
+			contact: <#T##(Contact.ID) -> Contact?##(Contact.ID) -> Contact?##(_ id: Contact.ID) -> Contact?#>,
+			contactIDs: <#T##Set<Contact.ID>#>,
+			allContactsGroup: <#T##ContactGroup#>
+		)
 	}
-
-	func sortContacts(by sortOption: Contact.SortOption) -> [Contact] {
-		Contact.mockArray
-	}
-
-	var contactIDs: Set<Contact.ID> {
-		Set(Contact.mockArray.map { $0.id })
-	}
-
-	var allContactsGroup: ContactGroup {
-		ContactGroup(id: "", name: "All Contacts", contactIDs: contactIDs, colorHex: "")
+	static var previewValue: Self {
+		Self(
+			getContacts: { _ in
+				Contact.mockArray
+			},
+			sortContacts: { _ in
+				Contact.mockArray
+			},
+			contact: { id in
+				Contact.mockArray.first(where: { $0.id == id })
+			},
+			contactIDs: Set(Contact.mockArray.map { $0.id }),
+			allContactsGroup: ContactGroup(
+				id: "",
+				name: "All Contacts",
+				contactIDs: Set(Contact.mockArray.map { $0.id }),
+				colorHex: ""
+			)
+		)
 	}
 }

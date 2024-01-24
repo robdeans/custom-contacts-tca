@@ -8,12 +8,15 @@
 
 import CustomContactsModels
 
-final class ContactsServiceMock: ContactsService {
-	func fetchContacts() async throws -> [Contact] {
-		Contact.mockArray
-	}
-
-	func requestPermissions() async throws -> Bool {
-		true
+extension ContactsService {
+	public static var previewValue: Self {
+		Self(
+			fetchContacts: {
+				Contact.mockArray
+			},
+			requestPermissions: {
+				true
+			}
+		)
 	}
 }

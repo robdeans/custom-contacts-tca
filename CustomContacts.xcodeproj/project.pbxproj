@@ -384,7 +384,7 @@
 		F4CD704A200009530013EE7B /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				F4CD704B200009590013EE7B /* Classes */,
+				F4CD704B200009590013EE7B /* Repositories */,
 				DF3B36C121ECAF8A0033C858 /* Errors */,
 				F4CD704C2000095C0013EE7B /* Extensions */,
 				E87A3DE62A8ABE0F0068F34C /* Constants.swift */,
@@ -392,12 +392,12 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		F4CD704B200009590013EE7B /* Classes */ = {
+		F4CD704B200009590013EE7B /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
 				E87A3DFB2A8C09B20068F34C /* ContactsRepository.swift */,
 			);
-			path = Classes;
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		F4CD704C2000095C0013EE7B /* Extensions */ = {
