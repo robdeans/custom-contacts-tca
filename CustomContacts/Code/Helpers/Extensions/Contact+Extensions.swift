@@ -54,7 +54,7 @@ extension Sequence where Element == Contact {
 	func filter(searchText: String) -> [Contact] {
 		if !searchText.isEmpty {
 			return self.filter {
-				$0.fullName.lowercased().contains(searchText.lowercased())
+				$0.displayName.lowercased().contains(searchText.lowercased())
 			}
 		}
 		return self.map { $0 as Contact }

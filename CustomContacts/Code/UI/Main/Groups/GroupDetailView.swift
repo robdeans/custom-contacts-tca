@@ -72,7 +72,7 @@ struct GroupDetailView: View {
 						.compactMap { contactsRepository.contact(for: $0) }
 						.sorted()
 				) {
-					Text($0.fullName)
+					Text($0.displayName)
 				}
 			}
 			.padding(.top, Constants.UI.Padding.default)

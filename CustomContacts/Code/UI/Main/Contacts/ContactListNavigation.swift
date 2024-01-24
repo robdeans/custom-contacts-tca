@@ -20,6 +20,7 @@ extension ContactListNavigation {
 }
 
 extension ContactListNavigation.Path {
+	@ViewBuilder
 	var destination: some View {
 		switch self {
 		case .contactDetail(let contact):

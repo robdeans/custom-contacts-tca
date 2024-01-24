@@ -7,11 +7,21 @@
 //
 
 import Contacts
+import CustomContactsHelpers
 
 public struct Contact: Identifiable {
 	public let id: Contact.ID
-	public var firstName: String
-	public var lastName: String
+	public let firstName: String
+	public let lastName: String
+	public let displayName: String
+}
+
+extension Contact {
+	private static var contactNameFormatter: CNContactFormatter {
+		let formatter = CNContactFormatter()
+		formatter.style = .fullName
+		return formatter
+	}
 }
 
 extension Contact {
@@ -21,11 +31,13 @@ extension Contact {
 		id = cnContact.identifier
 		firstName = cnContact.givenName
 		lastName = cnContact.familyName
-	}
-
-	// TODO: This should use NameFormatter to leverage locale
-	public var fullName: String {
-		[firstName, lastName].compactMap { $0 }.joined(separator: " ")
+		displayName = Self.contactNameFormatter.string(from: cnContact)
+		?? cnContact.emailAddresses.first.map { String($0.value) }
+		?? cnContact.phoneNumbers.first.map { String($0.value.stringValue) }
+		?? ""
+		if displayName.isEmpty {
+			LogWarning("Blank displayName: \(cnContact)")
+		}
 	}
 }
 
@@ -43,24 +55,28 @@ extension Contact {
 	public static let mock = Contact(
 		id: "123",
 		firstName: "Tina",
-		lastName: "Belcher"
+		lastName: "Belcher",
+		displayName: "Tina Belcher"
 	)
 
 	public static let mockArray = [
 		Contact(
 			id: "123",
 			firstName: "Tina",
-			lastName: "Belcher"
+			lastName: "Belcher",
+			displayName: "Tina Belcher"
 		),
 		Contact(
 			id: "456",
 			firstName: "Bob",
-			lastName: "Belcher"
+			lastName: "Belcher",
+			displayName: "Bob Belcher"
 		),
 		Contact(
 			id: "789",
 			firstName: "Gene",
-			lastName: "Belcher"
+			lastName: "Belcher",
+			displayName: "Gene Belcher"
 		),
 	]
 }
