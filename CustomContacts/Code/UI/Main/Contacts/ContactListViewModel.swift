@@ -39,8 +39,16 @@ extension ContactListView {
 
 extension ContactListView.ViewModel {
 	func contactsSections() -> [(String, [Contact])] {
+		/// Forces `contactsDisplayable` to update when `\.contacts` changes (?)
+		access(keyPath: \.contacts)
+
+		@Dependency(\.contactsProvider) var contactsProvider
+		let contactsDisplayable = contactsProvider.filterContacts(filterQueries)
+			.filter(searchText: searchText)
+
 		var valueDictionary: [String: [Contact]] = [:]
-		contactsDisplayable().forEach { contact in
+
+		contactsDisplayable.forEach { contact in
 			let letter = {
 				switch Contact.SortOption.current.parameter {
 				case .firstName:
@@ -49,58 +57,11 @@ extension ContactListView.ViewModel {
 					contact.lastName.first.map { String($0).uppercased() } ?? "-"
 				}
 			}()
-			var contacts = valueDictionary[letter] ?? []
-			contacts.append(contact)
-			valueDictionary[letter] = contacts
+			valueDictionary[letter] = (valueDictionary[letter] ?? []) + [contact]
 		}
 		return valueDictionary
 			.map { ($0.key, $0.value) }
 			.sorted()
-	}
-
-	// Given the switch case and usage of Set methods, this could be more efficient.
-	// TODO: re-test with larger contacts data set and
-	// TODO: add test coverage
-	private func contactsDisplayable() -> [Contact] {
-		/// Forces `contactsDisplayable` to update when `\.contacts` changes (?)
-		access(keyPath: \.contacts)
-
-		var filteredContactIDs = Set<Contact.ID>()
-		if !filterQueries.isEmpty {
-			filterQueries.forEach {
-				switch $0.logic {
-				case .and:
-					switch $0.filter {
-					case .include:
-						filteredContactIDs.formIntersection($0.group.contactIDs)
-					case .exclude:
-						var allContactIDsExcludingGroup = contactsRepository.contactIDs()
-						$0.group.contactIDs.forEach {
-							filteredContactIDs.remove($0)
-							allContactIDsExcludingGroup.remove($0)
-						}
-						filteredContactIDs.formUnion(allContactIDsExcludingGroup)
-					}
-				case .or:
-					switch $0.filter {
-					case .include:
-						filteredContactIDs.formUnion($0.group.contactIDs)
-					case .exclude:
-						var allContactIDsExcludingGroup = contactsRepository.contactIDs()
-						$0.group.contactIDs.forEach {
-							allContactIDsExcludingGroup.remove($0)
-						}
-						filteredContactIDs.formUnion(allContactIDsExcludingGroup)
-					}
-				}
-			}
-		} else {
-			filteredContactIDs = contactsRepository.contactIDs()
-		}
-
-		return filteredContactIDs
-			.compactMap(contactsRepository.getContact)
-			.filter(searchText: searchText)
 	}
 }
 
