@@ -25,4 +25,14 @@ extension ContactGroup {
 			colorHex: Color.random.toHex ?? ""
 		)
 	}
+
+	static var allContactsGroup: ContactGroup {
+		@Dependency(\.contactsRepository) var contactsRepository
+		return ContactGroup(
+			id: "",
+			name: "All Contacts",
+			contactIDs: contactsRepository.contactIDs(),
+			colorHex: ""
+		)
+	}
 }

@@ -24,7 +24,7 @@ struct GroupCardView: View {
 			content: {
 				ForEach(
 					group.contactIDs
-						.compactMap { contactsRepository.contact(for: $0) }
+						.compactMap { contactsRepository.getContact($0) }
 						.sorted()
 				) { contact in
 					Button(
