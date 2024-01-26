@@ -74,6 +74,7 @@ extension ContactsProvider: DependencyKey {
 			currentSortOption: { Defaults[\.contactsSortOption] }
 		)
 	}
+	static var testValue: ContactsProvider = .liveValue
 }
 
 extension Contact.SortOption: DefaultsSerializable {}

@@ -59,7 +59,7 @@ extension ContactsRepository: DependencyKey {
 			contacts: { _contacts }
 		)
 	}
-	static var testValue: Self {
+	static var previewValue: Self {
 		Self(
 			getAllContacts: { _ in Contact.mockArray },
 			getContact: { _ in Contact.mock },
@@ -67,5 +67,5 @@ extension ContactsRepository: DependencyKey {
 			contacts: { Contact.mockArray }
 		)
 	}
-	static var previewValue = Self.testValue
+	static var testValue: ContactsRepository = .liveValue
 }
