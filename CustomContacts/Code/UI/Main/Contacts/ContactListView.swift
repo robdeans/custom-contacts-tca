@@ -35,7 +35,7 @@ struct ContactListView: View {
 		}
 		.environmentObject(contactListNavigation)
 		.task {
-			//await viewModel.loadContacts(refresh: true)
+			await viewModel.loadContacts(refresh: true)
 		}
 	}
 

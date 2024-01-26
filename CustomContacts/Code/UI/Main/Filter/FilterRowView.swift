@@ -22,7 +22,7 @@ struct FilterRowView: View {
 	private var groups: [ContactGroup]
 
 	private var borderColor: Color {
-		if filterQuery.group == contactsRepository.allContactsGroup {
+		if filterQuery.group == ContactGroup.allContactsGroup {
 			return .clear
 		}
 		return filterQuery.group.color
@@ -70,8 +70,8 @@ extension FilterRowView {
 
 	private var groupsPickerView: some View {
 		Picker("", selection: $filterQuery.group) {
-			Text(contactsRepository.allContactsGroup.name)
-				.tag(contactsRepository.allContactsGroup)
+			Text(ContactGroup.allContactsGroup.name)
+				.tag(ContactGroup.allContactsGroup)
 			ForEach(groups) {
 				Text($0.name)
 					.tag($0)

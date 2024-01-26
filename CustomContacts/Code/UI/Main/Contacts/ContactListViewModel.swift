@@ -29,7 +29,7 @@ extension ContactListView {
 			isLoading = true
 
 			do {
-				contacts = try await contactsRepository.getContacts(refresh: refresh)
+				contacts = try await contactsRepository.getAllContacts(refresh)
 			} catch {
 				self.error = error
 			}
@@ -74,7 +74,7 @@ extension ContactListView.ViewModel {
 					case .include:
 						filteredContactIDs.formIntersection($0.group.contactIDs)
 					case .exclude:
-						var allContactIDsExcludingGroup = contactsRepository.contactIDs
+						var allContactIDsExcludingGroup = contactsRepository.contactIDs()
 						$0.group.contactIDs.forEach {
 							filteredContactIDs.remove($0)
 							allContactIDsExcludingGroup.remove($0)
@@ -86,7 +86,7 @@ extension ContactListView.ViewModel {
 					case .include:
 						filteredContactIDs.formUnion($0.group.contactIDs)
 					case .exclude:
-						var allContactIDsExcludingGroup = contactsRepository.contactIDs
+						var allContactIDsExcludingGroup = contactsRepository.contactIDs()
 						$0.group.contactIDs.forEach {
 							allContactIDsExcludingGroup.remove($0)
 						}
@@ -95,11 +95,11 @@ extension ContactListView.ViewModel {
 				}
 			}
 		} else {
-			filteredContactIDs = contactsRepository.contactIDs
+			filteredContactIDs = contactsRepository.contactIDs()
 		}
 
 		return filteredContactIDs
-			.compactMap(contactsRepository.contact)
+			.compactMap(contactsRepository.getContact)
 			.filter(searchText: searchText)
 	}
 }
@@ -110,7 +110,8 @@ extension ContactListView.ViewModel {
 			parameter: parameter ?? Contact.SortOption.current.parameter,
 			ascending: ascending ?? Contact.SortOption.current.ascending
 		)
-		contacts = contactsRepository.sortContacts(by: updatedSortOption)
+		@Dependency(\.contactsProvider) var contactsProvider
+		contacts = contactsProvider.sortContacts(updatedSortOption)
 	}
 
 	func addQuery(_ query: FilterQuery) {

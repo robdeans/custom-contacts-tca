@@ -34,7 +34,7 @@ extension ContactsService {
 						try store.enumerateContacts(with: request) { cnContact, _ in
 							contacts.append(Contact(cnContact))
 						}
-						LogInfo("Returning \(contacts.count) contacts")
+						LogInfo("Service returning \(contacts.count) contact(s)")
 						continuation.resume(returning: contacts)
 					} catch {
 						continuation.resume(throwing: error)

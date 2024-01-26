@@ -7,27 +7,12 @@
 //
 
 import CustomContactsModels
-import SwiftyUserDefaults
+import Dependencies
 
-extension Contact {
-	struct SortOption: Codable, DefaultsSerializable {
-		enum Parameter: String, Codable, CaseIterable {
-			/// silences swiftlint warning `raw_value_for_camel_cased_codable_enum`
-			case firstName = "first_name"
-			case lastName = "last_name"
-		}
-		var parameter: Parameter
-		var ascending: Bool
-
-		static var current: SortOption {
-			Defaults[\.contactsSortOption]
-		}
-	}
-}
-
-extension DefaultsKeys {
-	var contactsSortOption: DefaultsKey<Contact.SortOption> {
-		.init("contactsSortOption", defaultValue: Contact.SortOption(parameter: .lastName, ascending: true))
+extension Contact.SortOption {
+	static var current: Contact.SortOption {
+		@Dependency(\.contactsProvider) var contactsProvider
+		return contactsProvider.currentSortOption()
 	}
 }
 
