@@ -65,6 +65,7 @@ extension ContactSelectorView: Identifiable {
 extension ContactSelectorView {
 	// Could be `private` if not for Xcode warnings re: @Observable
 	@Observable final class ViewModel {
+		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
 		private var contacts: [Contact] = []
 		var searchText = ""
 		private(set) var error: Error?
@@ -82,7 +83,6 @@ extension ContactSelectorView {
 
 		@MainActor func loadContacts(refresh: Bool = false) async {
 			do {
-				@Dependency(\.contactsRepository) var contactsRepository
 				contacts = try await contactsRepository.getAllContacts(refresh)
 			} catch {
 				self.error = error

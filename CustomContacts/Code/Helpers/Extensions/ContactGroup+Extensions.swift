@@ -16,6 +16,7 @@ extension ContactGroup {
 		Color(hex: colorHex)
 	}
 
+	// TODO: are static Dependencies accessible/mutable from within testing?
 	static var empty: ContactGroup {
 		@Dependency(\.uuid) var uuid
 		return ContactGroup(

@@ -60,12 +60,25 @@ extension ContactsRepository: DependencyKey {
 			contacts: { _contacts }
 		)
 	}
-	static var previewValue: Self {
-		Self(
-			getAllContacts: { _ in Contact.mockArray },
-			getContact: { _ in Contact.mock },
-			contacts: { Contact.mockArray }
-		)
-	}
-	static var testValue: ContactsRepository = .liveValue
+	static let previewValue: ContactsRepository = .liveValue
+	static let testValue: ContactsRepository = .liveValue
+
+//	static var previewValue: Self {
+//		Self(
+//			getAllContacts: { _ in Contact.mockArray },
+//			getContact: { _ in Contact.mock },
+//			contacts: { Contact.mockArray }
+//		)
+//	}
+//	static var testValue: Self {
+//		@Dependency(\.contactsService) var contactsService
+//
+//		return Self(
+//			getAllContacts: { _ in
+//				try await contactsService.fetchContacts()
+//			},
+//			getContact: { _ in Contact.mock },
+//			contacts: { Contact.mockArray }
+//		)
+//	}
 }

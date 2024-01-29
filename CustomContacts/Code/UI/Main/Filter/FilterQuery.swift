@@ -23,6 +23,7 @@ final class FilterQuery: Identifiable {
 		// First query should be `or` so base group is more inclusive of future clauses
 		self.logic = isFirstQuery ? .or : .and
 
+		// TODO: are local Dependencies accessible/mutable from within testing?
 		@Dependency(\.uuid) var uuid
 		self.id = uuid().uuidString
 
