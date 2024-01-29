@@ -67,11 +67,7 @@ struct GroupDetailView: View {
 			}
 
 			List {
-				ForEach(
-					group.contactIDs
-						.compactMap { contactsRepository.getContact($0) }
-						.sorted()
-				) {
+				ForEach(group.contacts().sorted()) {
 					Text($0.displayName)
 				}
 			}

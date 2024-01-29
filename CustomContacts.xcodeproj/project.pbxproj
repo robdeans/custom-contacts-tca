@@ -28,6 +28,7 @@
 		DF3B36FD21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B36DF21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift */; };
 		DF3B370121ECAFDD0033C858 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B370021ECAFDD0033C858 /* String+Localization.swift */; };
 		E8013AAD2B645824006CC984 /* ContactsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8013AAC2B645824006CC984 /* ContactsProvider.swift */; };
+		E80F25D02B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80F25CF2B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift */; };
 		E81C37AD2AAFAC3A00FE487F /* ContactListViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81C37AC2AAFAC3A00FE487F /* ContactListViewModelTest.swift */; };
 		E821393C2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */; };
 		E821393E2B1A5C49009ABF4E /* ScreenSizeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E821393D2B1A5C49009ABF4E /* ScreenSizeKey.swift */; };
@@ -120,6 +121,7 @@
 		DF3B36DF21ECAF8A0033C858 /* ApplicationError+DisplayableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ApplicationError+DisplayableError.swift"; sourceTree = "<group>"; };
 		DF3B370021ECAFDD0033C858 /* String+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		E8013AAC2B645824006CC984 /* ContactsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsProvider.swift; sourceTree = "<group>"; };
+		E80F25CF2B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact.SortOption+Extensions.swift"; sourceTree = "<group>"; };
 		E81C37AB2AAFAC3A00FE487F /* CustomContactsTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomContactsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		E81C37AC2AAFAC3A00FE487F /* ContactListViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListViewModelTest.swift; sourceTree = "<group>"; };
 		E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeSwipeCardFlipModifier.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 			children = (
 				E8A497E92AABA6F20057C78B /* Color+Extensions.swift */,
 				E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */,
+				E80F25CF2B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift */,
 				E87A3DFD2A8C139C0068F34C /* ContactGroup+Extensions.swift */,
 				DF3B36BF21ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift */,
 				DF3B370021ECAFDD0033C858 /* String+Localization.swift */,
@@ -654,6 +657,7 @@
 				FCDAFBE027C54741001314C2 /* JSON.generated.swift in Sources */,
 				E8A497EA2AABA6F20057C78B /* Color+Extensions.swift in Sources */,
 				DF3B36F521ECAF8A0033C858 /* NSError+DisplayableError.swift in Sources */,
+				E80F25D02B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift in Sources */,
 				FCDAFBDF27C54741001314C2 /* Fonts+Constants.generated.swift in Sources */,
 				E87A3DEE2A8AC3B90068F34C /* GroupDetailView.swift in Sources */,
 				E8C33FF82AA0E4C50004E455 /* SwipeableRowView.swift in Sources */,

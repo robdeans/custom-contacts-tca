@@ -13,7 +13,6 @@ import SwiftyUserDefaults
 struct ContactsProvider {
 	var sortContacts: ([Contact], Contact.SortOption) -> [Contact]
 	var filterContacts: (Set<Contact.ID>, [FilterQuery]) -> [Contact]
-	var currentSortOption: () -> Contact.SortOption
 }
 
 extension DependencyValues {
@@ -70,20 +69,8 @@ extension ContactsProvider: DependencyKey {
 				@Dependency(\.contactsRepository) var contactsRepository
 				return filteredContactIDs
 					.compactMap(contactsRepository.getContact)
-			},
-			currentSortOption: { Defaults[\.contactsSortOption] }
+			}
 		)
 	}
 	static var testValue: ContactsProvider = .liveValue
-}
-
-extension Contact.SortOption: DefaultsSerializable {}
-
-extension DefaultsKeys {
-	fileprivate var contactsSortOption: DefaultsKey<Contact.SortOption> {
-		.init(
-			"contactsSortOption",
-			defaultValue: Contact.SortOption(parameter: .lastName, ascending: true)
-		)
-	}
 }
