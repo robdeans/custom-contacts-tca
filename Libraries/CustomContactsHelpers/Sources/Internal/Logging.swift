@@ -10,11 +10,12 @@
 
 import OSLog
 
+/// Helper method that logs the thread being executed; uses `String(cString: __dispatch_queue_get_label(nil))`
 public func LogCurrentThread(_ message: @escaping @autoclosure () -> String) {
 	Logger().trace("🧵 \(message()): \(String(cString: __dispatch_queue_get_label(nil)))")
 }
 
-/// This method is functionally equivilent to the debug(_:) method.
+/// This method is functionally equivalent to the debug(_:) method.
 public func LogTrace(_ message: @escaping @autoclosure () -> String, file: String = #file, function: String = #function, line: UInt = #line) {
 #if !LOGS_DISABLED
 	Logger().trace(
