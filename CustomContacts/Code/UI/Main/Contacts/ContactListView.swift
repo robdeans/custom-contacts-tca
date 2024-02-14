@@ -15,45 +15,67 @@ struct ContactListView: View {
 
 	var body: some View {
 		NavigationStack(path: $contactListNavigation.path) {
+			contentView
+				.navigationDestination(for: contactListNavigation)
+				.navigationTitle(Localizable.Root.Contacts.title)
+				.toolbar {
+					ToolbarItem(placement: .topBarTrailing) {
+						Menu("🔃") {
+							ForEach(Contact.SortOption.Parameter.allCases, id: \.rawValue) { parameter in
+								Button(parameter.title) {
+									viewModel.setSortOption(to: parameter)
+								}
+							}
+							Divider()
+							sortOrderButton(ascending: true)
+							sortOrderButton(ascending: false)
+						}
+					}
+				}
+		}
+		.environmentObject(contactListNavigation)
+		.task {
+			await viewModel.loadContacts(refresh: true)
+		}
+	}
+
+	@ViewBuilder
+	private var contentView: some View {
+		if viewModel.isLoading {
+			ProgressView()
+		} else {
 			VStack {
+/*
+
+Disable until functionality and placement can be better considered
+ 
 				FilterView(
 					filterQueries: viewModel.filterQueries,
 					onAddQueryTapped: { viewModel.addQuery($0) },
 					onRemoveQueryTapped: { viewModel.removeQuery($0) },
 					onClearTapped: { viewModel.removeAllQueries() }
 				)
+*/
 				List {
-					ForEach(viewModel.contactsDisplayable) { contact in
-						ContactCardView(contact: contact)
-							.contentShape(Rectangle())
-							.onTapGesture {
-								contactListNavigation.path.append(.contactDetail(contact))
+					ForEach(viewModel.contactsSections(), id: \.0) { letter, contacts in
+						Section(letter.capitalized) {
+							ForEach(contacts) { contact in
+								ContactCardView(contact: contact)
+									.contentShape(Rectangle())
+									.onTapGesture {
+										contactListNavigation.path.append(.contactDetail(contact))
+									}
 							}
+						}
 					}
 				}
+				.listStyle(.plain)
 				.searchable(text: $viewModel.searchText)
 				.refreshable {
 					await viewModel.loadContacts(refresh: true)
 				}
 			}
-			.navigationDestination(for: contactListNavigation)
-			.navigationTitle(Localizable.Root.Contacts.title)
-			.toolbar {
-				ToolbarItem(placement: .topBarTrailing) {
-					Menu("🔃") {
-						ForEach(Contact.SortOption.Parameter.allCases, id: \.rawValue) { parameter in
-							Button(parameter.title) {
-								viewModel.setSortOption(to: parameter)
-							}
-						}
-						Divider()
-						sortOrderButton(ascending: true)
-						sortOrderButton(ascending: false)
-					}
-				}
-			}
 		}
-		.environmentObject(contactListNavigation)
 	}
 
 	private func sortOrderButton(ascending: Bool) -> some View {
@@ -67,7 +89,7 @@ struct ContactListView: View {
 }
 
 extension Contact.SortOption.Parameter {
-	var title: String {
+	fileprivate var title: String {
 		let checkmark = Contact.SortOption.current.parameter == self ? " ✓" : ""
 		switch self {
 		case .firstName:

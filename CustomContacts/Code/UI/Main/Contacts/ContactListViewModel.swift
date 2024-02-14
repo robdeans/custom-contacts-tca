@@ -15,18 +15,19 @@ extension ContactListView {
 	@Observable final class ViewModel {
 		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
 		private var contacts: [Contact] = []
+		private(set) var isLoading = false
 		private(set) var error: Error?
 
 		var searchText = ""
 		private(set) var filterQueries: [FilterQuery] = []
 
-		init() {
-			Task {
-				await loadContacts(refresh: true)
-			}
-		}
-
 		@MainActor func loadContacts(refresh: Bool = false) async {
+			defer {
+				isLoading = false
+			}
+			error = nil
+			isLoading = true
+
 			do {
 				contacts = try await contactsRepository.getContacts(refresh: refresh)
 			} catch {
@@ -37,33 +38,30 @@ extension ContactListView {
 }
 
 extension ContactListView.ViewModel {
-	func setSortOption(to parameter: Contact.SortOption.Parameter? = nil, ascending: Bool? = nil) {
-		let updatedSortOption = Contact.SortOption(
-			parameter: parameter ?? Contact.SortOption.current.parameter,
-			ascending: ascending ?? Contact.SortOption.current.ascending
-		)
-		contacts = contactsRepository.sortContacts(by: updatedSortOption)
-	}
-
-	func addQuery(_ query: FilterQuery) {
-		filterQueries.append(query)
-	}
-
-	func removeQuery(_ query: FilterQuery) {
-		if let index = filterQueries.firstIndex(where: { $0.id == query.id }) {
-			filterQueries.remove(at: index)
+	func contactsSections() -> [(String, [Contact])] {
+		var valueDictionary: [String: [Contact]] = [:]
+		contactsDisplayable().forEach { contact in
+			let letter = {
+				switch Contact.SortOption.current.parameter {
+				case .firstName:
+					contact.firstName.first.map { String($0).uppercased() } ?? "-"
+				case .lastName:
+					contact.lastName.first.map { String($0).uppercased() } ?? "-"
+				}
+			}()
+			var contacts = valueDictionary[letter] ?? []
+			contacts.append(contact)
+			valueDictionary[letter] = contacts
 		}
+		return valueDictionary
+			.map { ($0.key, $0.value) }
+			.sorted()
 	}
 
-	func removeAllQueries() {
-		filterQueries.removeAll()
-	}
-
-	// This seems like an intensive use for a Computed Property and may be better suited as a method.
-	// However given the switch case and usage of Set methods, it could be efficient.
+	// Given the switch case and usage of Set methods, this could be more efficient.
 	// TODO: re-test with larger contacts data set and
 	// TODO: add test coverage
-	var contactsDisplayable: [Contact] {
+	private func contactsDisplayable() -> [Contact] {
 		/// Forces `contactsDisplayable` to update when `\.contacts` changes (?)
 		access(keyPath: \.contacts)
 
@@ -103,6 +101,29 @@ extension ContactListView.ViewModel {
 		return filteredContactIDs
 			.compactMap(contactsRepository.contact)
 			.filter(searchText: searchText)
-			.sorted()
+	}
+}
+
+extension ContactListView.ViewModel {
+	func setSortOption(to parameter: Contact.SortOption.Parameter? = nil, ascending: Bool? = nil) {
+		let updatedSortOption = Contact.SortOption(
+			parameter: parameter ?? Contact.SortOption.current.parameter,
+			ascending: ascending ?? Contact.SortOption.current.ascending
+		)
+		contacts = contactsRepository.sortContacts(by: updatedSortOption)
+	}
+
+	func addQuery(_ query: FilterQuery) {
+		filterQueries.append(query)
+	}
+
+	func removeQuery(_ query: FilterQuery) {
+		if let index = filterQueries.firstIndex(where: { $0.id == query.id }) {
+			filterQueries.remove(at: index)
+		}
+	}
+
+	func removeAllQueries() {
+		filterQueries.removeAll()
 	}
 }
