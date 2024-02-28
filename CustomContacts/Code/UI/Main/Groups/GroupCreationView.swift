@@ -54,7 +54,7 @@ struct GroupCreationView: View {
 				List {
 					ForEach(
 						selectedContactIDs
-							.compactMap { contactsRepository.contact(for: $0) }
+							.compactMap { contactsRepository.getContact($0) }
 							.sorted(by: { $0.displayName < $1.displayName })
 					) {
 						Text($0.displayName)

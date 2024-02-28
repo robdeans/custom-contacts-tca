@@ -10,50 +10,53 @@ import Contacts
 import CustomContactsHelpers
 import CustomContactsModels
 
-final class ContactsServiceLive: ContactsService {
-	private static let store = CNContactStore()
-	private static let keysToFetch: [Any] = [
-		CNContactIdentifierKey,
-		CNContactTypeKey,
-		CNContactGivenNameKey,
-		CNContactFamilyNameKey,
-		CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
-		CNContactOrganizationNameKey,
-		CNContactEmailAddressesKey,
-		CNContactPostalAddressesKey,
-		CNContactPhoneNumbersKey,
-	]
+extension ContactsService {
+	public static var liveValue: Self {
+		let store = CNContactStore()
+		let keysToFetch: [Any] = [
+			CNContactIdentifierKey,
+			CNContactTypeKey,
+			CNContactGivenNameKey,
+			CNContactFamilyNameKey,
+			CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
+			CNContactOrganizationNameKey,
+			CNContactEmailAddressesKey,
+			CNContactPostalAddressesKey,
+			CNContactPhoneNumbersKey,
+		]
 
-	func fetchContacts() async throws -> [Contact] {
-		let request = CNContactFetchRequest(keysToFetch: Self.keysToFetch.compactMap { $0 as? CNKeyDescriptor })
-		return try await withCheckedThrowingContinuation { continuation in
-			do {
-				var contacts: [Contact] = []
-				try Self.store.enumerateContacts(with: request) { cnContact, _ in
-					contacts.append(Contact(cnContact))
+		return Self(
+			fetchContacts: {
+				let request = CNContactFetchRequest(keysToFetch: keysToFetch.compactMap { $0 as? CNKeyDescriptor })
+				return try await withCheckedThrowingContinuation { continuation in
+					do {
+						var contacts: [Contact] = []
+						try store.enumerateContacts(with: request) { cnContact, _ in
+							contacts.append(Contact(cnContact))
+						}
+						LogInfo("Service returning \(contacts.count) contact(s)")
+						continuation.resume(returning: contacts)
+					} catch {
+						continuation.resume(throwing: error)
+					}
 				}
-				LogInfo("Returning \(contacts.count) contacts")
-				continuation.resume(returning: contacts)
-			} catch {
-				continuation.resume(throwing: error)
+			},
+			requestPermissions: {
+				switch CNContactStore.authorizationStatus(for: .contacts) {
+				case .authorized:
+					return true
+				case .notDetermined:
+					do {
+						return try await store.requestAccess(for: .contacts)
+					} catch {
+						throw error
+					}
+				case .restricted, .denied:
+					return false
+				@unknown default:
+					return false
+				}
 			}
-		}
-	}
-
-	func requestPermissions() async throws -> Bool {
-		switch CNContactStore.authorizationStatus(for: .contacts) {
-		case .authorized:
-			return true
-		case .notDetermined:
-			do {
-				return try await Self.store.requestAccess(for: .contacts)
-			} catch {
-				throw error
-			}
-		case .restricted, .denied:
-			return false
-		@unknown default:
-			return false
-		}
+		)
 	}
 }

@@ -26,8 +26,7 @@ final class FilterQuery: Identifiable {
 		@Dependency(\.uuid) var uuid
 		self.id = uuid().uuidString
 
-		@Dependency(\.contactsRepository) var contactsRepository
-		group = contactsRepository.allContactsGroup
+		group = ContactGroup.allContactsGroup
 	}
 }
 

@@ -6,8 +6,8 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsModels
 import CustomContactsHelpers
+import CustomContactsModels
 import Dependencies
 import SwiftUI
 
@@ -23,6 +23,16 @@ extension ContactGroup {
 			name: "",
 			contactIDs: [],
 			colorHex: Color.random.toHex ?? ""
+		)
+	}
+
+	static var allContactsGroup: ContactGroup {
+		@Dependency(\.contactsRepository) var contactsRepository
+		return ContactGroup(
+			id: "",
+			name: "All Contacts",
+			contactIDs: contactsRepository.contactIDs(),
+			colorHex: ""
 		)
 	}
 }
