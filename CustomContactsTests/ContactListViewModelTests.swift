@@ -33,19 +33,20 @@ final class ContactListViewModelTest: XCTestCase {
 	}
 
 	func testLoadContactsError() async {
-		let contactsRepo = withDependencies {
+		let contactsRepository = withDependencies {
 			$0.contactsService.fetchContacts = {
 				struct SomeError: Error {}
 				throw SomeError()
 			}
 		} operation: {
-			ContactsRepository.liveValue
+			ContactsRepository.testValue
 		}
 		let viewModel = withDependencies {
-			$0.contactsRepository = contactsRepo
+			$0.contactsRepository = contactsRepository
 		} operation: {
 			ContactListView.ViewModel()
 		}
+		XCTAssert(contactsRepository.contacts().isEmpty)
 		await viewModel.loadContacts(refresh: true)
 		XCTAssert(viewModel.error != nil)
 	}

@@ -19,5 +19,5 @@ extension ContactsService {
 			}
 		)
 	}
-	public static var testValue: ContactsService = .previewValue
+	public static var testValue: ContactsService { .previewValue }
 }
