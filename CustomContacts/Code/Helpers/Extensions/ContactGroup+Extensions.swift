@@ -16,7 +16,7 @@ extension ContactGroup {
 		Color(hex: colorHex)
 	}
 
-	// TODO: are static Dependencies accessible/mutable from within testing?
+	// TODO: rethink this architecture...
 	static var empty: ContactGroup {
 		@Dependency(\.uuid) var uuid
 		return ContactGroup(
@@ -27,6 +27,7 @@ extension ContactGroup {
 		)
 	}
 
+	// TODO: rethink this architecture...
 	static var allContactsGroup: ContactGroup {
 		@Dependency(\.contactsRepository) var contactsRepository
 		return ContactGroup(
@@ -37,9 +38,7 @@ extension ContactGroup {
 		)
 	}
 
-	func contacts() -> [Contact] {
-		@Dependency(\.contactsRepository) var contactsRepository
-		return self.contactIDs
-			.compactMap { contactsRepository.getContact($0) }
+	func contacts(from contactsRepository: ContactsRepository) -> [Contact] {
+		contactIDs.compactMap { contactsRepository.getContact($0) }
 	}
 }

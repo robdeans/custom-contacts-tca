@@ -13,9 +13,15 @@ import XCTest
 
 final class ContactListViewModelTest: XCTestCase {
 	func testLoadContacts() async {
+		let testContacts = [
+			Contact(id: "Test 1", firstName: "Test 1", lastName: "Test 1", displayName: "testLoadContacts 1"),
+			Contact(id: "Test 2", firstName: "Test 2", lastName: "Test 2", displayName: "testLoadContacts 2"),
+			Contact(id: "Test 3", firstName: "Test 3", lastName: "Test 3", displayName: "testLoadContacts 3"),
+		]
+
 		let viewModel = withDependencies {
 			$0.contactsService.fetchContacts = {
-				return Contact.mockArray
+				testContacts
 			}
 		} operation: {
 			ContactListView.ViewModel()
@@ -29,7 +35,7 @@ final class ContactListViewModelTest: XCTestCase {
 		
 		XCTAssertFalse(viewModel.isLoading)
 		XCTAssertTrue(viewModel.error == nil)
-		XCTAssertEqual(viewModel.contacts, Contact.mockArray)
+		XCTAssertEqual(viewModel.contacts, testContacts)
 	}
 
 	func testLoadContactsError() async {

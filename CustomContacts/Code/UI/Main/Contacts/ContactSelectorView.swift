@@ -11,7 +11,12 @@ import Dependencies
 import Observation
 import SwiftUI
 
-struct ContactSelectorView: View {
+struct ContactSelectorView: View, Identifiable {
+	var id: String = {
+		@Dependency(\.uuid) var uuid
+		return uuid().uuidString
+	}()
+
 	@Bindable private var viewModel = ViewModel()
 	@Environment(\.dismiss) private var dismiss
 
@@ -52,13 +57,6 @@ struct ContactSelectorView: View {
 				}
 			}
 		}
-	}
-}
-
-extension ContactSelectorView: Identifiable {
-	var id: String {
-		@Dependency(\.uuid) var uuid
-		return uuid().uuidString
 	}
 }
 

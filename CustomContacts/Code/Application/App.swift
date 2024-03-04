@@ -16,6 +16,9 @@ struct CustomContactsApp: App {
 			if NSClassFromString("XCTestCase") == nil {
 				RootView()
 					.modelContainer(for: ContactGroup.self)
+			} else {
+				EmptyView()
+					.modelContainer(for: ContactGroup.self)
 			}
 		}
 	}
