@@ -43,12 +43,12 @@ extension ContactsRepository: DependencyKey {
 
 		return Self(
 			getAllContacts: { refresh in
-				guard refresh else {
+				guard refresh || _contacts.isEmpty else {
 					return _contacts
 				}
 				guard try await contactsService.requestPermissions() else {
 					// Permissions denied state; throw error?
-					return []
+					return _contacts
 				}
 				_contacts = try await contactsService.fetchContacts()
 				contactDictionary = Dictionary(

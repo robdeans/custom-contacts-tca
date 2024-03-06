@@ -57,6 +57,9 @@ struct ContactSelectorView: View, Identifiable {
 				}
 			}
 		}
+		.task {
+			await viewModel.loadContacts()
+		}
 	}
 }
 
@@ -70,13 +73,6 @@ extension ContactSelectorView {
 
 		var contactsDisplayable: [Contact] {
 			contacts.filter(searchText: searchText)
-		}
-
-		init() {
-			Task {
-				// Contacts should already have loaded on earlier screen
-				await loadContacts()
-			}
 		}
 
 		@MainActor func loadContacts(refresh: Bool = false) async {
