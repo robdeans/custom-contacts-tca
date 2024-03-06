@@ -7,19 +7,20 @@
 //
 
 import CustomContactsModels
-import SwiftyUserDefaults
 
-extension Contact.SortOption: DefaultsSerializable {
+extension Contact.SortOption { //}: DefaultsSerializable {
 	static var current: Contact.SortOption {
-		Defaults[\.contactsSortOption]
+		// TODO: add Defaults property wrapper
+		// Defaults[\.contactsSortOption]
+		Contact.SortOption(parameter: .firstName, ascending: true)
 	}
 }
 
-extension DefaultsKeys {
-	var contactsSortOption: DefaultsKey<Contact.SortOption> {
-		.init(
-			"contactsSortOption",
-			defaultValue: Contact.SortOption(parameter: .lastName, ascending: true)
-		)
-	}
-}
+//extension DefaultsKeys {
+//	var contactsSortOption: DefaultsKey<Contact.SortOption> {
+//		.init(
+//			"contactsSortOption",
+//			defaultValue: Contact.SortOption(parameter: .lastName, ascending: true)
+//		)
+//	}
+//}

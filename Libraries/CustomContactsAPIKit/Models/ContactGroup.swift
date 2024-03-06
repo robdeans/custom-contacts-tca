@@ -9,8 +9,8 @@
 import Foundation
 import SwiftData
 
-@Model
-public final class ContactGroup {
+@Model // TODO: this shouldn't be `@unchecked`
+public final class ContactGroup: @unchecked Sendable {
 	public let id: ContactGroup.ID
 	public var name: String
 	public var contactIDs: Set<Contact.ID>

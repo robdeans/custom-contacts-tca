@@ -78,6 +78,10 @@ struct FilterView: View {
 // MARK: - Preview Content
 #Preview {
 	MainActor.assumeIsolated {
+		let filterQueries: [FilterQuery] = [
+			FilterQuery(isFirstQuery: true),
+			FilterQuery(isFirstQuery: false),
+		]
 		let container = previewContainer
 		return FilterView(
 			filterQueries: filterQueries,
@@ -88,11 +92,6 @@ struct FilterView: View {
 		.modelContainer(container)
 	}
 }
-
-private let filterQueries: [FilterQuery] = [
-	FilterQuery(isFirstQuery: true),
-	FilterQuery(isFirstQuery: false),
-]
 
 @MainActor
 private let previewContainer: ModelContainer = {

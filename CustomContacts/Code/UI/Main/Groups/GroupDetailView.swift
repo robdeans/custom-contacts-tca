@@ -11,6 +11,7 @@ import Dependencies
 import SwiftData
 import SwiftUI
 
+@MainActor
 struct GroupDetailView: View {
 	@Dependency(\.contactsRepository) private var contactsRepository
 	@Bindable private(set) var group: ContactGroup

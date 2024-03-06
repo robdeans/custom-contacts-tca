@@ -8,15 +8,15 @@
 
 import SwiftUI
 
-extension EnvironmentValues {
-	var screenSize: CGRect {
-		self[ScreenSizeKey.self]
-	}
-}
-
-private struct ScreenSizeKey: EnvironmentKey {
-	static var defaultValue: CGRect {
-		// TODO: move away from UIScreen.main.bounds
-		UIScreen.main.bounds
-	}
-}
+//extension EnvironmentValues {
+//	var screenSize: CGRect {
+//		self[ScreenSizeKey.self]
+//	}
+//}
+//
+//private struct ScreenSizeKey: EnvironmentKey {
+//	static var defaultValue: CGRect {
+//		// TODO: move away from UIScreen.main.bounds
+//		UIScreen.main.bounds
+//	}
+//}
