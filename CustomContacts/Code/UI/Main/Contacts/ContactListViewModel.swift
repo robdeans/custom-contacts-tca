@@ -9,17 +9,36 @@
 import Combine
 import CustomContactsModels
 import Dependencies
-import Observation
+import Foundation
 
 extension ContactListView {
-	@Observable final class ViewModel {
-		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
-		private(set) var contacts: [Contact] = []
-		private(set) var isLoading = false
-		private(set) var error: Error?
+	final class ViewModel: ObservableObject {
+		@Published private var contacts: [Contact] = []
+		@Published private(set) var contactsSections: [(String, [Contact])] = []
 
-		var searchText = ""
-		private(set) var filterQueries: [FilterQuery] = []
+		@Published var searchText = ""
+		@Published private(set) var filterQueries: [FilterQuery] = []
+
+		@Published private(set) var isLoading = false
+		@Published private(set) var error: Error?
+
+		private var cancellables = Set<AnyCancellable>()
+
+		init() {
+			Publishers.CombineLatest3(
+				$contacts.removeDuplicates(),
+				$searchText
+					.debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
+					.removeDuplicates(),
+				$filterQueries.removeDuplicates()
+			)
+			.map(Self.contactsSection)
+			.receive(on: DispatchQueue.main)
+			.sink { [weak self] in
+				self?.contactsSections = $0
+			}
+			.store(in: &cancellables)
+		}
 
 		@MainActor func loadContacts(refresh: Bool = false) async {
 			defer {
@@ -29,6 +48,7 @@ extension ContactListView {
 			isLoading = true
 
 			do {
+				@Dependency(\.contactsRepository) var contactsRepository
 				contacts = try await contactsRepository.getAllContacts(refresh)
 			} catch {
 				self.error = error
@@ -38,9 +58,19 @@ extension ContactListView {
 }
 
 extension ContactListView.ViewModel {
-	func contactsSections() -> [(String, [Contact])] {
+	private static func contactsSection(
+		contacts: [Contact],
+		searchText: String,
+		filterQueries: [FilterQuery]
+	) -> [(String, [Contact])] {
+		@Dependency(\.contactsProvider) var contactsProvider
+		let contactIDs = Set(contacts.map { $0.id })
+		let contactsDisplayable = contactsProvider.filterContacts(contactIDs, filterQueries)
+			.filter(searchText: searchText)
+
 		var valueDictionary: [String: [Contact]] = [:]
-		contactsDisplayable().forEach { contact in
+
+		contactsDisplayable.forEach { contact in
 			let letter = {
 				switch Contact.SortOption.current.parameter {
 				case .firstName:
@@ -49,58 +79,11 @@ extension ContactListView.ViewModel {
 					contact.lastName.first.map { String($0).uppercased() } ?? "-"
 				}
 			}()
-			var contacts = valueDictionary[letter] ?? []
-			contacts.append(contact)
-			valueDictionary[letter] = contacts
+			valueDictionary[letter] = (valueDictionary[letter] ?? []) + [contact]
 		}
 		return valueDictionary
 			.map { ($0.key, $0.value) }
 			.sorted()
-	}
-
-	// Given the switch case and usage of Set methods, this could be more efficient.
-	// TODO: re-test with larger contacts data set and
-	// TODO: add test coverage
-	private func contactsDisplayable() -> [Contact] {
-		/// Forces `contactsDisplayable` to update when `\.contacts` changes (?)
-		access(keyPath: \.contacts)
-
-		var filteredContactIDs = Set<Contact.ID>()
-		if !filterQueries.isEmpty {
-			filterQueries.forEach {
-				switch $0.logic {
-				case .and:
-					switch $0.filter {
-					case .include:
-						filteredContactIDs.formIntersection($0.group.contactIDs)
-					case .exclude:
-						var allContactIDsExcludingGroup = contactsRepository.contactIDs()
-						$0.group.contactIDs.forEach {
-							filteredContactIDs.remove($0)
-							allContactIDsExcludingGroup.remove($0)
-						}
-						filteredContactIDs.formUnion(allContactIDsExcludingGroup)
-					}
-				case .or:
-					switch $0.filter {
-					case .include:
-						filteredContactIDs.formUnion($0.group.contactIDs)
-					case .exclude:
-						var allContactIDsExcludingGroup = contactsRepository.contactIDs()
-						$0.group.contactIDs.forEach {
-							allContactIDsExcludingGroup.remove($0)
-						}
-						filteredContactIDs.formUnion(allContactIDsExcludingGroup)
-					}
-				}
-			}
-		} else {
-			filteredContactIDs = contactsRepository.contactIDs()
-		}
-
-		return filteredContactIDs
-			.compactMap(contactsRepository.getContact)
-			.filter(searchText: searchText)
 	}
 }
 
@@ -111,7 +94,7 @@ extension ContactListView.ViewModel {
 			ascending: ascending ?? Contact.SortOption.current.ascending
 		)
 		@Dependency(\.contactsProvider) var contactsProvider
-		contacts = contactsProvider.sortContacts(updatedSortOption)
+		contacts = contactsProvider.sortContacts(contacts, updatedSortOption)
 	}
 
 	func addQuery(_ query: FilterQuery) {
