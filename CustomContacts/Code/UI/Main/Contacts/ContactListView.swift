@@ -11,7 +11,7 @@ import SwiftUI
 
 struct ContactListView: View {
 	@StateObject private var contactListNavigation = ContactListNavigation()
-	@Bindable var viewModel: ViewModel
+	@StateObject var viewModel: ViewModel
 
 	var body: some View {
 		NavigationStack(path: $contactListNavigation.path) {
@@ -46,9 +46,8 @@ struct ContactListView: View {
 		} else {
 			VStack {
 /*
-
 Disable until functionality and placement can be better considered
- 
+
 				FilterView(
 					filterQueries: viewModel.filterQueries,
 					onAddQueryTapped: { viewModel.addQuery($0) },
@@ -57,7 +56,7 @@ Disable until functionality and placement can be better considered
 				)
 */
 				List {
-					ForEach(viewModel.contactsSections(), id: \.0) { letter, contacts in
+					ForEach(viewModel.contactsSections, id: \.0) { letter, contacts in
 						Section(letter.capitalized) {
 							ForEach(contacts) { contact in
 								ContactCardView(contact: contact)

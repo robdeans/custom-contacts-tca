@@ -11,8 +11,8 @@ import Dependencies
 import SwiftyUserDefaults
 
 struct ContactsProvider {
-	var sortContacts: (_ sortOption: Contact.SortOption) -> [Contact]
-	var filterContacts: ([FilterQuery]) -> [Contact]
+	var sortContacts: ([Contact], Contact.SortOption) -> [Contact]
+	var filterContacts: (Set<Contact.ID>, [FilterQuery]) -> [Contact]
 	var currentSortOption: () -> Contact.SortOption
 }
 
@@ -25,16 +25,14 @@ extension DependencyValues {
 
 extension ContactsProvider: DependencyKey {
 	static var liveValue: ContactsProvider {
-		@Dependency(\.contactsRepository) var contactsRepository
-		return Self(
-			sortContacts: { sortOption in
+		Self(
+			sortContacts: { contacts, sortOption in
 				Defaults[\.contactsSortOption] = sortOption
-				return contactsRepository.contacts().sorted(by: sortOption)
+				return contacts.sorted(by: sortOption)
 			},
-			filterContacts: { filterQueries in
+			filterContacts: { contactIDs, filterQueries in
 				// Given the switch case and usage of Set methods, this could be more efficient.
 				// TODO: re-test with larger contacts data set and
-				// TODO: add test coverage
 
 				var filteredContactIDs = Set<Contact.ID>()
 				if !filterQueries.isEmpty {
@@ -45,7 +43,7 @@ extension ContactsProvider: DependencyKey {
 							case .include:
 								filteredContactIDs.formIntersection($0.group.contactIDs)
 							case .exclude:
-								var allContactIDsExcludingGroup = contactsRepository.contactIDs()
+								var allContactIDsExcludingGroup = contactIDs
 								$0.group.contactIDs.forEach {
 									filteredContactIDs.remove($0)
 									allContactIDsExcludingGroup.remove($0)
@@ -57,7 +55,7 @@ extension ContactsProvider: DependencyKey {
 							case .include:
 								filteredContactIDs.formUnion($0.group.contactIDs)
 							case .exclude:
-								var allContactIDsExcludingGroup = contactsRepository.contactIDs()
+								var allContactIDsExcludingGroup = contactIDs
 								$0.group.contactIDs.forEach {
 									allContactIDsExcludingGroup.remove($0)
 								}
@@ -66,9 +64,10 @@ extension ContactsProvider: DependencyKey {
 						}
 					}
 				} else {
-					filteredContactIDs = contactsRepository.contactIDs()
+					filteredContactIDs = contactIDs
 				}
 
+				@Dependency(\.contactsRepository) var contactsRepository
 				return filteredContactIDs
 					.compactMap(contactsRepository.getContact)
 			},

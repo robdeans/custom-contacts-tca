@@ -47,6 +47,6 @@ let package = Package(
 				"CustomContactsHelpers",
 			],
 			path: "./Models"
-		)
+		),
 	]
 )

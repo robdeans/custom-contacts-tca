@@ -41,3 +41,10 @@ extension FilterQuery {
 		case or
 	}
 }
+
+extension FilterQuery: Equatable {
+	// TODO: revisit this when re-implementing filtering
+	static func == (lhs: FilterQuery, rhs: FilterQuery) -> Bool {
+		lhs.id == rhs.id
+	}
+}

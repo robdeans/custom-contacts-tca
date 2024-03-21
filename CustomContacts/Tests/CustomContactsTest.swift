@@ -13,7 +13,7 @@ final class CustomContactsTest: XCTestCase {
 	func testLoadContacts() async {
 		let viewModel = ContactListView.ViewModel()
 		await viewModel.loadContacts(refresh: true)
-		XCTAssert(!viewModel.contacts.isEmpty)
+		XCTAssert(!viewModel.contactsSections.isEmpty)
 
 	}
 

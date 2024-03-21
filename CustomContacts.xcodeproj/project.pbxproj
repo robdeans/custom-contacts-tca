@@ -65,6 +65,7 @@
 		E87A3DFE2A8C139C0068F34C /* ContactGroup+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DFD2A8C139C0068F34C /* ContactGroup+Extensions.swift */; };
 		E88DA29E2AA120E2002797AB /* FilterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88DA29D2AA120E2002797AB /* FilterRowView.swift */; };
 		E88DA2A02AA12188002797AB /* FilterQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88DA29F2AA12188002797AB /* FilterQuery.swift */; };
+		E8966E1F2BABD3FA00C41665 /* ContactsProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8966E1E2BABD3FA00C41665 /* ContactsProviderTests.swift */; };
 		E8A497EA2AABA6F20057C78B /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A497E92AABA6F20057C78B /* Color+Extensions.swift */; };
 		E8C33FF32A9F982A0004E455 /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF22A9F982A0004E455 /* ContactCardView.swift */; };
 		E8C33FF52A9FE04E0004E455 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF42A9FE04E0004E455 /* FilterView.swift */; };
@@ -138,6 +139,7 @@
 		E87A3DFD2A8C139C0068F34C /* ContactGroup+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactGroup+Extensions.swift"; sourceTree = "<group>"; };
 		E88DA29D2AA120E2002797AB /* FilterRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterRowView.swift; sourceTree = "<group>"; };
 		E88DA29F2AA12188002797AB /* FilterQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterQuery.swift; sourceTree = "<group>"; };
+		E8966E1E2BABD3FA00C41665 /* ContactsProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsProviderTests.swift; sourceTree = "<group>"; };
 		E8A497E92AABA6F20057C78B /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		E8C33FF22A9F982A0004E455 /* ContactCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardView.swift; sourceTree = "<group>"; };
 		E8C33FF42A9FE04E0004E455 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 			children = (
 				F4CD70402000046A0013EE7B /* Info.plist */,
 				E81C37AC2AAFAC3A00FE487F /* CustomContactsTest.swift */,
+				E8966E1E2BABD3FA00C41665 /* ContactsProviderTests.swift */,
 				E81C37AB2AAFAC3A00FE487F /* CustomContactsTests-Bridging-Header.h */,
 			);
 			path = Tests;
@@ -681,6 +684,7 @@
 				E85F50772B61B42C00E62286 /* FilterQuery.swift in Sources */,
 				E85F50742B61B34200E62286 /* ContactListViewModel.swift in Sources */,
 				E85F50792B61B44100E62286 /* ContactListNavigation.swift in Sources */,
+				E8966E1F2BABD3FA00C41665 /* ContactsProviderTests.swift in Sources */,
 				E85F50762B61B42000E62286 /* ContactsRepository.swift in Sources */,
 				E85F50802B61B4A200E62286 /* ContactGroup+Extensions.swift in Sources */,
 				5227EB492964968E004117A2 /* (null) in Sources */,
