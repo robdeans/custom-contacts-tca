@@ -12,9 +12,15 @@ import CustomContactsService
 import Dependencies
 
 struct ContactsRepository {
+	/// Returns an array `[Contact]`
+	///
+	/// If `refresh: true` the array is fetched from ContactsService, otherwise the locally stored array is provided
 	var getAllContacts: (_ refresh: Bool) async throws -> [Contact]
+
+	/// Fetches a contact from a local dictionary; O(1) lookup time
 	var getContact: (_ id: Contact.ID) -> Contact?
-	var contactIDs: () -> Set<Contact.ID>
+
+	/// Returns a local array of `[Contact]`; no conversions or computations
 	var contacts: () -> [Contact]
 }
 
@@ -31,7 +37,6 @@ extension ContactsRepository: DependencyKey {
 
 		// swiftlint:disable identifier_name
 		var _contacts: [Contact] = []
-		var contactIDsSet: Set<Contact.ID> = []
 		var contactDictionary: [Contact.ID: Contact] = [:]
 
 		return Self(
@@ -44,7 +49,6 @@ extension ContactsRepository: DependencyKey {
 					return []
 				}
 				_contacts = try await contactsService.fetchContacts()
-				contactIDsSet = Set(_contacts.map { $0.id })
 				contactDictionary = Dictionary(
 					_contacts.map { ($0.id, $0) },
 					uniquingKeysWith: { _, last in last }
@@ -52,20 +56,16 @@ extension ContactsRepository: DependencyKey {
 				LogInfo("Repository returning \(_contacts.count) contact(s)")
 				return _contacts
 			},
-			getContact: { id in
-				contactDictionary[id]
-			},
-			contactIDs: { contactIDsSet },
+			getContact: { contactDictionary[$0] },
 			contacts: { _contacts }
 		)
 	}
-	static var testValue: Self {
+	static var previewValue: Self {
 		Self(
 			getAllContacts: { _ in Contact.mockArray },
 			getContact: { _ in Contact.mock },
-			contactIDs: { [] },
 			contacts: { Contact.mockArray }
 		)
 	}
-	static var previewValue = Self.testValue
+	static var testValue: ContactsRepository = .liveValue
 }

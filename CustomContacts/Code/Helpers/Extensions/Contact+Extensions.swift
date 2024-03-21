@@ -9,13 +9,6 @@
 import CustomContactsModels
 import Dependencies
 
-extension Contact.SortOption {
-	static var current: Contact.SortOption {
-		@Dependency(\.contactsProvider) var contactsProvider
-		return contactsProvider.currentSortOption()
-	}
-}
-
 extension Sequence where Element == Contact {
 	func sorted(by sortOption: Contact.SortOption = .current) -> [Contact] {
 		switch sortOption.parameter {

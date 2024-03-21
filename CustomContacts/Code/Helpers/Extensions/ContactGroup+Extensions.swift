@@ -31,8 +31,14 @@ extension ContactGroup {
 		return ContactGroup(
 			id: "",
 			name: "All Contacts",
-			contactIDs: contactsRepository.contactIDs(),
+			contactIDs: Set(contactsRepository.contacts().map { $0.id }),
 			colorHex: ""
 		)
+	}
+
+	func contacts() -> [Contact] {
+		@Dependency(\.contactsRepository) var contactsRepository
+		return self.contactIDs
+			.compactMap { contactsRepository.getContact($0) }
 	}
 }
