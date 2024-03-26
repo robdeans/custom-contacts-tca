@@ -9,8 +9,8 @@
 import Foundation
 import SwiftData
 
-@Model // TODO: this shouldn't be `@unchecked`
-public final class ContactGroup: @unchecked Sendable {
+@Model // TODO: this `@Model` shouldn't be Sendable...?
+public final class ContactGroup/*: Sendable*/ {
 	public let id: ContactGroup.ID
 	public var name: String
 	public var contactIDs: Set<Contact.ID>
@@ -44,11 +44,15 @@ extension ContactGroup: Hashable {
 }
 
 extension ContactGroup {
-	public static let mock = ContactGroup(id: "1", name: "Group Name", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "0000FF")
+	public static var mock: ContactGroup {
+		ContactGroup(id: "1", name: "Group Name", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "0000FF")
+	}
 
-	public static let mockArray = [
-		ContactGroup(id: "1", name: "Friendz", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "0000FF"),
-		ContactGroup(id: "2", name: "Enemies", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "FF0000"),
-		ContactGroup(id: "3", name: "Family", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "00FF00"),
-	]
+	public static var mockArray: [ContactGroup] {
+		[
+			ContactGroup(id: "1", name: "Friendz", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "0000FF"),
+			ContactGroup(id: "2", name: "Enemies", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "FF0000"),
+			ContactGroup(id: "3", name: "Family", contactIDs: Set(Contact.mockArray.map { $0.id }), colorHex: "00FF00"),
+		]
+	}
 }

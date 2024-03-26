@@ -15,8 +15,8 @@ private enum Layout {
 	static let bottomViewHeight = CGFloat(40)
 }
 
+@MainActor
 struct GroupCreationView: View {
-	@Dependency(\.uuid) private var uuid
 	@Dependency(\.contactsRepository) private var contactsRepository
 
 	@Environment(\.modelContext) private var modelContext
@@ -77,34 +77,7 @@ struct GroupCreationView: View {
 				)
 
 				Button(
-					action: {
-						let newGroup = ContactGroup(
-							id: id,
-							name: name,
-							contactIDs: selectedContactIDs,
-							colorHex: color.toHex ?? ""
-						)
-						let container = modelContext.container
-
-						let createGroupTask = Task.detached {
-							let handler = ContactGroupHandler(modelContainer: container)
-							let group = try await handler.create(group: newGroup)
-							return group
-						}
-						Task {
-							do {
-								if let group = try await createGroupTask.value {
-									LogInfo("Group created: \(group.name)")
-									dismiss()
-								} else {
-									throw GroupCreationError()
-								}
-							} catch {
-								LogError("Group creation failed: \(error.localizedDescription)")
-								showError = true
-							}
-						}
-					},
+					action: createGroup,
 					label: {
 						Text(Localizable.Common.Actions.save)
 							.frame(maxWidth: .infinity)
@@ -116,13 +89,34 @@ struct GroupCreationView: View {
 		}
 		.sheet(item: $contactSelectorView) { $0 }
 	}
-}
 
-extension GroupCreationView: Identifiable {
-	var id: String {
-		uuid().uuidString
+	/// Saves `ContactGroup` on main thread as this is a light data load
+	/// and action is immediately related to user actions
+	private func createGroup() {
+		Task(priority: .userInitiated) {
+			PrintCurrentThread("createGroup")
+			do {
+				let container = modelContext.container
+				let handler = ContactGroupHandler(modelContainer: container)
+
+				let groupID = try await handler.createGroup(
+					name: name,
+					contactIDs: selectedContactIDs,
+					colorHex: color.toHex ?? ""
+				)
+				LogInfo("Group created: \(groupID)")
+				dismiss()
+			} catch {
+				LogError("Group creation failed: \(error.localizedDescription)")
+				showError = true
+			}
+		}
 	}
 }
 
-// TODO: real error handling
-private struct GroupCreationError: Error { }
+extension GroupCreationView: Identifiable {
+	nonisolated var id: String {
+		// TODO: is this the best way to determine ID?
+		"GroupCreationView"
+	}
+}

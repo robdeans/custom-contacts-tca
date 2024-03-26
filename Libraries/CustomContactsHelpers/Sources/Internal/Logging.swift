@@ -10,6 +10,10 @@
 
 import OSLog
 
+public func PrintCurrentThread(_ message: @escaping @autoclosure () -> String) {
+	print("🧵 \(message()): \(String(cString: __dispatch_queue_get_label(nil)))")
+}
+
 /// This method is functionally equivilent to the debug(_:) method.
 public func LogTrace(_ message: @escaping @autoclosure () -> String, file: String = #file, function: String = #function, line: UInt = #line) {
 #if !LOGS_DISABLED
