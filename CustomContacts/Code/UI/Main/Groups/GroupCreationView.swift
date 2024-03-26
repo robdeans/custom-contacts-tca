@@ -6,6 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
+import CustomContactsHelpers
 import CustomContactsModels
 import Dependencies
 import SwiftUI
@@ -26,6 +27,8 @@ struct GroupCreationView: View {
 	@State private(set) var selectedContactIDs = Set<Contact.ID>()
 
 	@State private var contactSelectorView: ContactSelectorView?
+
+	@State private var showError = false
 
 	var body: some View {
 		ZStack {
@@ -81,8 +84,26 @@ struct GroupCreationView: View {
 							contactIDs: selectedContactIDs,
 							colorHex: color.toHex ?? ""
 						)
-						modelContext.insert(newGroup)
-						dismiss()
+						let container = modelContext.container
+
+						let createGroupTask = Task.detached {
+							let handler = ContactGroupHandler(modelContainer: container)
+							let group = try await handler.create(group: newGroup)
+							return group
+						}
+						Task {
+							do {
+								if let group = try await createGroupTask.value {
+									LogInfo("Group created: \(group.name)")
+									dismiss()
+								} else {
+									throw GroupCreationError()
+								}
+							} catch {
+								LogError("Group creation failed: \(error.localizedDescription)")
+								showError = true
+							}
+						}
 					},
 					label: {
 						Text(Localizable.Common.Actions.save)
@@ -102,3 +123,6 @@ extension GroupCreationView: Identifiable {
 		uuid().uuidString
 	}
 }
+
+// TODO: real error handling
+private struct GroupCreationError: Error { }

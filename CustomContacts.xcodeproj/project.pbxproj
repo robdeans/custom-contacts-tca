@@ -68,6 +68,7 @@
 		E88DA2A02AA12188002797AB /* FilterQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88DA29F2AA12188002797AB /* FilterQuery.swift */; };
 		E8966E1F2BABD3FA00C41665 /* ContactsProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8966E1E2BABD3FA00C41665 /* ContactsProviderTests.swift */; };
 		E8A497EA2AABA6F20057C78B /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A497E92AABA6F20057C78B /* Color+Extensions.swift */; };
+		E8B431D42BB36AFC004E7616 /* ContactGroupHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B431D32BB36AFC004E7616 /* ContactGroupHandler.swift */; };
 		E8C33FF32A9F982A0004E455 /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF22A9F982A0004E455 /* ContactCardView.swift */; };
 		E8C33FF52A9FE04E0004E455 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF42A9FE04E0004E455 /* FilterView.swift */; };
 		E8C33FF82AA0E4C50004E455 /* SwipeableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */; };
@@ -143,6 +144,7 @@
 		E88DA29F2AA12188002797AB /* FilterQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterQuery.swift; sourceTree = "<group>"; };
 		E8966E1E2BABD3FA00C41665 /* ContactsProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsProviderTests.swift; sourceTree = "<group>"; };
 		E8A497E92AABA6F20057C78B /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		E8B431D32BB36AFC004E7616 /* ContactGroupHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactGroupHandler.swift; sourceTree = "<group>"; };
 		E8C33FF22A9F982A0004E455 /* ContactCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardView.swift; sourceTree = "<group>"; };
 		E8C33FF42A9FE04E0004E455 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableRowView.swift; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 				DF3B36C121ECAF8A0033C858 /* Errors */,
 				F4CD704C2000095C0013EE7B /* Extensions */,
 				E87A3DE62A8ABE0F0068F34C /* Constants.swift */,
+				E8B431D32BB36AFC004E7616 /* ContactGroupHandler.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				E8D67B9B2A8AB21C00300FE0 /* ContactListView.swift in Sources */,
 				E8C33FF32A9F982A0004E455 /* ContactCardView.swift in Sources */,
 				DF3B36F021ECAF8A0033C858 /* ApplicationError.swift in Sources */,
+				E8B431D42BB36AFC004E7616 /* ContactGroupHandler.swift in Sources */,
 				DF3B36F221ECAF8A0033C858 /* ActionError+DisplayableSwiftError.swift in Sources */,
 				DF3B36F921ECAF8A0033C858 /* Error+DisplayableError.swift in Sources */,
 				DF3B36F121ECAF8A0033C858 /* SwiftError.swift in Sources */,
