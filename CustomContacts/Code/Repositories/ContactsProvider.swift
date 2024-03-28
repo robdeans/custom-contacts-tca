@@ -8,11 +8,10 @@
 
 import CustomContactsModels
 import Dependencies
-import SwiftyUserDefaults
 
-struct ContactsProvider {
-	var sortContacts: ([Contact], Contact.SortOption) -> [Contact]
-	var filterContacts: (Set<Contact.ID>, [FilterQuery]) -> [Contact]
+struct ContactsProvider: Sendable {
+	var sortContacts: @Sendable ([Contact], Contact.SortOption) -> [Contact]
+	var filterContacts: @Sendable (Set<Contact.ID>, [FilterQuery]) -> [Contact]
 }
 
 extension DependencyValues {
@@ -26,7 +25,8 @@ extension ContactsProvider: DependencyKey {
 	static var liveValue: ContactsProvider {
 		Self(
 			sortContacts: { contacts, sortOption in
-				Defaults[\.contactsSortOption] = sortOption
+				@Dependency(\.userSettings) var userSettings
+				userSettings.setSortOption(sortOption)
 				return contacts.sorted(by: sortOption)
 			},
 			filterContacts: { contactIDs, filterQueries in
@@ -72,5 +72,4 @@ extension ContactsProvider: DependencyKey {
 			}
 		)
 	}
-	static var testValue: ContactsProvider = .liveValue
 }

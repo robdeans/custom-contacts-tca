@@ -24,7 +24,7 @@ extension View {
 }
 
 private struct EdgeSwipeCardFlipModifier: ViewModifier {
-	@Environment(\.screenSize) private var screenSize
+	@MainActor private var screenSize: CGRect { Constants.UI.Screen.bounds }
 
 	let minThreshold: CGFloat
 	let onChanged: ((Angle) -> Void)?
@@ -133,6 +133,7 @@ private struct EdgeSwipeCardFlipModifier: ViewModifier {
 }
 
 extension EdgeSwipeCardFlipModifier {
+	@MainActor
 	private func gestureExceedsThreshold(_ gesture: DragGesture.Value) -> Bool {
 		gesture.startLocation.x <= minThreshold
 		|| gesture.startLocation.x >= (screenSize.width - minThreshold)

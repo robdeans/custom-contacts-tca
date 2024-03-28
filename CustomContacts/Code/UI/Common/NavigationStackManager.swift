@@ -9,23 +9,27 @@
 import Combine
 import SwiftUI
 
+@MainActor
 protocol NavigationPath<Destination>: Hashable {
 	associatedtype Destination: View
-	@ViewBuilder var destination: Destination { get }
+	@MainActor @ViewBuilder var destination: Destination { get }
 }
 
 protocol NavigationStackManager<Path>: AnyObject, ObservableObject {
 	associatedtype Path: NavigationPath
+	@MainActor
 	var path: [Path] { get set }
 }
 
 extension NavigationStackManager {
+	@MainActor
 	func dismissToRoot() {
 		path.removeAll()
 	}
 }
 
 extension View {
+	@MainActor
 	func navigationDestination<Manager: NavigationStackManager>(
 		for manager: Manager
 	) -> some View {

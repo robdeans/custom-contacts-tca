@@ -4,11 +4,6 @@ fonts:
   outputs:
     - templatePath: ../../Templates/SwiftGen/FontsTemplate.stencil
       output: Fonts+Constants.generated.swift
-json:
-  inputs: '../../CustomContacts/Resources/Assets.xcassets/AppIcon.appiconset/Contents.json'
-  outputs:
-    - templatePath: ../../Templates/SwiftGen/JSON.stencil
-      output: JSON.generated.swift
 plist:
   inputs: '../../CustomContacts/Resources'
   outputs:

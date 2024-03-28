@@ -14,6 +14,7 @@ private enum Layout {
 	static let flippedAngle = -Angle(degrees: 180)
 }
 
+@MainActor
 struct RootView: View {
 	private let contactListViewModel = ContactListView.ViewModel()
 	@State private var showContactList = true
@@ -53,7 +54,7 @@ struct RootView: View {
 				)
 		}
 		// Hack to prevent NavigationStack resizing jitters
-		.frame(height: UIScreen.main.bounds.height + 25)
+		.frame(height: Constants.UI.Screen.bounds.height + 25)
 	}
 }
 

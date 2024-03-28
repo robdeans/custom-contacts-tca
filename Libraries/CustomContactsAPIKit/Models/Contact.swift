@@ -9,7 +9,7 @@
 import Contacts
 import CustomContactsHelpers
 
-public struct Contact: Identifiable {
+public struct Contact: Identifiable, Sendable {
 	public let id: Contact.ID
 	public let firstName: String
 	public let lastName: String
