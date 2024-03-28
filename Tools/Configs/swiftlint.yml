@@ -70,7 +70,6 @@ only_rules:
   - multiline_parameters
   - multiple_closures_with_trailing_closure
   - nimble_operator
-  - no_extension_access_modifier
   - no_fallthrough_only
   - no_space_in_method_call
   - notification_center_detachment
@@ -162,7 +161,6 @@ vertical_whitespace:
 syntactic_sugar: warning
 fatal_error_message: error
 override_in_extension: error
-no_extension_access_modifier: warning
 multiline_arguments:
   severity: warning
   first_argument_location: next_line

@@ -25,8 +25,8 @@ extension ContactsProvider: DependencyKey {
 	static var liveValue: ContactsProvider {
 		Self(
 			sortContacts: { contacts, sortOption in
-				// TODO: add Defaults property wrapper
-				// Defaults[\.contactsSortOption] = sortOption
+				@Dependency(\.userSettings) var userSettings
+				userSettings.setSortOption(sortOption)
 				return contacts.sorted(by: sortOption)
 			},
 			filterContacts: { contactIDs, filterQueries in

@@ -7,20 +7,11 @@
 //
 
 import CustomContactsModels
+import Dependencies
 
-extension Contact.SortOption { //}: DefaultsSerializable {
+extension Contact.SortOption {
 	static var current: Contact.SortOption {
-		// TODO: add Defaults property wrapper
-		// Defaults[\.contactsSortOption]
-		Contact.SortOption(parameter: .firstName, ascending: true)
+		@Dependency(\.userSettings) var userSettings
+		return userSettings.contactsSortOption
 	}
 }
-
-//extension DefaultsKeys {
-//	var contactsSortOption: DefaultsKey<Contact.SortOption> {
-//		.init(
-//			"contactsSortOption",
-//			defaultValue: Contact.SortOption(parameter: .lastName, ascending: true)
-//		)
-//	}
-//}
