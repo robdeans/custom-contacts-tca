@@ -9,7 +9,8 @@
 import SwiftUI
 
 struct FramePreferenceKey: PreferenceKey {
-	// TODO: should `defaultValue` be reverted to a variable... probably
+	// TODO: revert `defaultValue` to a variable when SwipeableRowView is required
+
 	static let defaultValue: CGRect = .zero
 	static func reduce(value: inout CGRect, nextValue: () -> CGRect) {}
 }

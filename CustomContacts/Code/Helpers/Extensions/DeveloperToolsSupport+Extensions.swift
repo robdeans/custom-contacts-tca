@@ -11,6 +11,7 @@ import DeveloperToolsSupport
 #endif
 import Foundation
 
+// TODO: remove when this issue is resolved
 // https://forums.swift.org/t/xcode-15-3-rc-issues-warnings-for-generated-code/70353/8
 extension DeveloperToolsSupport.ColorResource: @unchecked Sendable {}
 extension DeveloperToolsSupport.ImageResource: @unchecked Sendable {}

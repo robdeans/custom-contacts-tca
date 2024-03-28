@@ -31,7 +31,6 @@
 		E80F25D02B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80F25CF2B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift */; };
 		E81C37AD2AAFAC3A00FE487F /* ContactListViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81C37AC2AAFAC3A00FE487F /* ContactListViewModelTest.swift */; };
 		E821393C2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */; };
-		E821393E2B1A5C49009ABF4E /* ScreenSizeKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E821393D2B1A5C49009ABF4E /* ScreenSizeKey.swift */; };
 		E82139402B1A7677009ABF4E /* NavigationStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E821393F2B1A7677009ABF4E /* NavigationStackManager.swift */; };
 		E82139422B1A76B2009ABF4E /* ContactListNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82139412B1A76B2009ABF4E /* ContactListNavigation.swift */; };
 		E82139442B1A7887009ABF4E /* GroupListNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82139432B1A7887009ABF4E /* GroupListNavigation.swift */; };
@@ -126,7 +125,6 @@
 		E81C37AB2AAFAC3A00FE487F /* CustomContactsTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomContactsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		E81C37AC2AAFAC3A00FE487F /* ContactListViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListViewModelTest.swift; sourceTree = "<group>"; };
 		E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeSwipeCardFlipModifier.swift; sourceTree = "<group>"; };
-		E821393D2B1A5C49009ABF4E /* ScreenSizeKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenSizeKey.swift; sourceTree = "<group>"; };
 		E821393F2B1A7677009ABF4E /* NavigationStackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStackManager.swift; sourceTree = "<group>"; };
 		E82139412B1A76B2009ABF4E /* ContactListNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListNavigation.swift; sourceTree = "<group>"; };
 		E82139432B1A7887009ABF4E /* GroupListNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListNavigation.swift; sourceTree = "<group>"; };
@@ -310,7 +308,6 @@
 				E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */,
 				E87A3DF72A8BE4A30068F34C /* NavigationLinkHelper.swift */,
 				E8FA23DB2AA77847006DE429 /* PreferenceKeys.swift */,
-				E821393D2B1A5C49009ABF4E /* ScreenSizeKey.swift */,
 				E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */,
 				E821393F2B1A7677009ABF4E /* NavigationStackManager.swift */,
 			);
@@ -635,7 +632,6 @@
 				DF3B36C021ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift in Sources */,
 				E82139422B1A76B2009ABF4E /* ContactListNavigation.swift in Sources */,
 				E8D67B9D2A8AB27200300FE0 /* GroupListView.swift in Sources */,
-				E821393E2B1A5C49009ABF4E /* ScreenSizeKey.swift in Sources */,
 				E8233DD22A8695EB00D52D84 /* Contact+Extensions.swift in Sources */,
 				E8D67B9B2A8AB21C00300FE0 /* ContactListView.swift in Sources */,
 				E8C33FF32A9F982A0004E455 /* ContactCardView.swift in Sources */,

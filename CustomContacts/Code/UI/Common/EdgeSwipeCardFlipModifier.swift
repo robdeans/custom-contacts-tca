@@ -24,7 +24,7 @@ extension View {
 }
 
 private struct EdgeSwipeCardFlipModifier: ViewModifier {
-	/*@Environment(\.screenSize)*/ @MainActor private var screenSize: CGRect { Constants.UI.Screen.bounds }
+	@MainActor private var screenSize: CGRect { Constants.UI.Screen.bounds }
 
 	let minThreshold: CGFloat
 	let onChanged: ((Angle) -> Void)?

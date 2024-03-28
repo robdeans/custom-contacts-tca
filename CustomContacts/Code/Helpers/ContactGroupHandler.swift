@@ -14,12 +14,6 @@ import SwiftData
 @ModelActor
 actor ContactGroupHandler {
 	@discardableResult
-	func create(group: ContactGroup) throws -> PersistentIdentifier {
-		modelContext.insert(group)
-		try modelContext.save()
-		return group.persistentModelID
-	}
-
 	func createGroup(
 		name: String,
 		contactIDs: Set<Contact.ID>,

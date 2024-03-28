@@ -11,7 +11,7 @@
 import OSLog
 
 public func PrintCurrentThread(_ message: @escaping @autoclosure () -> String) {
-	print("🧵 \(message()): \(String(cString: __dispatch_queue_get_label(nil)))")
+	Logger().trace("🧵 \(message()): \(String(cString: __dispatch_queue_get_label(nil)))")
 }
 
 /// This method is functionally equivilent to the debug(_:) method.

@@ -21,6 +21,8 @@ final class UserSettings: @unchecked Sendable {
 	func setSortOption(_ updatedSortOption: Contact.SortOption) {
 		contactsSortOption = updatedSortOption
 	}
+
+	fileprivate init() {}
 }
 
 extension UserSettings: DependencyKey {
