@@ -28,6 +28,7 @@ private actor ContactStoreHandler {
 	}
 
 	func fetchContacts() async throws -> [Contact] {
+		LogCurrentThread("ContactStoreHandler.fetchContacts")
 		let request = CNContactFetchRequest(keysToFetch: Self.keysToFetch.compactMap { $0 as? CNKeyDescriptor })
 		return try await withCheckedThrowingContinuation { continuation in
 			do {
@@ -43,6 +44,7 @@ private actor ContactStoreHandler {
 		}
 	}
 	func requestPermissions() async throws -> Bool {
+		LogCurrentThread("ContactStoreHandler.requestPermissions")
 		let contactsAuthorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
 		switch contactsAuthorizationStatus {
 		case .authorized:

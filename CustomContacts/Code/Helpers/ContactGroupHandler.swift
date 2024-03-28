@@ -19,7 +19,7 @@ actor ContactGroupHandler {
 		contactIDs: Set<Contact.ID>,
 		colorHex: String
 	) throws -> PersistentIdentifier {
-		PrintCurrentThread("ContactGroupHandler")
+		LogCurrentThread("ContactGroupHandler")
 
 		@Dependency(\.uuid) var uuid
 

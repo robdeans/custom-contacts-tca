@@ -94,7 +94,7 @@ struct GroupCreationView: View {
 	/// and action is immediately related to user actions
 	private func createGroup() {
 		Task(priority: .userInitiated) {
-			PrintCurrentThread("createGroup")
+			LogCurrentThread("createGroup")
 			do {
 				let container = modelContext.container
 				let handler = ContactGroupHandler(modelContainer: container)
