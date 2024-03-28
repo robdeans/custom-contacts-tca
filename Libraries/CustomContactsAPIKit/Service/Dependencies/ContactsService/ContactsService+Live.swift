@@ -6,7 +6,7 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import Contacts
+@preconcurrency import Contacts
 import CustomContactsHelpers
 import CustomContactsModels
 

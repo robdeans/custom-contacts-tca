@@ -13,7 +13,6 @@ import Dependencies
 
 protocol ContactsRepository: Sendable {
 	func fetchContacts(refresh: Bool) async throws -> [Contact]
-	func getContacts() async -> [Contact]
 	func getContact(_ id: Contact.ID) async -> Contact?
 }
 
@@ -48,11 +47,6 @@ actor ContactsRepositoryLive: ContactsRepository {
 			return contacts
 		}
 		return try await fetchContactsTask.value
-	}
-
-	/// Returns contacts that have already been fetched; no throwing
-	func getContacts() -> [Contact] {
-		contacts
 	}
 
 	/// Fetches a contact from a local dictionary; O(1) lookup time
