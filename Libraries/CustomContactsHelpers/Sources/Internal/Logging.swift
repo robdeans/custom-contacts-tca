@@ -10,7 +10,7 @@
 
 import OSLog
 
-public func PrintCurrentThread(_ message: @escaping @autoclosure () -> String) {
+public func LogCurrentThread(_ message: @escaping @autoclosure () -> String) {
 	Logger().trace("🧵 \(message()): \(String(cString: __dispatch_queue_get_label(nil)))")
 }
 

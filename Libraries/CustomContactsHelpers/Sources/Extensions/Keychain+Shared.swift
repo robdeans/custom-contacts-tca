@@ -9,5 +9,5 @@
 import KeychainAccess
 
 extension Keychain {
-	public static let shared = Keychain(service: "com.robertdeans.CustomContacts")
+	public static var shared: Keychain { Keychain(service: "com.robertdeans.CustomContacts") }
 }
