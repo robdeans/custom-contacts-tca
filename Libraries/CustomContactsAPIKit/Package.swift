@@ -39,14 +39,20 @@ let package = Package(
 				"CustomContactsHelpers",
 				"CustomContactsModels",
 			],
-			path: "./Service"
+			path: "./Service",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency"),
+			]
 		),
 		.target(
 			name: "CustomContactsModels",
 			dependencies: [
 				"CustomContactsHelpers",
 			],
-			path: "./Models"
+			path: "./Models",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency"),
+			]
 		),
 	]
 )

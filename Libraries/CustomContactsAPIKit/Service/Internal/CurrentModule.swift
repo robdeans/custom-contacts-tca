@@ -9,7 +9,7 @@
 import Foundation
 
 enum CurrentModule {
-	static var name: String = {
+	static let name: String = {
 		let fullName = String(reflecting: CurrentModule.self)
 		if let nameRange = fullName.range(of: "CurrentModule", options: .backwards, range: nil, locale: nil) {
 			return String(fullName[..<fullName.index(nameRange.lowerBound, offsetBy: -1)])

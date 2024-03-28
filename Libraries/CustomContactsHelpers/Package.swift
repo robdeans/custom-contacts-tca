@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 //
 //  Package.swift
@@ -13,7 +13,7 @@ import PackageDescription
 let package = Package(
 	name: "CustomContactsHelpers",
 	platforms: [
-		.macOS(.v11), .iOS(.v14), .tvOS(.v9), .watchOS(.v2),
+		.macOS(.v11), .iOS(.v14), .tvOS(.v12), .watchOS(.v4),
 	],
 	products: [
 		.library(
@@ -30,7 +30,10 @@ let package = Package(
 			dependencies: [
 				"KeychainAccess",
 			],
-			path: "Sources"
+			path: "Sources",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency"),
+			]
 		),
 	]
 )

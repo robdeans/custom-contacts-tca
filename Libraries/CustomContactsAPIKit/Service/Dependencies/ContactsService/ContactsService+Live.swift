@@ -12,25 +12,13 @@ import CustomContactsModels
 
 extension ContactsService {
 	public static var liveValue: Self {
-		let store = CNContactStore()
-		let keysToFetch: [Any] = [
-			CNContactIdentifierKey,
-			CNContactTypeKey,
-			CNContactGivenNameKey,
-			CNContactFamilyNameKey,
-			CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
-			CNContactOrganizationNameKey,
-			CNContactEmailAddressesKey,
-			CNContactPostalAddressesKey,
-			CNContactPhoneNumbersKey,
-		]
-
-		return Self(
+		Self(
 			fetchContacts: {
-				let request = CNContactFetchRequest(keysToFetch: keysToFetch.compactMap { $0 as? CNKeyDescriptor })
+				let request = CNContactFetchRequest(keysToFetch: Self.keysToFetch.compactMap { $0 as? CNKeyDescriptor })
 				return try await withCheckedThrowingContinuation { continuation in
 					do {
 						var contacts: [Contact] = []
+						let store = CNContactStore()
 						try store.enumerateContacts(with: request) { cnContact, _ in
 							contacts.append(Contact(cnContact))
 						}
@@ -48,6 +36,7 @@ extension ContactsService {
 					return true
 				case .notDetermined:
 					do {
+						let store = CNContactStore()
 						return try await store.requestAccess(for: .contacts)
 					} catch {
 						throw error
@@ -60,5 +49,19 @@ extension ContactsService {
 				}
 			}
 		)
+	}
+
+	private static var keysToFetch: [Any] {
+		[
+			CNContactIdentifierKey,
+			CNContactTypeKey,
+			CNContactGivenNameKey,
+			CNContactFamilyNameKey,
+			CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
+			CNContactOrganizationNameKey,
+			CNContactEmailAddressesKey,
+			CNContactPostalAddressesKey,
+			CNContactPhoneNumbersKey,
+		]
 	}
 }

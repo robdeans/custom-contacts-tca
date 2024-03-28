@@ -11,6 +11,7 @@ import SwiftUI
 // Required to infer Path datatype in case path param is not provided by caller
 public let emptyPath: [Int] = []
 
+@MainActor
 public struct NavigationStackView<Content: View, Path: Hashable>: View {
 	@Binding var path: [Path]
 	@ViewBuilder let contentView: () -> Content
