@@ -82,7 +82,7 @@ struct GroupDetailView: View {
 	private var addRemoveContactsButton: some View {
 		Button(
 			action: {
-				contactSelectorView = ContactSelectorView(selectedContactIDs: group.contactIDs) { _ in
+				contactSelectorView = ContactSelectorView(selectedContacts: Set(group.contacts)) { _ in
 					// TODO: only save/persist when `Done` is tapped? SwiftData updates immediately
 					// TODO: revist when Group is refactored (also line 17 & 23)
 					// group.contactIDs = $0

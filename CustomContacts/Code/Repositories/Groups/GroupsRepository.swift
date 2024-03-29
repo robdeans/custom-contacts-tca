@@ -11,7 +11,8 @@ import Dependencies
 
 protocol GroupsRepository: Sendable {
 	func fetchContactGroups(refresh: Bool) async throws -> [ContactGroup]
-	func createContactGroup(name: String, contactIDs: Set<Contact.ID>, colorHex: String) async throws -> ContactGroup
+	@discardableResult
+	func createContactGroup(name: String, contacts: Set<Contact>, colorHex: String) async throws -> ContactGroup
 }
 
 private enum GroupsRepositoryKey: DependencyKey {

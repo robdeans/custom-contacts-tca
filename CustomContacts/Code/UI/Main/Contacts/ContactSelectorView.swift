@@ -16,21 +16,21 @@ struct ContactSelectorView: View {
 	@Environment(\.dismiss) private var dismiss
 
 	@State private var editMode = EditMode.active
-	@State private var selectedContactIDs: Set<Contact.ID>
+	@State private var selectedContacts: Set<Contact>
 
-	private let onDoneTapped: (Set<Contact.ID>) -> Void
+	private let onDoneTapped: (Set<Contact>) -> Void
 
 	init(
-		selectedContactIDs: Set<Contact.ID>,
-		onDoneTapped: @escaping (Set<Contact.ID>) -> Void
+		selectedContacts: Set<Contact>,
+		onDoneTapped: @escaping (Set<Contact>) -> Void
 	) {
 		self.onDoneTapped = onDoneTapped
-		_selectedContactIDs = State(initialValue: selectedContactIDs)
+		_selectedContacts = State(initialValue: Set(selectedContacts))
 	}
 
 	var body: some View {
 		NavigationStack {
-			List(viewModel.contactsDisplayable, selection: $selectedContactIDs) {
+			List(viewModel.contactsDisplayable, id: \.self, selection: $selectedContacts) {
 				ContactCardView(contact: $0)
 			}
 			.searchable(text: $viewModel.searchText)
@@ -46,7 +46,7 @@ struct ContactSelectorView: View {
 				}
 				ToolbarItem(placement: .topBarTrailing) {
 					Button(Localizable.Common.Actions.done) {
-						onDoneTapped(selectedContactIDs)
+						onDoneTapped(selectedContacts)
 						dismiss()
 					}
 				}

@@ -44,7 +44,16 @@ struct GroupListView: View {
 
 	private var createGroupButton: some View {
 		Button(
-			action: { createGroupView = GroupCreationView() },
+			action: {
+				createGroupView = GroupCreationView(
+					viewModel: GroupCreationView.ViewModel {
+						Task {
+							await viewModel.fetchContactGroups(refresh: true)
+						}
+						createGroupView = nil
+					}
+				)
+			},
 			label: {
 				Text("+")
 					.fontWeight(.heavy)

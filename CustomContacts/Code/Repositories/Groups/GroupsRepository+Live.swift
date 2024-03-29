@@ -28,7 +28,7 @@ actor GroupsRepositoryLive: GroupsRepository {
 			LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsDataService withThrowingTaskGroup getting objectIDs")
 			for emptyGroup in emptyContactGroups {
 				group.addTask {
-					return try await Self.contactGroup(for: emptyGroup)
+					return await ContactGroup(emptyContactGroup: emptyGroup)
 				}
 			}
 			LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsDataService withThrowingTaskGroup awaiting ContactGroups")
@@ -41,15 +41,17 @@ actor GroupsRepositoryLive: GroupsRepository {
 		return contactGroups
 	}
 
+	@discardableResult
 	func createContactGroup(
 		name: String,
-		contactIDs: Set<Contact.ID>,
+		contacts: Set<Contact>,
 		colorHex: String
 	) async throws -> ContactGroup {
-		.mock//try await groupsService.createContactGroup(name, contactIDs, colorHex)
-	}
+		LogCurrentThread("GroupsRepositoryLive.createContactGroup")
 
-	static func contactGroup(for emptyContactGroup: EmptyContactGroup) async throws -> ContactGroup {
-		await ContactGroup(emptyContactGroup: emptyContactGroup)
+		let createdEmptyGroup = try await groupsService.createContactGroup(name, Set(contacts.map { $0.id }), colorHex)
+		let createdGroup = await ContactGroup(emptyContactGroup: createdEmptyGroup)
+		contactGroups.append(createdGroup)
+		return createdGroup
 	}
 }
