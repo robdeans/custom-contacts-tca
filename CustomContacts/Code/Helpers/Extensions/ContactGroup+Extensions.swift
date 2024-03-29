@@ -40,13 +40,12 @@ extension ContactGroup {
 		Color(hex: colorHex)
 	}
 
-	static var empty: ContactGroup {
-		@Dependency(\.uuid) var uuid
-		return ContactGroup(
-			id: uuid().uuidString,
-			name: "",
-			contacts: [],
-			colorHex: Color.random.toHex ?? ""
+	var emptyContactGroup: EmptyContactGroup {
+		EmptyContactGroup(
+			id: id,
+			name: name,
+			contactIDs: contactIDs,
+			colorHex: colorHex
 		)
 	}
 

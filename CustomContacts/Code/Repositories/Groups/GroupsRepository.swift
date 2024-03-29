@@ -9,6 +9,9 @@
 import CustomContactsModels
 import Dependencies
 
+// TODO: add a refresh stream once AsyncStream can be adopted within an actor
+// https://forums.swift.org/t/asyncstream-and-actors/70545/2
+
 protocol GroupsRepository: Sendable {
 	func fetchContactGroups(refresh: Bool) async throws -> [ContactGroup]
 	@discardableResult

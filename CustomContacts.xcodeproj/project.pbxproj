@@ -35,6 +35,7 @@
 		E82092622BB7128F0047E0D4 /* ContactGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82092612BB7128F0047E0D4 /* ContactGroup.swift */; };
 		E82092642BB7199F0047E0D4 /* ContactsRepository+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82092632BB7199F0047E0D4 /* ContactsRepository+Live.swift */; };
 		E82092662BB719D20047E0D4 /* GroupsRepository+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82092652BB719D20047E0D4 /* GroupsRepository+Live.swift */; };
+		E820926A2BB732140047E0D4 /* EmptyContactGroup+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82092692BB732140047E0D4 /* EmptyContactGroup+Extensions.swift */; };
 		E821393C2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */; };
 		E82139402B1A7677009ABF4E /* NavigationStackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E821393F2B1A7677009ABF4E /* NavigationStackManager.swift */; };
 		E82139422B1A76B2009ABF4E /* ContactListNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E82139412B1A76B2009ABF4E /* ContactListNavigation.swift */; };
@@ -134,6 +135,7 @@
 		E82092612BB7128F0047E0D4 /* ContactGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactGroup.swift; sourceTree = "<group>"; };
 		E82092632BB7199F0047E0D4 /* ContactsRepository+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContactsRepository+Live.swift"; sourceTree = "<group>"; };
 		E82092652BB719D20047E0D4 /* GroupsRepository+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GroupsRepository+Live.swift"; sourceTree = "<group>"; };
+		E82092692BB732140047E0D4 /* EmptyContactGroup+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmptyContactGroup+Extensions.swift"; sourceTree = "<group>"; };
 		E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeSwipeCardFlipModifier.swift; sourceTree = "<group>"; };
 		E821393F2B1A7677009ABF4E /* NavigationStackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationStackManager.swift; sourceTree = "<group>"; };
 		E82139412B1A76B2009ABF4E /* ContactListNavigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListNavigation.swift; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 				E80F25CF2B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift */,
 				E8233DD12A8695EB00D52D84 /* Contact+Extensions.swift */,
 				E87A3DFD2A8C139C0068F34C /* ContactGroup+Extensions.swift */,
+				E82092692BB732140047E0D4 /* EmptyContactGroup+Extensions.swift */,
 				E8E841B52BB207F400F9F60D /* DeveloperToolsSupport+Extensions.swift */,
 				DF3B36BF21ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift */,
 				DF3B370021ECAFDD0033C858 /* String+Localization.swift */,
@@ -660,6 +663,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8E841B62BB207F400F9F60D /* DeveloperToolsSupport+Extensions.swift in Sources */,
+				E820926A2BB732140047E0D4 /* EmptyContactGroup+Extensions.swift in Sources */,
 				DF3B36C021ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift in Sources */,
 				E82139422B1A76B2009ABF4E /* ContactListNavigation.swift in Sources */,
 				E8D67B9D2A8AB27200300FE0 /* GroupListView.swift in Sources */,

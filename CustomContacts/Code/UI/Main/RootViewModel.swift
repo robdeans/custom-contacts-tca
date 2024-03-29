@@ -23,7 +23,8 @@ extension RootView {
 			isLoading = true
 			do {
 				_ = try await contactsRepository.fetchContacts(refresh: true)
-				_ = try await groupsRepository.fetchContactGroups(refresh: true)
+				let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: true)
+				await contactsRepository.mergeAndSync(groups: fetchedGroups)
 			} catch {
 				print(error)
 			}

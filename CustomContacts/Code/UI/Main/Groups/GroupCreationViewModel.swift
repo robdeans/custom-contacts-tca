@@ -37,12 +37,12 @@ extension GroupCreationView.ViewModel {
 		Task(priority: .userInitiated) {
 			do {
 				@Dependency(\.groupsRepository) var groupsRepository
-				try await groupsRepository.createContactGroup(
+				let createdGroup = try await groupsRepository.createContactGroup(
 					name: name,
 					contacts: selectedContacts,
 					colorHex: color.toHex ?? ""
 				)
-				LogInfo("Group created: \(self.name)")
+				LogInfo("Group created: \(createdGroup.name)")
 				onCompletion()
 			} catch {
 				// TODO: error and loading states

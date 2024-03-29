@@ -12,6 +12,7 @@ import Dependencies
 protocol ContactsRepository: Sendable {
 	func fetchContacts(refresh: Bool) async throws -> [Contact]
 	func getContact(_ id: Contact.ID) async -> Contact?
+	func mergeAndSync(groups: [ContactGroup]) async
 }
 
 extension DependencyValues {

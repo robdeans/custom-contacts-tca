@@ -14,6 +14,7 @@ public struct Contact: Identifiable, Sendable {
 	public let firstName: String
 	public let lastName: String
 	public let displayName: String
+	public let groups: [EmptyContactGroup]
 }
 
 extension Contact {
@@ -38,6 +39,17 @@ extension Contact {
 		if displayName.isEmpty {
 			LogWarning("Blank displayName: \(cnContact)")
 		}
+		groups = []
+	}
+
+	public func adding(group: EmptyContactGroup) -> Contact {
+		Contact(
+			id: id,
+			firstName: firstName,
+			lastName: lastName,
+			displayName: displayName,
+			groups: groups + [group]
+		)
 	}
 }
 
@@ -56,7 +68,8 @@ extension Contact {
 		id: "123",
 		firstName: "Tina",
 		lastName: "Belcher",
-		displayName: "Tina Belcher"
+		displayName: "Tina Belcher",
+		groups: []
 	)
 
 	public static let mockArray = [
@@ -64,19 +77,22 @@ extension Contact {
 			id: "123",
 			firstName: "Tina",
 			lastName: "Belcher",
-			displayName: "Tina Belcher"
+			displayName: "Tina Belcher",
+			groups: []
 		),
 		Contact(
 			id: "456",
 			firstName: "Bob",
 			lastName: "Belcher",
-			displayName: "Bob Belcher"
+			displayName: "Bob Belcher",
+			groups: []
 		),
 		Contact(
 			id: "789",
 			firstName: "Gene",
 			lastName: "Belcher",
-			displayName: "Gene Belcher"
+			displayName: "Gene Belcher",
+			groups: []
 		),
 	]
 }

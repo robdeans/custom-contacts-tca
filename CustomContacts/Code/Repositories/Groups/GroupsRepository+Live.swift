@@ -52,6 +52,10 @@ actor GroupsRepositoryLive: GroupsRepository {
 		let createdEmptyGroup = try await groupsService.createContactGroup(name, Set(contacts.map { $0.id }), colorHex)
 		let createdGroup = await ContactGroup(emptyContactGroup: createdEmptyGroup)
 		contactGroups.append(createdGroup)
+
+		@Dependency(\.contactsRepository) var contactsRepository
+		await contactsRepository.mergeAndSync(groups: [createdGroup])
+
 		return createdGroup
 	}
 }
