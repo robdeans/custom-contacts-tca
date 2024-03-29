@@ -1,8 +1,8 @@
 //
-//  ContactsService+Live.swift
+//  ContactStoreHandler.swift
 //  CustomContacts
 //
-//  Created by Robert Deans on 9/11/23.
+//  Created by Robert Deans on 3/29/24.
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 import CustomContactsHelpers
 import CustomContactsModels
 
-private actor ContactStoreHandler {
+actor ContactStoreHandler {
 	private lazy var store = CNContactStore()
 
 	private static var keysToFetch: [Any] {
@@ -61,21 +61,5 @@ private actor ContactStoreHandler {
 			LogWarning("Unknown Contact permissions case: \(contactsAuthorizationStatus)")
 			return false
 		}
-	}
-}
-
-extension ContactsService {
-	// Possible improvement for syncing:
-	// https://developer.apple.com/documentation/foundation/nsnotification/name/1403253-cncontactstoredidchange
-	public static var liveValue: Self {
-		let contactsHandler = ContactStoreHandler()
-		return Self(
-			fetchContacts: {
-				try await contactsHandler.fetchContacts()
-			},
-			requestPermissions: {
-				try await contactsHandler.requestPermissions()
-			}
-		)
 	}
 }

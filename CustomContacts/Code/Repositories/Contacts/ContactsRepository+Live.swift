@@ -1,20 +1,15 @@
 //
-//  ContactsRepository.swift
+//  ContactsRepository+Live.swift
 //  CustomContacts
 //
-//  Created by Robert Deans on 8/15/23.
-//  Copyright © 2023 RBD. All rights reserved.
+//  Created by Robert Deans on 3/29/24.
+//  Copyright © 2024 RBD. All rights reserved.
 //
 
+import ContactsService
 import CustomContactsHelpers
 import CustomContactsModels
-import CustomContactsService
 import Dependencies
-
-protocol ContactsRepository: Sendable {
-	func fetchContacts(refresh: Bool) async throws -> [Contact]
-	func getContact(_ id: Contact.ID) async -> Contact?
-}
 
 actor ContactsRepositoryLive: ContactsRepository {
 	private var contacts: [Contact] = []
@@ -52,18 +47,5 @@ actor ContactsRepositoryLive: ContactsRepository {
 	/// Fetches a contact from a local dictionary; O(1) lookup time
 	func getContact(_ id: Contact.ID) -> Contact? {
 		contactDictionary[id]
-	}
-}
-
-extension DependencyValues {
-	var contactsRepository: ContactsRepository {
-		get { self[ContactsRepositoryKey.self] }
-		set { self[ContactsRepositoryKey.self] = newValue }
-	}
-}
-
-private enum ContactsRepositoryKey: DependencyKey {
-	static var liveValue: ContactsRepository {
-		ContactsRepositoryLive()
 	}
 }

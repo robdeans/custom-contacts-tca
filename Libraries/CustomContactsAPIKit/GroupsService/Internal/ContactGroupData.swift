@@ -6,17 +6,17 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import Foundation
+import CustomContactsModels
 import SwiftData
 
 @Model
-public final class ContactGroupData {
-	public let id: ContactGroupData.ID
-	public var name: String
-	public var contactIDs: Set<Contact.ID>
-	public var colorHex: String
+final class ContactGroupData {
+	let id: ContactGroupData.ID
+	let name: String
+	let contactIDs: Set<Contact.ID>
+	let colorHex: String
 
-	public init(
+	init(
 		id: ContactGroupData.ID,
 		name: String,
 		contactIDs: Set<Contact.ID>,

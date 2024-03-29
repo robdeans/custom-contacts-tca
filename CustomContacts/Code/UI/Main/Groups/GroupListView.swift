@@ -68,14 +68,11 @@ extension GroupListView {
 		@Published private(set) var contactGroups: [ContactGroup] = []
 
 		@MainActor
-		func fetchContactGroups() async {
-			@Dependency(\.groupsDataService) var groupsDataService
+		func fetchContactGroups(refresh: Bool = false) async {
+			@Dependency(\.groupsRepository) var groupsRepository
 			do {
-				contactGroups = try await groupsDataService.fetchContactGroups()
+				contactGroups = try await groupsRepository.fetchContactGroups(refresh: refresh)
 				LogTrace("Fetched \(self.contactGroups.count) ContactGroup(s)")
-				for group in contactGroups {
-					print("GROUP HAS \(group.contacts.count) contacts and \(group.contactIDs.count) contactIDs")
-				}
 			} catch {
 				LogError("Error fetching groups!")
 				// TODO: show error

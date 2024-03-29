@@ -17,7 +17,7 @@ let package = Package(
 	products: [
 		.library(
 			name: "CustomContactsAPIKit",
-			targets: ["CustomContactsService", "CustomContactsModels"]
+			targets: ["ContactsService", "GroupsService", "CustomContactsModels"]
 		),
 	],
 	dependencies: [
@@ -30,7 +30,7 @@ let package = Package(
 	],
 	targets: [
 		.target(
-			name: "CustomContactsService",
+			name: "ContactsService",
 			dependencies: [
 				// global
 				.product(name: "Dependencies", package: "swift-dependencies"),
@@ -39,7 +39,22 @@ let package = Package(
 				"CustomContactsHelpers",
 				"CustomContactsModels",
 			],
-			path: "./Service",
+			path: "./ContactsService",
+			swiftSettings: [
+				.enableExperimentalFeature("StrictConcurrency"),
+			]
+		),
+		.target(
+			name: "GroupsService",
+			dependencies: [
+				// global
+				.product(name: "Dependencies", package: "swift-dependencies"),
+				// local
+				"ArkanaKeys",
+				"CustomContactsHelpers",
+				"CustomContactsModels",
+			],
+			path: "./GroupsService",
 			swiftSettings: [
 				.enableExperimentalFeature("StrictConcurrency"),
 			]

@@ -52,24 +52,24 @@ extension GroupCreationView.ViewModel {
 	/// Saves `ContactGroup` on main thread as this is a light data load
 	/// and action is immediately related to user actions
 	func createGroup(onCompletion: @escaping () -> Void) {
-		Task(priority: .userInitiated) {
-			LogCurrentThread("createGroup")
-			do {
-				@Dependency(\.uuid) var uuid
-				let contactGroup = ContactGroup(
-					id: uuid().uuidString,
-					name: name,
-					contacts: selectedContacts,
-					colorHex: color.toHex ?? ""
-				)
-				@Dependency(\.groupsDataService) var groupsDataService
-				_ = try await groupsDataService.createContactGroup(name, selectedContactIDs, color.toHex ?? "")
-				LogInfo("Group created: \(contactGroup.id)")
-				onCompletion()
-			} catch {
-				LogError("Group creation failed: \(error.localizedDescription)")
-				showError = true
-			}
-		}
+//		Task(priority: .userInitiated) {
+//			LogCurrentThread("createGroup")
+//			do {
+//				@Dependency(\.uuid) var uuid
+//				let contactGroup = ContactGroup(
+//					id: uuid().uuidString,
+//					name: name,
+//					contacts: selectedContacts,
+//					colorHex: color.toHex ?? ""
+//				)
+//				@Dependency(\.groupsDataService) var groupsDataService
+//				_ = try await groupsDataService.createContactGroup(name, selectedContactIDs, color.toHex ?? "")
+//				LogInfo("Group created: \(contactGroup.id)")
+//				onCompletion()
+//			} catch {
+//				LogError("Group creation failed: \(error.localizedDescription)")
+//				showError = true
+//			}
+//		}
 	}
 }
