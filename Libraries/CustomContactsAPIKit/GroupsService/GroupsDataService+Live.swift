@@ -21,31 +21,14 @@ extension GroupsDataService: DependencyKey {
 		return Self(
 			fetchContactGroups: {
 				LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsDataService.fetchContactGroups")
-				let groupPersistentIdentifiers = try await contactGroupHandler.fetchGroupIDs()
-
-				var contactGroups: [EmptyContactGroup] = []
-				// TODO: handle each failure individually?
-				try await withThrowingTaskGroup(of: EmptyContactGroup.self) { group in
-					LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsDataService withThrowingTaskGroup getting objectIDs")
-					for objectID in groupPersistentIdentifiers {
-						group.addTask {
-							return try Self.emptyContactGroup(for: objectID, in: modelContainer)
-						}
-					}
-					LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsDataService withThrowingTaskGroup awaiting ContactGroups")
-					for try await contactGroup in group {
-						contactGroups.append(contactGroup)
-					}
-				}
-				return contactGroups
+				return try await contactGroupHandler.fetchEmptyContactGroups()
 			},
 			createContactGroup: { name, contactIDs, colorHex in
-				async let objectID = try await contactGroupHandler.createGroup(
+				let createdContactGroup = try await contactGroupHandler.createGroup(
 					name: name,
 					contactIDs: contactIDs,
 					colorHex: colorHex
 				)
-				let createdContactGroup = try await Self.emptyContactGroup(for: objectID, in: modelContainer)
 				return createdContactGroup
 			}
 		)

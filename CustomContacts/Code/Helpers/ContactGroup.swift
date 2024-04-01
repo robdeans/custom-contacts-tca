@@ -10,15 +10,15 @@ import CustomContactsHelpers
 import CustomContactsModels
 import Dependencies
 
-public struct ContactGroup: Sendable, Identifiable {
-	public typealias ID = String
+struct ContactGroup: Sendable, Identifiable {
+	typealias ID = String
 
-	public let id: ContactGroup.ID
-	public var name: String
-	public var contacts: [Contact]
-	public var colorHex: String
+	let id: ContactGroup.ID
+	var name: String
+	var contacts: [Contact]
+	var colorHex: String
 
-	public var contactIDs: Set<Contact.ID> {
+	var contactIDs: Set<Contact.ID> {
 		Set(contacts.map { $0.id })
 	}
 }

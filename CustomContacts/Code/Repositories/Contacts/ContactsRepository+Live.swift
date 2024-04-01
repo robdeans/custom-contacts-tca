@@ -52,7 +52,7 @@ actor ContactsRepositoryLive: ContactsRepository {
 	/// Iterates through each `ContactGroup.contactIDs` and adds the respective group to that `Contact`
 	/// found within `contactDictionary[contactID`
 	func mergeAndSync(groups: [ContactGroup]) async {
-		let emptyGroups = groups.map { $0.emptyContactGroup }
+		let emptyGroups = groups.map { EmptyContactGroup(contactGroup: $0) }
 		for group in emptyGroups {
 			for contactID in group.contactIDs {
 				contactDictionary[contactID] = contactDictionary[contactID]?.adding(group: group)

@@ -10,6 +10,17 @@ import CustomContactsModels
 import SwiftUI
 
 extension EmptyContactGroup {
+	init(contactGroup: ContactGroup) {
+		self.init(
+			id: contactGroup.id,
+			name: contactGroup.name,
+			contactIDs: contactGroup.contactIDs,
+			colorHex: contactGroup.colorHex
+		)
+	}
+}
+
+extension EmptyContactGroup {
 	var color: Color {
 		Color(hex: colorHex)
 	}

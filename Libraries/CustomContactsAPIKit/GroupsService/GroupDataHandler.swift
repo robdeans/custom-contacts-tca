@@ -14,10 +14,10 @@ import SwiftData
 /// @ModelActor that is responsible for interacting with CoreData/SwiftData via `modelContext`
 @ModelActor
 actor ContactGroupHandler {
-	func fetchGroupIDs() throws -> [PersistentIdentifier] {
+	func fetchEmptyContactGroups() throws -> [EmptyContactGroup] {
 		LogCurrentThread("🧑‍🧑‍🧒‍🧒 ContactGroupHandler.fetchGroupIDs")
-		let groups = try modelContext.fetch(FetchDescriptor<ContactGroupData>())
-		return groups.map { $0.persistentModelID }
+		return try modelContext.fetch(FetchDescriptor<ContactGroupData>())
+			.map { EmptyContactGroup(contactGroupData: $0) }
 	}
 
 	@discardableResult
@@ -25,7 +25,7 @@ actor ContactGroupHandler {
 		name: String,
 		contactIDs: Set<Contact.ID>,
 		colorHex: String
-	) throws -> PersistentIdentifier {
+	) throws -> EmptyContactGroup {
 		LogCurrentThread("🧑‍🧑‍🧒‍🧒 ContactGroupHandler.createGroup")
 
 		@Dependency(\.uuid) var uuid
@@ -38,6 +38,6 @@ actor ContactGroupHandler {
 		)
 		modelContext.insert(newGroup)
 		try modelContext.save()
-		return newGroup.persistentModelID
+		return EmptyContactGroup(contactGroupData: newGroup)
 	}
 }

@@ -40,15 +40,7 @@ extension ContactGroup {
 		Color(hex: colorHex)
 	}
 
-	var emptyContactGroup: EmptyContactGroup {
-		EmptyContactGroup(
-			id: id,
-			name: name,
-			contactIDs: contactIDs,
-			colorHex: colorHex
-		)
-	}
-
+	// TODO: revisit this pattern when filtering is re-introduced
 	static var allContactsGroup: ContactGroup {
 		@Dependency(\.contactsRepository) var contactsRepository
 		return ContactGroup(
