@@ -36,7 +36,7 @@ private actor ContactStoreHandler {
 				try store.enumerateContacts(with: request) { cnContact, _ in
 					contacts.append(Contact(cnContact))
 				}
-				LogInfo("Service returning \(contacts.count) contact(s)")
+				LogInfo("ContactStore returning \(contacts.count) contact(s)")
 				continuation.resume(returning: contacts)
 			} catch {
 				continuation.resume(throwing: error)

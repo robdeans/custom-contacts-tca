@@ -11,62 +11,65 @@ import CustomContactsModels
 import CustomContactsService
 import Dependencies
 
-struct ContactsRepository: Sendable {
+protocol ContactsRepository: Sendable {
+	func fetchContacts(refresh: Bool) async throws -> [Contact]
+	func getContacts() async -> [Contact]
+	func getContact(_ id: Contact.ID) async -> Contact?
+}
+
+actor ContactsRepositoryLive: ContactsRepository {
+	private var contacts: [Contact] = []
+	private var contactDictionary: [Contact.ID: Contact] = [:]
+
 	/// Returns an array `[Contact]`
 	///
 	/// If `refresh: true` the array is fetched from ContactsService, otherwise the locally stored array is provided
-	var getAllContacts: @Sendable (_ refresh: Bool) async throws -> [Contact]
+	func fetchContacts(refresh: Bool) async throws -> [Contact] {
+		LogCurrentThread("ContactsRepositoryLive.fetchContacts")
+		guard refresh || contacts.isEmpty else {
+			return contacts
+		}
+		@Dependency(\.contactsService) var contactsService
+		guard try await contactsService.requestPermissions() else {
+			// TODO: Permissions denied state; throw error?
+			return []
+		}
+		let fetchContactsTask = Task(priority: .background) {
+			LogCurrentThread("ContactsRepositoryLive.fetchContactsTask")
+
+			// TODO: minimize re-declaration of `contactsService`?
+			@Dependency(\.contactsService) var contactsService
+			contacts = try await contactsService.fetchContacts()
+			contactDictionary = Dictionary(
+				contacts.map { ($0.id, $0) },
+				uniquingKeysWith: { _, last in last }
+			)
+			LogInfo("Repository returning \(self.contacts.count) contact(s)")
+			return contacts
+		}
+		return try await fetchContactsTask.value
+	}
+
+	/// Returns contacts that have already been fetched; no throwing
+	func getContacts() -> [Contact] {
+		contacts
+	}
 
 	/// Fetches a contact from a local dictionary; O(1) lookup time
-	var getContact: @Sendable (_ id: Contact.ID) -> Contact?
-
-	/// Returns a local array of `[Contact]`; no conversions or computations
-	var contacts: @Sendable () -> [Contact]
+	func getContact(_ id: Contact.ID) -> Contact? {
+		contactDictionary[id]
+	}
 }
 
 extension DependencyValues {
 	var contactsRepository: ContactsRepository {
-		get { self[ContactsRepository.self] }
-		set { self[ContactsRepository.self] = newValue }
+		get { self[ContactsRepositoryKey.self] }
+		set { self[ContactsRepositoryKey.self] = newValue }
 	}
 }
 
-extension ContactsRepository: DependencyKey {
-	static var liveValue: Self {
-		@Dependency(\.contactsService) var contactsService
-
-		// swiftlint:disable identifier_name
-		//var _contacts: [Contact] = []
-		//var contactDictionary: [Contact.ID: Contact] = [:]
-
-		return Self(
-			getAllContacts: { refresh in
-				guard refresh else { //} || _contacts.isEmpty else {
-					return [] //_contacts
-				}
-				return []
-//				guard try await contactsService.requestPermissions() else {
-//					// Permissions denied state; throw error?
-//					return _contacts
-//				}
-//				_contacts = try await contactsService.fetchContacts()
-//				contactDictionary = Dictionary(
-//					_contacts.map { ($0.id, $0) },
-//					uniquingKeysWith: { _, last in last }
-//				)
-//				LogInfo("Repository returning \(_contacts.count) contact(s)")
-//				return _contacts
-			},
-			getContact: { _ in nil }, //contactDictionary[$0] },
-			contacts: { [] } // _contacts }
-		)
+private enum ContactsRepositoryKey: DependencyKey {
+	static var liveValue: ContactsRepository {
+		ContactsRepositoryLive()
 	}
-	static var previewValue: Self {
-		Self(
-			getAllContacts: { _ in Contact.mockArray },
-			getContact: { _ in Contact.mock },
-			contacts: { Contact.mockArray }
-		)
-	}
-	// static var testValue: ContactsRepository = .liveValue
 }
