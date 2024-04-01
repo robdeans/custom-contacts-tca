@@ -1,5 +1,5 @@
 //
-//  ContactGroupHandler.swift
+//  GroupsDataHandler.swift
 //  CustomContacts
 //
 //  Created by Robert Deans on 3/29/24.
@@ -13,9 +13,9 @@ import SwiftData
 
 /// @ModelActor that is responsible for interacting with CoreData/SwiftData via `modelContext`
 @ModelActor
-actor ContactGroupHandler {
+actor GroupsDataHandler {
 	func fetchEmptyContactGroups() throws -> [EmptyContactGroup] {
-		LogCurrentThread("🧑‍🧑‍🧒‍🧒 ContactGroupHandler.fetchGroupIDs")
+		LogCurrentThread("🎎 GroupsDataHandler.fetchGroupIDs")
 		return try modelContext.fetch(FetchDescriptor<ContactGroupData>())
 			.map { EmptyContactGroup(contactGroupData: $0) }
 	}
@@ -26,7 +26,7 @@ actor ContactGroupHandler {
 		contactIDs: Set<Contact.ID>,
 		colorHex: String
 	) throws -> EmptyContactGroup {
-		LogCurrentThread("🧑‍🧑‍🧒‍🧒 ContactGroupHandler.createGroup")
+		LogCurrentThread("🎎 GroupsDataHandler.createGroup")
 
 		@Dependency(\.uuid) var uuid
 

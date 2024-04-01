@@ -17,7 +17,7 @@ actor GroupsRepositoryLive: GroupsRepository {
 
 	func fetchContactGroups(refresh: Bool = false) async throws -> [ContactGroup] {
 		LogCurrentThread("GroupsRepositoryLive.fetchContactGroups")
-		guard refresh || contactGroups.isEmpty else {
+		guard refresh else {
 			return contactGroups
 		}
 		let emptyContactGroups = try await groupsService.fetchContactGroups()
@@ -25,13 +25,13 @@ actor GroupsRepositoryLive: GroupsRepository {
 		var returnedContactGroups: [ContactGroup] = []
 		// TODO: handle each failure individually?
 		try await withThrowingTaskGroup(of: ContactGroup.self) { group in
-			LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsDataService withThrowingTaskGroup getting objectIDs")
+			LogCurrentThread("🎎 GroupsDataService withThrowingTaskGroup adding ContactGroup.init")
 			for emptyGroup in emptyContactGroups {
 				group.addTask {
 					return await ContactGroup(emptyContactGroup: emptyGroup)
 				}
 			}
-			LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsDataService withThrowingTaskGroup awaiting ContactGroups")
+			LogCurrentThread("🎎 GroupsDataService withThrowingTaskGroup awaiting ContactGroups")
 			for try await contactGroup in group {
 				returnedContactGroups.append(contactGroup)
 			}

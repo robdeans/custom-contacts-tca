@@ -9,7 +9,7 @@
 import CustomContactsModels
 import Dependencies
 
-/// Service responsible for fetching `ContactGroupData` model objects from the `ContactGroupHandler`,
+/// Service responsible for fetching `ContactGroupData` model objects from the `GroupsDataHandler`,
 /// and convert them to a `@Sendable` object such as `ContactGroup`
 public struct GroupsDataService: Sendable {
 	public var fetchContactGroups: @Sendable () async throws -> [EmptyContactGroup]

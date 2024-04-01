@@ -29,25 +29,29 @@ struct RootView: View {
 					await viewModel.initializeApp()
 				}
 		} else {
-			contentView
-				.rotation3DEffect(rotationAngle, axis: Layout.rotationAxis)
-				.onEdgeSwipe(
-					onChanged: { angle in
+			rotatingSplitView
+		}
+	}
+
+	private var rotatingSplitView: some View {
+		contentView
+			.rotation3DEffect(rotationAngle, axis: Layout.rotationAxis)
+			.onEdgeSwipe(
+				onChanged: { angle in
+					rotationAngle = angle
+					showContactList = Self.showTopCard(angle: angle)
+				},
+				onEnded: { angle in
+					withAnimation {
 						rotationAngle = angle
 						showContactList = Self.showTopCard(angle: angle)
-					},
-					onEnded: { angle in
-						withAnimation {
-							rotationAngle = angle
-							showContactList = Self.showTopCard(angle: angle)
-						}
 					}
-				)
-				.background(
-					Color.pink.opacity(0.2)
-						.ignoresSafeArea()
-				)
-		}
+				}
+			)
+			.background(
+				Color.pink.opacity(0.2)
+					.ignoresSafeArea()
+			)
 	}
 
 	private var contentView: some View {

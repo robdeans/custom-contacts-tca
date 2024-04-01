@@ -75,6 +75,7 @@ extension GroupListView {
 	// TODO: why no @Observation work here?
 	final class ViewModel: ObservableObject {
 		@Published private(set) var contactGroups: [ContactGroup] = []
+		@Published private(set) var error: Error?
 
 		@MainActor
 		func fetchContactGroups(refresh: Bool = false) async {
@@ -83,8 +84,8 @@ extension GroupListView {
 				contactGroups = try await groupsRepository.fetchContactGroups(refresh: refresh)
 				LogTrace("Fetched \(self.contactGroups.count) ContactGroup(s)")
 			} catch {
-				LogError("Error fetching groups!")
-				// TODO: show error
+				LogError("Error fetching groups: \(error.localizedDescription)")
+				self.error = error
 			}
 		}
 	}

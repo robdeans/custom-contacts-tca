@@ -14,15 +14,17 @@ extension RootView {
 	@Observable
 	final class ViewModel {
 		private(set) var isLoading = true
+		private(set) var error: Error?
 
 		@MainActor
 		func initializeApp() async {
 			defer { isLoading = false }
-			@Dependency(\.contactsRepository) var contactsRepository
-			@Dependency(\.groupsRepository) var groupsRepository
-
 			isLoading = true
+			error = nil
+
 			do {
+				@Dependency(\.contactsRepository) var contactsRepository
+				@Dependency(\.groupsRepository) var groupsRepository
 				/// `Contact`s **must** be fetched before `ContactGroup`s given the order of operations:
 				/// 1) Contacts are fetched successfully
 				///
@@ -36,8 +38,8 @@ extension RootView {
 				let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: true)
 				await contactsRepository.mergeAndSync(groups: fetchedGroups)
 			} catch {
-				// TODO: handle error
 				LogError(error.localizedDescription)
+				self.error = error
 			}
 		}
 	}
