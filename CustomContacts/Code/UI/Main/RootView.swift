@@ -29,11 +29,11 @@ struct RootView: View {
 					await viewModel.initializeApp()
 				}
 		} else {
-			rotatingSplitView
+			rotatingView
 		}
 	}
 
-	private var rotatingSplitView: some View {
+	private var rotatingView: some View {
 		contentView
 			.rotation3DEffect(rotationAngle, axis: Layout.rotationAxis)
 			.onEdgeSwipe(

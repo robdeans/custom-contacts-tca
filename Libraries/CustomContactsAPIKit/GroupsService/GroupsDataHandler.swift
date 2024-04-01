@@ -25,7 +25,8 @@ actor GroupsDataHandler {
 	func createGroup(
 		name: String,
 		contactIDs: Set<Contact.ID>,
-		colorHex: String
+		colorHex: String,
+		index: Int
 	) throws -> EmptyContactGroup {
 		LogCurrentThread("🎎 GroupsDataHandler.createGroup")
 
@@ -35,7 +36,8 @@ actor GroupsDataHandler {
 			id: uuid().uuidString,
 			name: name,
 			contactIDs: contactIDs,
-			colorHex: colorHex
+			colorHex: colorHex,
+			index: index
 		)
 		modelContext.insert(newGroup)
 		try modelContext.save()
@@ -47,7 +49,8 @@ actor GroupsDataHandler {
 		id: EmptyContactGroup.ID,
 		name: String,
 		contactIDs: Set<Contact.ID>,
-		colorHex: String
+		colorHex: String,
+		index: Int
 	) throws -> EmptyContactGroup {
 		LogCurrentThread("🎎 GroupsDataHandler.updateGroup")
 
@@ -55,7 +58,8 @@ actor GroupsDataHandler {
 			id: id,
 			name: name,
 			contactIDs: contactIDs,
-			colorHex: colorHex
+			colorHex: colorHex,
+			index: index
 		)
 		try modelContext.delete(
 			model: ContactGroupData.self,

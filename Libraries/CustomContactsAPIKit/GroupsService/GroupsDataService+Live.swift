@@ -23,20 +23,22 @@ extension GroupsDataService: DependencyKey {
 				LogCurrentThread("🎎 GroupsDataService.fetchContactGroups")
 				return try await groupsDataHandler.fetchEmptyContactGroups()
 			},
-			createContactGroup: { name, contactIDs, colorHex in
+			createContactGroup: { name, contactIDs, colorHex, index in
 				let createdContactGroup = try await groupsDataHandler.createGroup(
 					name: name,
 					contactIDs: contactIDs,
-					colorHex: colorHex
+					colorHex: colorHex,
+					index: index
 				)
 				return createdContactGroup
 			},
-			updateContactGroup: { id, name, contactIDs, colorHex in
+			updateContactGroup: { id, name, contactIDs, colorHex, index in
 				let createdContactGroup = try await groupsDataHandler.updateGroup(
 					id: id,
 					name: name,
 					contactIDs: contactIDs,
-					colorHex: colorHex
+					colorHex: colorHex,
+					index: index
 				)
 				return createdContactGroup
 			}

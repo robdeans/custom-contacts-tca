@@ -9,11 +9,15 @@
 import CustomContactsHelpers
 import CustomContactsModels
 import Dependencies
+import Foundation
 import GroupsService
 
 actor GroupsRepositoryLive: GroupsRepository {
 	@Dependency(\.groupsDataService) private var groupsService
-	private var contactGroups: [ContactGroup] = []
+	private var groupsDictionary: [ContactGroup.ID: ContactGroup] = [:]
+	private var contactGroups: [ContactGroup] {
+		Array(groupsDictionary.values).sorted(by: { $0.index < $1.index })
+	}
 
 	func fetchContactGroups(refresh: Bool = false) async throws -> [ContactGroup] {
 		LogCurrentThread("GroupsRepositoryLive.fetchContactGroups")
@@ -25,19 +29,22 @@ actor GroupsRepositoryLive: GroupsRepository {
 		var returnedContactGroups: [ContactGroup] = []
 		// TODO: handle each failure individually?
 		try await withThrowingTaskGroup(of: ContactGroup.self) { group in
-			LogCurrentThread("🎎 GroupsDataService withThrowingTaskGroup adding ContactGroup.init")
+			LogCurrentThread("🎎 GroupsRepositoryLive withThrowingTaskGroup adding ContactGroup.init")
 			for emptyGroup in emptyContactGroups {
 				group.addTask {
 					return await ContactGroup(emptyContactGroup: emptyGroup)
 				}
 			}
-			LogCurrentThread("🎎 GroupsDataService withThrowingTaskGroup awaiting ContactGroups")
+			LogCurrentThread("🎎 GroupsRepositoryLive withThrowingTaskGroup awaiting ContactGroups")
 			for try await contactGroup in group {
 				returnedContactGroups.append(contactGroup)
 			}
 		}
 
-		self.contactGroups = returnedContactGroups
+		self.groupsDictionary = Dictionary(
+			returnedContactGroups.map { ($0.id, $0) },
+			uniquingKeysWith: { _, last in last }
+		)
 		return contactGroups
 	}
 
@@ -49,9 +56,14 @@ actor GroupsRepositoryLive: GroupsRepository {
 	) async throws -> ContactGroup {
 		LogCurrentThread("GroupsRepositoryLive.createContactGroup")
 
-		let createdEmptyGroup = try await groupsService.createContactGroup(name, Set(contacts.map { $0.id }), colorHex)
+		let createdEmptyGroup = try await groupsService.createContactGroup(
+			name,
+			Set(contacts.map { $0.id }),
+			colorHex,
+			contactGroups.count
+		)
 		let createdGroup = await ContactGroup(emptyContactGroup: createdEmptyGroup)
-		contactGroups.append(createdGroup)
+		groupsDictionary[createdGroup.id] = createdGroup
 
 		@Dependency(\.contactsRepository) var contactsRepository
 		await contactsRepository.mergeAndSync(groups: [createdGroup])
@@ -67,20 +79,61 @@ actor GroupsRepositoryLive: GroupsRepository {
 		colorHex: String
 	) async throws -> ContactGroup {
 		LogCurrentThread("GroupsRepositoryLive.updateContactGroup")
+		guard let originalGroup = groupsDictionary[id] else {
+			LogError("Could not find updated ContactGroup")
+			throw GroupsRepositoryError.missingUpdatedIndex
+		}
 
 		let emptyContactGroup = try await groupsService.updateContactGroup(
 			id,
 			name,
 			contactIDs,
-			colorHex
+			colorHex,
+			originalGroup.index
 		)
 		let updatedContactGroup = await ContactGroup(emptyContactGroup: emptyContactGroup)
-		guard let index = contactGroups.firstIndex(where: { $0.id == updatedContactGroup.id }) else {
-			LogError("Could not find updated ContactGroup")
-			throw GroupsRepositoryError.missingUpdatedIndex
-		}
-		contactGroups[index] = updatedContactGroup
+
+		groupsDictionary[id] = updatedContactGroup
 		return updatedContactGroup
+	}
+
+	@discardableResult
+	func update(origin: IndexSet, destination: Int) async throws -> [ContactGroup] {
+		var contactGroupsUpdated = contactGroups
+		contactGroupsUpdated.move(fromOffsets: origin, toOffset: destination)
+		contactGroupsUpdated = contactGroupsUpdated.enumerated().map { index, group in
+			ContactGroup(
+				id: group.id,
+				name: group.name,
+				contacts: group.contacts,
+				colorHex: group.colorHex,
+				index: index
+			)
+		}
+
+		// TODO: handle each failure individually?
+		try await withThrowingDiscardingTaskGroup { group in
+			LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsRepositoryLive withThrowingTaskGroup updating indices")
+			@Dependency(\.groupsDataService) var groupsService
+
+			for contactGroup in contactGroupsUpdated {
+				group.addTask {
+					_ = try await groupsService.updateContactGroup(
+						contactGroup.id,
+						contactGroup.name,
+						contactGroup.contactIDs,
+						contactGroup.colorHex,
+						contactGroup.index
+					)
+				}
+			}
+		}
+
+		groupsDictionary = Dictionary(
+			contactGroupsUpdated.map { ($0.id, $0) },
+			uniquingKeysWith: { _, last in last }
+		)
+		return contactGroups
 	}
 }
 

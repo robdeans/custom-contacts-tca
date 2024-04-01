@@ -24,6 +24,10 @@ struct GroupListView: View {
 						GroupCardView(group: group) {
 							groupListNavigation.path.append(.groupDetail(group))
 						}
+					}.onMove { origin, destination in
+						Task {
+							await viewModel.updateContactGroupOrder(from: origin, to: destination)
+						}
 					}
 				}
 
@@ -65,28 +69,5 @@ struct GroupListView: View {
 		)
 		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
 		.padding(Constants.UI.Padding.default * 2)
-	}
-}
-
-import CustomContactsHelpers
-import Dependencies
-
-extension GroupListView {
-	// TODO: why no @Observation work here?
-	final class ViewModel: ObservableObject {
-		@Published private(set) var contactGroups: [ContactGroup] = []
-		@Published private(set) var error: Error?
-
-		@MainActor
-		func fetchContactGroups(refresh: Bool = false) async {
-			@Dependency(\.groupsRepository) var groupsRepository
-			do {
-				contactGroups = try await groupsRepository.fetchContactGroups(refresh: refresh)
-				LogTrace("Fetched \(self.contactGroups.count) ContactGroup(s)")
-			} catch {
-				LogError("Error fetching groups: \(error.localizedDescription)")
-				self.error = error
-			}
-		}
 	}
 }

@@ -15,7 +15,8 @@ extension EmptyContactGroup {
 			id: contactGroup.id,
 			name: contactGroup.name,
 			contactIDs: contactGroup.contactIDs,
-			colorHex: contactGroup.colorHex
+			colorHex: contactGroup.colorHex,
+			index: contactGroup.index
 		)
 	}
 }
