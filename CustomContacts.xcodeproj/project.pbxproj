@@ -75,6 +75,7 @@
 		E8A497EA2AABA6F20057C78B /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A497E92AABA6F20057C78B /* Color+Extensions.swift */; };
 		E8B431D82BB4B900004E7616 /* GroupCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B431D72BB4B900004E7616 /* GroupCreationViewModel.swift */; };
 		E8B431DA2BB5B789004E7616 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B431D92BB5B789004E7616 /* UserSettings.swift */; };
+		E8C205142BBB3E0C00B62E89 /* GroupDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C205132BBB3E0C00B62E89 /* GroupDetailViewModel.swift */; };
 		E8C33FF32A9F982A0004E455 /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF22A9F982A0004E455 /* ContactCardView.swift */; };
 		E8C33FF52A9FE04E0004E455 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF42A9FE04E0004E455 /* FilterView.swift */; };
 		E8C33FF82AA0E4C50004E455 /* SwipeableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */; };
@@ -157,6 +158,7 @@
 		E8A497E92AABA6F20057C78B /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
 		E8B431D72BB4B900004E7616 /* GroupCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCreationViewModel.swift; sourceTree = "<group>"; };
 		E8B431D92BB5B789004E7616 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		E8C205132BBB3E0C00B62E89 /* GroupDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailViewModel.swift; sourceTree = "<group>"; };
 		E8C33FF22A9F982A0004E455 /* ContactCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactCardView.swift; sourceTree = "<group>"; };
 		E8C33FF42A9FE04E0004E455 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
 		E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeableRowView.swift; sourceTree = "<group>"; };
@@ -363,13 +365,38 @@
 			isa = PBXGroup;
 			children = (
 				E82139432B1A7887009ABF4E /* GroupListNavigation.swift */,
-				E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */,
-				E87A3DF92A8BE6F90068F34C /* GroupCardView.swift */,
-				E8D67B9E2A8AB82A00300FE0 /* GroupCreationView.swift */,
-				E8B431D72BB4B900004E7616 /* GroupCreationViewModel.swift */,
-				E87A3DED2A8AC3B90068F34C /* GroupDetailView.swift */,
+				E8C205122BBB3DFB00B62E89 /* List */,
+				E8C205112BBB3DE700B62E89 /* Creation */,
+				E8C205102BBB3DDD00B62E89 /* Details */,
 			);
 			path = Groups;
+			sourceTree = "<group>";
+		};
+		E8C205102BBB3DDD00B62E89 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				E87A3DED2A8AC3B90068F34C /* GroupDetailView.swift */,
+				E8C205132BBB3E0C00B62E89 /* GroupDetailViewModel.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		E8C205112BBB3DE700B62E89 /* Creation */ = {
+			isa = PBXGroup;
+			children = (
+				E8D67B9E2A8AB82A00300FE0 /* GroupCreationView.swift */,
+				E8B431D72BB4B900004E7616 /* GroupCreationViewModel.swift */,
+			);
+			path = Creation;
+			sourceTree = "<group>";
+		};
+		E8C205122BBB3DFB00B62E89 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				E8D67B9C2A8AB27200300FE0 /* GroupListView.swift */,
+				E87A3DF92A8BE6F90068F34C /* GroupCardView.swift */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 		E8C33FF62A9FE0520004E455 /* Filter */ = {
@@ -715,6 +742,7 @@
 				E82139402B1A7677009ABF4E /* NavigationStackManager.swift in Sources */,
 				E82092642BB7199F0047E0D4 /* ContactsRepository+Live.swift in Sources */,
 				DF3B36F621ECAF8A0033C858 /* DisplayableError.swift in Sources */,
+				E8C205142BBB3E0C00B62E89 /* GroupDetailViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

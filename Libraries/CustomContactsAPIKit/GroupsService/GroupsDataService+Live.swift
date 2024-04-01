@@ -30,6 +30,15 @@ extension GroupsDataService: DependencyKey {
 					colorHex: colorHex
 				)
 				return createdContactGroup
+			},
+			updateContactGroup: { id, name, contactIDs, colorHex in
+				let createdContactGroup = try await groupsDataHandler.updateGroup(
+					id: id,
+					name: name,
+					contactIDs: contactIDs,
+					colorHex: colorHex
+				)
+				return createdContactGroup
 			}
 		)
 	}

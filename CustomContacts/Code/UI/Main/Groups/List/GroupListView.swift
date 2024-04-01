@@ -38,7 +38,7 @@ struct GroupListView: View {
 			await viewModel.fetchContactGroups()
 		}
 		.refreshable {
-			await viewModel.fetchContactGroups()
+			await viewModel.fetchContactGroups(refresh: true)
 		}
 	}
 

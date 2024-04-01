@@ -14,6 +14,7 @@ import Dependencies
 public struct GroupsDataService: Sendable {
 	public var fetchContactGroups: @Sendable () async throws -> [EmptyContactGroup]
 	public var createContactGroup: @Sendable (String, Set<Contact.ID>, String) async throws -> EmptyContactGroup
+	public var updateContactGroup: @Sendable (EmptyContactGroup.ID, String, Set<Contact.ID>, String) async throws -> EmptyContactGroup
 }
 
 extension DependencyValues {

@@ -9,6 +9,7 @@
 import CustomContactsHelpers
 import CustomContactsModels
 import Dependencies
+import Foundation
 import SwiftData
 
 /// @ModelActor that is responsible for interacting with CoreData/SwiftData via `modelContext`
@@ -39,5 +40,31 @@ actor GroupsDataHandler {
 		modelContext.insert(newGroup)
 		try modelContext.save()
 		return EmptyContactGroup(contactGroupData: newGroup)
+	}
+
+	@discardableResult
+	func updateGroup(
+		id: EmptyContactGroup.ID,
+		name: String,
+		contactIDs: Set<Contact.ID>,
+		colorHex: String
+	) throws -> EmptyContactGroup {
+		LogCurrentThread("🎎 GroupsDataHandler.updateGroup")
+
+		let updatedGroup = ContactGroupData(
+			id: id,
+			name: name,
+			contactIDs: contactIDs,
+			colorHex: colorHex
+		)
+		try modelContext.delete(
+			model: ContactGroupData.self,
+			where: #Predicate {
+				$0.id == id
+			}
+		)
+		modelContext.insert(updatedGroup)
+		try modelContext.save()
+		return EmptyContactGroup(contactGroupData: updatedGroup)
 	}
 }

@@ -58,4 +58,34 @@ actor GroupsRepositoryLive: GroupsRepository {
 
 		return createdGroup
 	}
+
+	@discardableResult
+	func updateContactGroup(
+		id: ContactGroup.ID,
+		name: String,
+		contactIDs: Set<Contact.ID>,
+		colorHex: String
+	) async throws -> ContactGroup {
+		LogCurrentThread("GroupsRepositoryLive.updateContactGroup")
+
+		let emptyContactGroup = try await groupsService.updateContactGroup(
+			id,
+			name,
+			contactIDs,
+			colorHex
+		)
+		let updatedContactGroup = await ContactGroup(emptyContactGroup: emptyContactGroup)
+		guard let index = contactGroups.firstIndex(where: { $0.id == updatedContactGroup.id }) else {
+			LogError("Could not find updated ContactGroup")
+			throw GroupsRepositoryError.missingUpdatedIndex
+		}
+		contactGroups[index] = updatedContactGroup
+		return updatedContactGroup
+	}
+}
+
+extension GroupsRepositoryLive {
+	enum GroupsRepositoryError: Error {
+		case missingUpdatedIndex
+	}
 }

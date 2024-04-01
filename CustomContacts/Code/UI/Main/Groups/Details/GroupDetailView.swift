@@ -13,17 +13,21 @@ import SwiftUI
 
 @MainActor
 struct GroupDetailView: View {
-	@Dependency(\.contactsRepository) private var contactsRepository
-	@State var group = ContactGroup.mock
+	@Environment(\.dismiss) private var dismiss
+	@Bindable private var viewModel: ViewModel
+	@State private var contactSelectorView: ContactSelectorView?
 
 	@State private var isEditing = false
-	private var color: Binding<Color> {
-		Binding(
-			get: { group.color },
-			set: { _ in /*group.colorHex = $0.toHex ?? ""*/ }
-		)
+	@State private var color: Color
+	@State private var name: String
+	@State private var contacts: [Contact]
+
+	init(group: ContactGroup) {
+		_viewModel = Bindable(ViewModel(group: group))
+		color = group.color
+		name = group.name
+		contacts = group.contacts
 	}
-	@State private var contactSelectorView: ContactSelectorView?
 
 	var body: some View {
 		ZStack {
@@ -37,8 +41,19 @@ struct GroupDetailView: View {
 					? Localizable.Common.Actions.save
 					: Localizable.Common.Actions.edit
 				) {
-					withAnimation {
-						isEditing.toggle()
+					if isEditing {
+						Task {
+							await viewModel.updateGroup(
+								name: name,
+								contacts: contacts,
+								colorHex: color.toHex ?? ""
+							)
+							isEditing = false
+						}
+					} else {
+						withAnimation {
+							isEditing = true
+						}
 					}
 				}
 				.padding(Constants.UI.Padding.small)
@@ -46,10 +61,10 @@ struct GroupDetailView: View {
 				.cornerRadius(15)
 			}
 		}
-		.toolbarBackground(group.color, for: .navigationBar)
+		.toolbarBackground(color, for: .navigationBar)
 		.toolbarBackground(.visible, for: .navigationBar)
 		.toolbarColorScheme(.dark, for: .navigationBar)
-		.navigationTitle(group.name)
+		.navigationTitle(name)
 		.sheet(item: $contactSelectorView) { $0 }
 	}
 
@@ -57,10 +72,10 @@ struct GroupDetailView: View {
 		VStack {
 			if isEditing {
 				ColorPicker(
-					selection: color,
+					selection: $color,
 					label: {
-						TextField(group.name, text: $group.name)
-							.foregroundStyle(group.color)
+						TextField(name, text: $name)
+							.foregroundStyle(color)
 							.fontWeight(.semibold)
 					}
 				)
@@ -68,7 +83,7 @@ struct GroupDetailView: View {
 			}
 
 			List {
-				ForEach(group.contacts.sorted()) {
+				ForEach(contacts.sorted()) {
 					Text($0.displayName)
 				}
 			}
@@ -82,9 +97,8 @@ struct GroupDetailView: View {
 	private var addRemoveContactsButton: some View {
 		Button(
 			action: {
-				contactSelectorView = ContactSelectorView(selectedContacts: Set(group.contacts)) { _ in
-					// TODO: revist when Group is refactored (also line 17 & 23)
-					// group.contactIDs = $0
+				contactSelectorView = ContactSelectorView(selectedContacts: Set(contacts)) {
+					contacts = Array($0)
 				}
 			},
 			label: {
@@ -92,7 +106,7 @@ struct GroupDetailView: View {
 					.fontWeight(.semibold)
 					.foregroundStyle(Color.white)
 					.padding()
-					.background(group.color)
+					.background(color)
 					.cornerRadius()
 			}
 		)
