@@ -18,7 +18,7 @@ private enum Layout {
 @MainActor
 struct GroupCreationView: View {
 	@Environment(\.dismiss) private var dismiss
-	@Bindable private var viewModel = ViewModel()
+	@Bindable var viewModel: ViewModel
 	@State private var contactSelectorView: ContactSelectorView?
 
 	var body: some View {
@@ -38,17 +38,15 @@ struct GroupCreationView: View {
 					.padding(.vertical, Constants.UI.Padding.default)
 
 					Button(Localizable.Groups.Edit.addRemove) {
-						contactSelectorView = ContactSelectorView(selectedContactIDs: viewModel.selectedContactIDs) { contactIDs in
-							Task {
-								await viewModel.updateSelectedContacts(ids: contactIDs)
-							}
+						contactSelectorView = ContactSelectorView(selectedContacts: viewModel.selectedContacts) { contacts in
+							viewModel.selectedContacts = contacts
 						}
 					}
 				}
 				.padding(Constants.UI.Padding.default)
 
 				List {
-					ForEach(viewModel.selectedContacts) {
+					ForEach(viewModel.displayableContacts) {
 						Text($0.displayName)
 					}
 				}
@@ -67,7 +65,7 @@ struct GroupCreationView: View {
 
 				Button(
 					action: {
-						viewModel.createGroup(onCompletion: { dismiss() })
+						viewModel.createGroup()
 					},
 					label: {
 						Text(Localizable.Common.Actions.save)

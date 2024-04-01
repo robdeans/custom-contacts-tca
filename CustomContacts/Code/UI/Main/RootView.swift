@@ -16,29 +16,38 @@ private enum Layout {
 
 @MainActor
 struct RootView: View {
-	private let contactListViewModel = ContactListView.ViewModel()
+	@Bindable private var viewModel = RootView.ViewModel()
 	@State private var showContactList = true
 	@State private var rotationAngle = Angle.zero
 
+	private let contactListViewModel = ContactListView.ViewModel()
+
 	var body: some View {
-		contentView
-			.rotation3DEffect(rotationAngle, axis: Layout.rotationAxis)
-			.onEdgeSwipe(
-				onChanged: { angle in
-					rotationAngle = angle
-					showContactList = Self.showTopCard(angle: angle)
-				},
-				onEnded: { angle in
-					withAnimation {
+		if viewModel.isLoading {
+			ProgressView()
+				.task {
+					await viewModel.initializeApp()
+				}
+		} else {
+			contentView
+				.rotation3DEffect(rotationAngle, axis: Layout.rotationAxis)
+				.onEdgeSwipe(
+					onChanged: { angle in
 						rotationAngle = angle
 						showContactList = Self.showTopCard(angle: angle)
+					},
+					onEnded: { angle in
+						withAnimation {
+							rotationAngle = angle
+							showContactList = Self.showTopCard(angle: angle)
+						}
 					}
-				}
-			)
-			.background(
-				Color.pink.opacity(0.2)
-					.ignoresSafeArea()
-			)
+				)
+				.background(
+					Color.pink.opacity(0.2)
+						.ignoresSafeArea()
+				)
+		}
 	}
 
 	private var contentView: some View {

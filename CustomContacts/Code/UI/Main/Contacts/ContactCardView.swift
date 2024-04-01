@@ -15,9 +15,11 @@ private enum Layout {
 }
 
 struct ContactCardView: View {
-	var groups: [ContactGroup] = [] // TODO: revisit
-
 	let contact: Contact
+
+	init(contact: Contact) {
+		self.contact = contact
+	}
 
 	var body: some View {
 		HStack {
@@ -28,10 +30,8 @@ struct ContactCardView: View {
 	}
 
 	private var contactGroupIndicatorView: some View {
-		let filteredGroups = groups.filter { $0.contactIDs.contains(contact.id) }
-
-		return ZStack(alignment: .leading) {
-			ForEach(Array(filteredGroups.enumerated()), id: \.element.id) { index, group in
+		ZStack(alignment: .leading) {
+			ForEach(Array(contact.groups.enumerated()), id: \.element.id) { index, group in
 				Circle()
 					.fill(group.color)
 					.frame(width: Layout.indicatorSize, height: Layout.indicatorSize)
