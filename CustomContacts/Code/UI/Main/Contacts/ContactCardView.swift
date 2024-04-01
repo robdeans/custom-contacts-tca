@@ -15,9 +15,7 @@ private enum Layout {
 }
 
 struct ContactCardView: View {
-	@Environment(\.modelContext) private var modelContext
-	@Query(sort: [SortDescriptor(\ContactGroup.name)])
-	private var groups: [ContactGroup]
+	var groups: [ContactGroup] = [] // TODO: revisit
 
 	let contact: Contact
 

@@ -55,15 +55,16 @@ extension GroupCreationView.ViewModel {
 		Task(priority: .userInitiated) {
 			LogCurrentThread("createGroup")
 			do {
-				let container = try ModelContainer(for: ContactGroup.self)
-				let handler = ContactGroupHandler(modelContainer: container)
-
-				let groupID = try await handler.createGroup(
+				@Dependency(\.uuid) var uuid
+				let contactGroup = ContactGroup(
+					id: uuid().uuidString,
 					name: name,
-					contactIDs: selectedContactIDs,
+					contacts: selectedContacts,
 					colorHex: color.toHex ?? ""
 				)
-				LogInfo("Group created: \(groupID)")
+				@Dependency(\.groupsDataService) var groupsDataService
+				_ = try await groupsDataService.createContactGroup(name, selectedContactIDs, color.toHex ?? "")
+				LogInfo("Group created: \(contactGroup.id)")
 				onCompletion()
 			} catch {
 				LogError("Group creation failed: \(error.localizedDescription)")

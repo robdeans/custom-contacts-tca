@@ -17,15 +17,18 @@ struct FilterRowView: View {
 	@Bindable var filterQuery: FilterQuery
 	let isFirstRow: Bool
 
-	@Environment(\.modelContext) private var modelContext
-	@Query(sort: [SortDescriptor(\ContactGroup.name)])
-	private var groups: [ContactGroup]
+	private var groups: [ContactGroup] = [] // TODO: revisit with updated groupsRepo
 
 	private var borderColor: Color {
 		if filterQuery.group == ContactGroup.allContactsGroup {
 			return .clear
 		}
 		return filterQuery.group.color
+	}
+
+	init(filterQuery: FilterQuery, isFirstRow: Bool) {
+		self.filterQuery = filterQuery
+		self.isFirstRow = isFirstRow
 	}
 
 	var body: some View {

@@ -77,29 +77,14 @@ struct FilterView: View {
 
 // MARK: - Preview Content
 #Preview {
-	MainActor.assumeIsolated {
-		let filterQueries: [FilterQuery] = [
-			FilterQuery(isFirstQuery: true),
-			FilterQuery(isFirstQuery: false),
-		]
-		let container = previewContainer
-		return FilterView(
-			filterQueries: filterQueries,
-			onAddQueryTapped: { _ in },
-			onRemoveQueryTapped: { _ in },
-			onClearTapped: {}
-		)
-		.modelContainer(container)
-	}
+	let filterQueries: [FilterQuery] = [
+		FilterQuery(isFirstQuery: true),
+		FilterQuery(isFirstQuery: false),
+	]
+	return FilterView(
+		filterQueries: filterQueries,
+		onAddQueryTapped: { _ in },
+		onRemoveQueryTapped: { _ in },
+		onClearTapped: {}
+	)
 }
-
-@MainActor
-private let previewContainer: ModelContainer = {
-	do {
-		let container = try ModelContainer(for: ContactGroup.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-		ContactGroup.mockArray.forEach { container.mainContext.insert($0) }
-		return container
-	} catch {
-		fatalError("Failed to create container")
-	}
-}()

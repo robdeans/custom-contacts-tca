@@ -10,20 +10,17 @@ import CustomContactsModels
 import SwiftData
 import SwiftUI
 
+@MainActor
 struct GroupListView: View {
-	@Environment(\.modelContext) private var modelContext
-	@Query(sort: [SortDescriptor(\ContactGroup.name)])
-	var groups: [ContactGroup]
-
+	@StateObject private var viewModel = ViewModel()
 	@StateObject private var groupListNavigation = GroupListNavigation()
-
 	@State private var createGroupView: GroupCreationView?
 
 	var body: some View {
 		NavigationStack(path: $groupListNavigation.path) {
 			ZStack {
 				List {
-					ForEach(groups) { group in
+					ForEach(viewModel.contactGroups) { group in
 						GroupCardView(group: group) {
 							groupListNavigation.path.append(.groupDetail(group))
 						}
@@ -36,8 +33,13 @@ struct GroupListView: View {
 			.sheet(item: $createGroupView) { $0 }
 			.navigationDestination(for: groupListNavigation)
 		}
-		.modelContainer(for: ContactGroup.self)
 		.environmentObject(groupListNavigation)
+		.task {
+			await viewModel.fetchContactGroups()
+		}
+		.refreshable {
+			await viewModel.fetchContactGroups()
+		}
 	}
 
 	private var createGroupButton: some View {
@@ -54,5 +56,30 @@ struct GroupListView: View {
 		)
 		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
 		.padding(Constants.UI.Padding.default * 2)
+	}
+}
+
+import CustomContactsHelpers
+import Dependencies
+
+extension GroupListView {
+	// TODO: why no @Observation work here?
+	final class ViewModel: ObservableObject {
+		@Published private(set) var contactGroups: [ContactGroup] = []
+
+		@MainActor
+		func fetchContactGroups() async {
+			@Dependency(\.groupsDataService) var groupsDataService
+			do {
+				contactGroups = try await groupsDataService.fetchContactGroups()
+				LogTrace("Fetched \(self.contactGroups.count) ContactGroup(s)")
+				for group in contactGroups {
+					print("GROUP HAS \(group.contacts.count) contacts and \(group.contactIDs.count) contactIDs")
+				}
+			} catch {
+				LogError("Error fetching groups!")
+				// TODO: show error
+			}
+		}
 	}
 }

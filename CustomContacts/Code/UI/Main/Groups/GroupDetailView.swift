@@ -14,13 +14,13 @@ import SwiftUI
 @MainActor
 struct GroupDetailView: View {
 	@Dependency(\.contactsRepository) private var contactsRepository
-	@Bindable private(set) var group: ContactGroup
+	@State var group = ContactGroup.mock
 
 	@State private var isEditing = false
 	private var color: Binding<Color> {
 		Binding(
 			get: { group.color },
-			set: { group.colorHex = $0.toHex ?? "" }
+			set: { _ in /*group.colorHex = $0.toHex ?? ""*/ }
 		)
 	}
 	@State private var contactSelectorView: ContactSelectorView?
@@ -68,7 +68,7 @@ struct GroupDetailView: View {
 			}
 
 			List {
-				ForEach(group.contacts().sorted()) {
+				ForEach(group.contacts.sorted()) {
 					Text($0.displayName)
 				}
 			}
@@ -82,9 +82,10 @@ struct GroupDetailView: View {
 	private var addRemoveContactsButton: some View {
 		Button(
 			action: {
-				contactSelectorView = ContactSelectorView(selectedContactIDs: group.contactIDs) {
+				contactSelectorView = ContactSelectorView(selectedContactIDs: group.contactIDs) { _ in
 					// TODO: only save/persist when `Done` is tapped? SwiftData updates immediately
-					group.contactIDs = $0
+					// TODO: revist when Group is refactored (also line 17 & 23)
+					// group.contactIDs = $0
 				}
 			},
 			label: {
@@ -103,24 +104,9 @@ struct GroupDetailView: View {
 }
 
 #Preview {
-	MainActor.assumeIsolated {
-		let container = previewContainer
-		return NavigationStack {
-			GroupDetailView(
-				group: .mock
-			)
-		}
-			.modelContainer(container)
+	return NavigationStack {
+		GroupDetailView(
+			group: .mock
+		)
 	}
 }
-
-@MainActor
-private let previewContainer: ModelContainer = {
-	do {
-		let container = try ModelContainer(for: ContactGroup.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
-		container.mainContext.insert(ContactGroup.mock)
-		return container
-	} catch {
-		fatalError("Failed to create container")
-	}
-}()
