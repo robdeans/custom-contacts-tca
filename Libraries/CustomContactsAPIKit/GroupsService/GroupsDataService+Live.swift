@@ -34,20 +34,3 @@ extension GroupsDataService: DependencyKey {
 		)
 	}
 }
-
-extension GroupsDataService {
-	enum DataError: Error {
-		case noDataFound(id: PersistentIdentifier)
-	}
-	private static func emptyContactGroup(
-		for objectID: PersistentIdentifier,
-		in modelContainer: ModelContainer
-	) throws -> EmptyContactGroup {
-		let modelContext = ModelContext(modelContainer)
-		guard let data = try modelContext.existingModel(for: objectID) as ContactGroupData? else {
-			throw DataError.noDataFound(id: objectID)
-		}
-
-		return EmptyContactGroup(contactGroupData: data)
-	}
-}

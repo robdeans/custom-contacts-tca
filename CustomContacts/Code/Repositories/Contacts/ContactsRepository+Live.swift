@@ -17,9 +17,6 @@ actor ContactsRepositoryLive: ContactsRepository {
 	}
 	private var contactDictionary: [Contact.ID: Contact] = [:]
 
-	/// Returns an array `[Contact]`
-	///
-	/// If `refresh: true` the array is fetched from ContactsService, otherwise the locally stored array is provided
 	func fetchContacts(refresh: Bool) async throws -> [Contact] {
 		LogCurrentThread("ContactsRepositoryLive.fetchContacts")
 		guard refresh || contacts.isEmpty else {
@@ -44,13 +41,10 @@ actor ContactsRepositoryLive: ContactsRepository {
 		return try await fetchContactsTask.value
 	}
 
-	/// Fetches a contact from a local dictionary; O(1) lookup time
 	func getContact(_ id: Contact.ID) -> Contact? {
 		contactDictionary[id]
 	}
 
-	/// Iterates through each `ContactGroup.contactIDs` and adds the respective group to that `Contact`
-	/// found within `contactDictionary[contactID`
 	func mergeAndSync(groups: [ContactGroup]) async {
 		let emptyGroups = groups.map { EmptyContactGroup(contactGroup: $0) }
 		for group in emptyGroups {
