@@ -8,7 +8,6 @@
 
 import CustomContactsModels
 import Dependencies
-import SwiftData
 import SwiftUI
 
 struct FilterRowView: View {

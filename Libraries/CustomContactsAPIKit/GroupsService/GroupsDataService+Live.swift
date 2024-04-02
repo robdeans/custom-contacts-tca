@@ -16,18 +16,29 @@ extension GroupsDataService: DependencyKey {
 	public static var liveValue: GroupsDataService {
 		// TODO: is this the safest way to obtain a modelContainer? Seems necessary to keep data in sync
 		let modelContainer = try! ModelContainer(for: ContactGroupData.self)
-		let contactGroupHandler = ContactGroupHandler(modelContainer: modelContainer)
+		let groupsDataHandler = GroupsDataHandler(modelContainer: modelContainer)
 
 		return Self(
 			fetchContactGroups: {
-				LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsDataService.fetchContactGroups")
-				return try await contactGroupHandler.fetchEmptyContactGroups()
+				LogCurrentThread("🎎 GroupsDataService.fetchContactGroups")
+				return try await groupsDataHandler.fetchEmptyContactGroups()
 			},
-			createContactGroup: { name, contactIDs, colorHex in
-				let createdContactGroup = try await contactGroupHandler.createGroup(
+			createContactGroup: { name, contactIDs, colorHex, index in
+				let createdContactGroup = try await groupsDataHandler.createGroup(
 					name: name,
 					contactIDs: contactIDs,
-					colorHex: colorHex
+					colorHex: colorHex,
+					index: index
+				)
+				return createdContactGroup
+			},
+			updateContactGroup: { id, name, contactIDs, colorHex, index in
+				let createdContactGroup = try await groupsDataHandler.updateGroup(
+					id: id,
+					name: name,
+					contactIDs: contactIDs,
+					colorHex: colorHex,
+					index: index
 				)
 				return createdContactGroup
 			}

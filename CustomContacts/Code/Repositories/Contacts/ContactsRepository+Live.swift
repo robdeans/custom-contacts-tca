@@ -19,13 +19,12 @@ actor ContactsRepositoryLive: ContactsRepository {
 
 	func fetchContacts(refresh: Bool) async throws -> [Contact] {
 		LogCurrentThread("ContactsRepositoryLive.fetchContacts")
-		guard refresh || contacts.isEmpty else {
+		guard refresh else {
 			return contacts
 		}
 		@Dependency(\.contactsService) var contactsService
 		guard try await contactsService.requestPermissions() else {
-			// TODO: Permissions denied state; throw error?
-			return []
+			throw ContactsRepositoryError.permissionDenied
 		}
 		let fetchContactsTask = Task(priority: .background) {
 			LogCurrentThread("ContactsRepositoryLive.fetchContactsTask")
@@ -52,5 +51,11 @@ actor ContactsRepositoryLive: ContactsRepository {
 				contactDictionary[contactID] = contactDictionary[contactID]?.adding(group: group)
 			}
 		}
+	}
+}
+
+extension ContactsRepositoryLive {
+	enum ContactsRepositoryError: Error {
+		case permissionDenied
 	}
 }

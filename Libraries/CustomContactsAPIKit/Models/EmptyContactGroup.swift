@@ -13,11 +13,13 @@ public struct EmptyContactGroup: Sendable, Identifiable {
 	public let name: String
 	public let contactIDs: Set<Contact.ID>
 	public let colorHex: String
+	public let index: Int
 
-	public init(id: EmptyContactGroup.ID, name: String, contactIDs: Set<Contact.ID>, colorHex: String) {
+	public init(id: EmptyContactGroup.ID, name: String, contactIDs: Set<Contact.ID>, colorHex: String, index: Int) {
 		self.id = id
 		self.name = name
 		self.contactIDs = contactIDs
 		self.colorHex = colorHex
+		self.index = index
 	}
 }

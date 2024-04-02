@@ -19,6 +19,8 @@ extension GroupCreationView {
 		var color = Color.random
 		var selectedContacts: Set<Contact> = []
 		let onCompletion: () -> Void
+		private(set) var isLoading = false
+		private(set) var error: Error?
 
 		var displayableContacts: [Contact] {
 			selectedContacts.sorted()
@@ -34,6 +36,10 @@ extension GroupCreationView.ViewModel {
 	/// Saves `ContactGroup` on main thread as this is a light data load
 	/// and action is immediately related to user actions
 	func createGroup() {
+		/// TODO: double-check this `defer` block executing _after_ Tast completes
+		defer { isLoading = false }
+		isLoading = true
+
 		Task(priority: .userInitiated) {
 			do {
 				@Dependency(\.groupsRepository) var groupsRepository
@@ -45,9 +51,8 @@ extension GroupCreationView.ViewModel {
 				LogInfo("Group created: \(createdGroup.name)")
 				onCompletion()
 			} catch {
-				// TODO: error and loading states
 				LogError("Group creation failed: \(error.localizedDescription)")
-				print(error)
+				self.error = error
 			}
 		}
 	}

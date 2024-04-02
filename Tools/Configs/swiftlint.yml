@@ -43,7 +43,7 @@ only_rules:
   - generic_type_name
   - identical_operands
   - identifier_name
-  - implicit_getter
+  # TODO: re-add when no conflict with DependencyValues; - implicit_getter
   - implicit_return
   - inert_defer
   - is_disjoint

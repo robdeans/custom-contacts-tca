@@ -15,17 +15,20 @@ final class ContactGroupData {
 	let name: String
 	let contactIDs: Set<Contact.ID>
 	let colorHex: String
+	let index: Int
 
 	init(
 		id: ContactGroupData.ID,
 		name: String,
 		contactIDs: Set<Contact.ID>,
-		colorHex: String
+		colorHex: String,
+		index: Int
 	) {
 		self.id = id
 		self.name = name
 		self.contactIDs = contactIDs
 		self.colorHex = colorHex
+		self.index = index
 	}
 }
 

@@ -6,13 +6,11 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsModels
-import SwiftData
 import SwiftUI
 
 @MainActor
 struct GroupListView: View {
-	@StateObject private var viewModel = ViewModel()
+	@Bindable private var viewModel = ViewModel()
 	@StateObject private var groupListNavigation = GroupListNavigation()
 	@State private var createGroupView: GroupCreationView?
 
@@ -23,6 +21,10 @@ struct GroupListView: View {
 					ForEach(viewModel.contactGroups) { group in
 						GroupCardView(group: group) {
 							groupListNavigation.path.append(.groupDetail(group))
+						}
+					}.onMove { origin, destination in
+						Task {
+							await viewModel.updateContactGroupOrder(from: origin, to: destination)
 						}
 					}
 				}
@@ -38,7 +40,7 @@ struct GroupListView: View {
 			await viewModel.fetchContactGroups()
 		}
 		.refreshable {
-			await viewModel.fetchContactGroups()
+			await viewModel.fetchContactGroups(refresh: true)
 		}
 	}
 
@@ -65,27 +67,5 @@ struct GroupListView: View {
 		)
 		.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
 		.padding(Constants.UI.Padding.default * 2)
-	}
-}
-
-import CustomContactsHelpers
-import Dependencies
-
-extension GroupListView {
-	// TODO: why no @Observation work here?
-	final class ViewModel: ObservableObject {
-		@Published private(set) var contactGroups: [ContactGroup] = []
-
-		@MainActor
-		func fetchContactGroups(refresh: Bool = false) async {
-			@Dependency(\.groupsRepository) var groupsRepository
-			do {
-				contactGroups = try await groupsRepository.fetchContactGroups(refresh: refresh)
-				LogTrace("Fetched \(self.contactGroups.count) ContactGroup(s)")
-			} catch {
-				LogError("Error fetching groups!")
-				// TODO: show error
-			}
-		}
 	}
 }

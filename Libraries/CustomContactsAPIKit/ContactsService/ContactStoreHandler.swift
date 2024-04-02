@@ -13,19 +13,17 @@ import CustomContactsModels
 actor ContactStoreHandler {
 	private lazy var store = CNContactStore()
 
-	private static var keysToFetch: [Any] {
-		[
-			CNContactIdentifierKey,
-			CNContactTypeKey,
-			CNContactGivenNameKey,
-			CNContactFamilyNameKey,
-			CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
-			CNContactOrganizationNameKey,
-			CNContactEmailAddressesKey,
-			CNContactPostalAddressesKey,
-			CNContactPhoneNumbersKey,
-		]
-	}
+	nonisolated private static let keysToFetch: [Any] = [
+		CNContactIdentifierKey,
+		CNContactTypeKey,
+		CNContactGivenNameKey,
+		CNContactFamilyNameKey,
+		CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
+		CNContactOrganizationNameKey,
+		CNContactEmailAddressesKey,
+		CNContactPostalAddressesKey,
+		CNContactPhoneNumbersKey,
+	]
 
 	func fetchContacts() async throws -> [Contact] {
 		LogCurrentThread("ContactStoreHandler.fetchContacts")

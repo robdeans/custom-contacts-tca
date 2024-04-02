@@ -17,6 +17,7 @@ struct ContactGroup: Sendable, Identifiable {
 	var name: String
 	var contacts: [Contact]
 	var colorHex: String
+	var index: Int
 
 	var contactIDs: Set<Contact.ID> {
 		Set(contacts.map { $0.id })
@@ -29,7 +30,7 @@ extension ContactGroup {
 		let name = emptyContactGroup.name
 		let colorHex = emptyContactGroup.colorHex
 		let contactIDs = emptyContactGroup.contactIDs
-
+		let index = emptyContactGroup.index
 		@Dependency(\.contactsRepository) var contactsRepository
 		var contacts: [Contact] = []
 
@@ -48,6 +49,6 @@ extension ContactGroup {
 			}
 		}
 
-		self.init(id: id, name: name, contacts: contacts, colorHex: colorHex)
+		self.init(id: id, name: name, contacts: contacts, colorHex: colorHex, index: index)
 	}
 }

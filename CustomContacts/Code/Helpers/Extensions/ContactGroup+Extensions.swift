@@ -23,14 +23,14 @@ extension ContactGroup: Hashable {
 
 extension ContactGroup {
 	public static var mock: ContactGroup {
-		ContactGroup(id: "1", name: "Group Name", contacts: Contact.mockArray, colorHex: "0000FF")
+		ContactGroup(id: "1", name: "Group Name", contacts: Contact.mockArray, colorHex: "0000FF", index: 0)
 	}
 
 	public static var mockArray: [ContactGroup] {
 		[
-			ContactGroup(id: "1", name: "Friendz", contacts: Contact.mockArray, colorHex: "0000FF"),
-			ContactGroup(id: "2", name: "Enemies", contacts: Contact.mockArray, colorHex: "FF0000"),
-			ContactGroup(id: "3", name: "Family", contacts: Contact.mockArray, colorHex: "00FF00"),
+			ContactGroup(id: "1", name: "Friendz", contacts: Contact.mockArray, colorHex: "0000FF", index: 0),
+			ContactGroup(id: "2", name: "Enemies", contacts: Contact.mockArray, colorHex: "FF0000", index: 1),
+			ContactGroup(id: "3", name: "Family", contacts: Contact.mockArray, colorHex: "00FF00", index: 2),
 		]
 	}
 }
@@ -47,7 +47,8 @@ extension ContactGroup {
 			id: "",
 			name: "All Contacts",
 			contacts: [], //Set(contactsRepository.getContacts().map { $0.id }),
-			colorHex: ""
+			colorHex: "",
+			index: 0
 		)
 	}
 }
