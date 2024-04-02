@@ -6,13 +6,11 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsModels
-import SwiftData
 import SwiftUI
 
 @MainActor
 struct GroupListView: View {
-	@StateObject private var viewModel = ViewModel()
+	@Bindable private var viewModel = ViewModel()
 	@StateObject private var groupListNavigation = GroupListNavigation()
 	@State private var createGroupView: GroupCreationView?
 

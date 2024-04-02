@@ -6,17 +6,17 @@
 //  Copyright © 2024 RBD. All rights reserved.
 //
 
-import Combine
 import CustomContactsHelpers
 import Dependencies
 import Foundation
+import Observation
 
 extension GroupListView {
-	// TODO: why no @Observation work here?
+	@Observable
 	final class ViewModel: ObservableObject {
-		@Dependency(\.groupsRepository) private var groupsRepository
-		@Published private(set) var contactGroups: [ContactGroup] = []
-		@Published private(set) var error: Error?
+		@ObservationIgnored @Dependency(\.groupsRepository) private var groupsRepository
+		private(set) var contactGroups: [ContactGroup] = []
+		private(set) var error: Error?
 	}
 }
 

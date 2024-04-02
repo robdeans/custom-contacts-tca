@@ -9,7 +9,6 @@
 import CustomContactsHelpers
 import CustomContactsModels
 import Dependencies
-import Foundation
 
 struct ContactGroup: Sendable, Identifiable {
 	typealias ID = String

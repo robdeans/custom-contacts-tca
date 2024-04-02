@@ -7,7 +7,6 @@
 //
 
 import CustomContactsModels
-import SwiftData
 import SwiftUI
 
 private enum Layout {

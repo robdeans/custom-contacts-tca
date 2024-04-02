@@ -27,8 +27,9 @@ actor GroupsRepositoryLive: GroupsRepository {
 		let emptyContactGroups = try await groupsService.fetchContactGroups()
 
 		var returnedContactGroups: [ContactGroup] = []
-		// TODO: handle each failure individually?
-		try await withThrowingTaskGroup(of: ContactGroup.self) { group in
+		returnedContactGroups.reserveCapacity(emptyContactGroups.count)
+
+		await withTaskGroup(of: ContactGroup.self) { group in
 			LogCurrentThread("🎎 GroupsRepositoryLive withThrowingTaskGroup adding ContactGroup.init")
 			for emptyGroup in emptyContactGroups {
 				group.addTask {
@@ -36,7 +37,7 @@ actor GroupsRepositoryLive: GroupsRepository {
 				}
 			}
 			LogCurrentThread("🎎 GroupsRepositoryLive withThrowingTaskGroup awaiting ContactGroups")
-			for try await contactGroup in group {
+			for await contactGroup in group {
 				returnedContactGroups.append(contactGroup)
 			}
 		}
@@ -81,7 +82,7 @@ actor GroupsRepositoryLive: GroupsRepository {
 		LogCurrentThread("GroupsRepositoryLive.updateContactGroup")
 		guard let originalGroup = groupsDictionary[id] else {
 			LogError("Could not find updated ContactGroup")
-			throw GroupsRepositoryError.missingUpdatedIndex
+			throw GroupsRepositoryError.missingContactGroup(id: id)
 		}
 
 		let emptyContactGroup = try await groupsService.updateContactGroup(
@@ -139,6 +140,6 @@ actor GroupsRepositoryLive: GroupsRepository {
 
 extension GroupsRepositoryLive {
 	enum GroupsRepositoryError: Error {
-		case missingUpdatedIndex
+		case missingContactGroup(id: ContactGroup.ID)
 	}
 }

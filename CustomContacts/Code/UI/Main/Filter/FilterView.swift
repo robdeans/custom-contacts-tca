@@ -6,8 +6,6 @@
 //  Copyright © 2023 RBD. All rights reserved.
 //
 
-import CustomContactsModels
-import SwiftData
 import SwiftUI
 
 struct FilterView: View {
