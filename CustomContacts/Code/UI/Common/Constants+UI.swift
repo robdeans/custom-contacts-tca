@@ -1,14 +1,14 @@
 //
-//  Constants.swift
+//  Constants+UI.swift
 //  CustomContacts
 //
-//  Created by Robert Deans on 8/14/23.
-//  Copyright © 2023 RBD. All rights reserved.
+//  Created by Robert Deans on 4/2/24.
+//  Copyright © 2024 RBD. All rights reserved.
 //
 
 import SwiftUI
 
-enum Constants {
+extension Constants {
 	enum UI {
 		enum Padding {
 			/// CGFloat(20)
