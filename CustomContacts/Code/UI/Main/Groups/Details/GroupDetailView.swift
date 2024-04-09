@@ -13,7 +13,7 @@ import SwiftUI
 @MainActor
 struct GroupDetailView: View {
 	@Environment(\.dismiss) private var dismiss
-	@Bindable private var viewModel: ViewModel
+	@State private var viewModel: ViewModel
 	@State private var contactSelectorView: ContactSelectorView?
 
 	@State private var isEditing = false
@@ -22,7 +22,7 @@ struct GroupDetailView: View {
 	@State private var contacts: [Contact]
 
 	init(group: ContactGroup) {
-		_viewModel = Bindable(ViewModel(group: group))
+		_viewModel = State(initialValue: ViewModel(group: group))
 		color = group.color
 		name = group.name
 		contacts = group.contacts

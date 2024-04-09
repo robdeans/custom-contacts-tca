@@ -10,7 +10,7 @@ import SwiftUI
 
 @MainActor
 struct GroupListView: View {
-	@Bindable private var viewModel = ViewModel()
+	@State private var viewModel = ViewModel()
 	@StateObject private var groupListNavigation = GroupListNavigation()
 	@State private var createGroupView: GroupCreationView?
 

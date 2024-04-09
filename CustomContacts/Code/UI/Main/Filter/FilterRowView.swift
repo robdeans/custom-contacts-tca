@@ -13,7 +13,7 @@ import SwiftUI
 struct FilterRowView: View {
 	@Dependency(\.contactsRepository) private var contactsRepository
 
-	@Bindable var filterQuery: FilterQuery
+	@State var filterQuery: FilterQuery
 	let isFirstRow: Bool
 
 	private var groups: [ContactGroup] = [] // TODO: revisit with updated groupsRepo
