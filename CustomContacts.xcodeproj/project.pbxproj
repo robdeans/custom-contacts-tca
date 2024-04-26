@@ -11,10 +11,6 @@
 		0F9AFBDA29E8004C00496F61 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 0F9AFBD929E8004C00496F61 /* Dependencies */; };
 		1390FB362947427D00A292D3 /* ArkanaKeys in Frameworks */ = {isa = PBXBuildFile; productRef = 1390FB352947427D00A292D3 /* ArkanaKeys */; };
 		3D119F1C1FFE1115001932AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3D119F181FFE1115001932AA /* Assets.xcassets */; };
-		5227EB492964968E004117A2 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		5227EB4A29649691004117A2 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		5227EB4B296496AE004117A2 /* (null) in Sources */ = {isa = PBXBuildFile; };
-		52B6146729647BCB00F00820 /* NukeUI in Frameworks */ = {isa = PBXBuildFile; productRef = 52B6146629647BCB00F00820 /* NukeUI */; };
 		DF3B36BD21ECAEFF0033C858 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = DF3B36B821ECAEFF0033C858 /* Localizable.strings */; };
 		DF3B36BE21ECAEFF0033C858 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = DF3B36BA21ECAEFF0033C858 /* Localizable.stringsdict */; };
 		DF3B36C021ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B36BF21ECAF560033C858 /* NSAttributedString+LocalizedFormat.swift */; };
@@ -69,6 +65,7 @@
 		E87A3DFA2A8BE6F90068F34C /* GroupCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DF92A8BE6F90068F34C /* GroupCardView.swift */; };
 		E87A3DFC2A8C09B20068F34C /* ContactsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DFB2A8C09B20068F34C /* ContactsRepository.swift */; };
 		E87A3DFE2A8C139C0068F34C /* ContactGroup+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DFD2A8C139C0068F34C /* ContactGroup+Extensions.swift */; };
+		E88CF5952BE1405B001390F4 /* ConcurrencyExtras in Frameworks */ = {isa = PBXBuildFile; productRef = E88CF5942BE1405B001390F4 /* ConcurrencyExtras */; };
 		E88DA29E2AA120E2002797AB /* FilterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88DA29D2AA120E2002797AB /* FilterRowView.swift */; };
 		E88DA2A02AA12188002797AB /* FilterQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88DA29F2AA12188002797AB /* FilterQuery.swift */; };
 		E8966E1F2BABD3FA00C41665 /* ContactsProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8966E1E2BABD3FA00C41665 /* ContactsProviderTests.swift */; };
@@ -195,7 +192,6 @@
 			files = (
 				0F9AFBDA29E8004C00496F61 /* Dependencies in Frameworks */,
 				1390FB362947427D00A292D3 /* ArkanaKeys in Frameworks */,
-				52B6146729647BCB00F00820 /* NukeUI in Frameworks */,
 				FC3DC8C928AE1FE6009EA293 /* FueledUtilsSwiftUI in Frameworks */,
 				FC3DC8C528AE1FE6009EA293 /* FueledUtilsCore in Frameworks */,
 				FC9016C327B4638900C935FE /* CustomContactsHelpers in Frameworks */,
@@ -207,6 +203,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E88CF5952BE1405B001390F4 /* ConcurrencyExtras in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,7 +556,6 @@
 				FC3DC8C428AE1FE6009EA293 /* FueledUtilsCore */,
 				FC3DC8C828AE1FE6009EA293 /* FueledUtilsSwiftUI */,
 				1390FB352947427D00A292D3 /* ArkanaKeys */,
-				52B6146629647BCB00F00820 /* NukeUI */,
 				0F9AFBD929E8004C00496F61 /* Dependencies */,
 			);
 			productName = CustomContacts;
@@ -580,6 +576,9 @@
 				F4CD703B2000044F0013EE7B /* PBXTargetDependency */,
 			);
 			name = CustomContactsTests;
+			packageProductDependencies = (
+				E88CF5942BE1405B001390F4 /* ConcurrencyExtras */,
+			);
 			productName = CustomContactsTests;
 			productReference = F4CD70352000044F0013EE7B /* CustomContactsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -624,8 +623,8 @@
 			mainGroup = 3DFCFB481E5DA85B00D4A874;
 			packageReferences = (
 				FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */,
-				52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */,
 				0F9AFBD829E8004C00496F61 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
+				E88CF5932BE1405B001390F4 /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */,
 			);
 			productRefGroup = 3DFCFB521E5DA85B00D4A874 /* Products */;
 			projectDirPath = "";
@@ -791,7 +790,6 @@
 				E8966E1F2BABD3FA00C41665 /* ContactsProviderTests.swift in Sources */,
 				E85F50762B61B42000E62286 /* ContactsRepository.swift in Sources */,
 				E85F50802B61B4A200E62286 /* ContactGroup+Extensions.swift in Sources */,
-				5227EB492964968E004117A2 /* (null) in Sources */,
 				E81C37AD2AAFAC3A00FE487F /* ContactListViewModelTest.swift in Sources */,
 				E85F507A2B61B44F00E62286 /* NavigationStackManager.swift in Sources */,
 				E85F507D2B61B48900E62286 /* NSAttributedString+LocalizedFormat.swift in Sources */,
@@ -800,9 +798,7 @@
 				E85F50842B61B4DB00E62286 /* SwipeableRowView.swift in Sources */,
 				E85F50782B61B43500E62286 /* Contact+Extensions.swift in Sources */,
 				E85F50752B61B38600E62286 /* ContactListView.swift in Sources */,
-				5227EB4B296496AE004117A2 /* (null) in Sources */,
 				E85F507E2B61B49200E62286 /* FilterView.swift in Sources */,
-				5227EB4A29649691004117A2 /* (null) in Sources */,
 				E85F50832B61B4D000E62286 /* FilterRowView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1446,12 +1442,12 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */ = {
+		E88CF5932BE1405B001390F4 /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kean/NukeUI.git";
+			repositoryURL = "https://github.com/pointfreeco/swift-concurrency-extras";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 0.8.3;
+				minimumVersion = 1.1.0;
 			};
 		};
 		FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */ = {
@@ -1474,10 +1470,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = ArkanaKeys;
 		};
-		52B6146629647BCB00F00820 /* NukeUI */ = {
+		E88CF5942BE1405B001390F4 /* ConcurrencyExtras */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 52B6146529647BCB00F00820 /* XCRemoteSwiftPackageReference "NukeUI" */;
-			productName = NukeUI;
+			package = E88CF5932BE1405B001390F4 /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */;
+			productName = ConcurrencyExtras;
 		};
 		FC3DC8C428AE1FE6009EA293 /* FueledUtilsCore */ = {
 			isa = XCSwiftPackageProductDependency;
