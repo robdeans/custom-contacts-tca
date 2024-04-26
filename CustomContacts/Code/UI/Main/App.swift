@@ -12,7 +12,11 @@ import SwiftUI
 struct CustomContactsApp: App {
 	var body: some Scene {
 		WindowGroup {
-			RootView()
+			if NSClassFromString("XCTestCase") == nil {
+				RootView()
+			} else {
+				EmptyView()
+			}
 		}
 	}
 }
