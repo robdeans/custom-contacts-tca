@@ -20,7 +20,7 @@ protocol ContactsRepository: Sendable {
 
 	/// Iterates through each `ContactGroup.contactIDs` and adds the respective group to that `Contact`
 	/// found within `contactDictionary[contactID]`
-	func mergeAndSync(groups: [ContactGroup]) async
+	func syncContacts(with contactGroups: [ContactGroup]) async
 }
 
 extension DependencyValues {

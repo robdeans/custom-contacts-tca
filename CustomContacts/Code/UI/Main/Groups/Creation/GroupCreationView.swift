@@ -18,7 +18,7 @@ private enum Layout {
 @MainActor
 struct GroupCreationView: View {
 	@Environment(\.dismiss) private var dismiss
-	@Bindable var viewModel: ViewModel
+	@State var viewModel: ViewModel
 	@State private var contactSelectorView: ContactSelectorView?
 
 	var body: some View {

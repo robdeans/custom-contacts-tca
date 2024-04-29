@@ -29,6 +29,7 @@
 		DF3B370121ECAFDD0033C858 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3B370021ECAFDD0033C858 /* String+Localization.swift */; };
 		E8013AAD2B645824006CC984 /* ContactsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8013AAC2B645824006CC984 /* ContactsProvider.swift */; };
 		E80F25D02B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E80F25CF2B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift */; };
+		E814E5DA2BBC7A220092C7D9 /* Constants+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E814E5D92BBC7A220092C7D9 /* Constants+UI.swift */; };
 		E81C37AD2AAFAC3A00FE487F /* ContactListViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E81C37AC2AAFAC3A00FE487F /* ContactListViewModelTest.swift */; };
 		E820925E2BB700140047E0D4 /* GroupsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E820925D2BB700140047E0D4 /* GroupsRepository.swift */; };
 		E82092602BB70D370047E0D4 /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E820925F2BB70D370047E0D4 /* RootViewModel.swift */; };
@@ -56,7 +57,6 @@
 		E85F507F2B61B49700E62286 /* ContactCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF22A9F982A0004E455 /* ContactCardView.swift */; };
 		E85F50802B61B4A200E62286 /* ContactGroup+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DFD2A8C139C0068F34C /* ContactGroup+Extensions.swift */; };
 		E85F50812B61B4C100E62286 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8A497E92AABA6F20057C78B /* Color+Extensions.swift */; };
-		E85F50822B61B4CA00E62286 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87A3DE62A8ABE0F0068F34C /* Constants.swift */; };
 		E85F50832B61B4D000E62286 /* FilterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88DA29D2AA120E2002797AB /* FilterRowView.swift */; };
 		E85F50842B61B4DB00E62286 /* SwipeableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */; };
 		E85F50852B61B4E100E62286 /* PreferenceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FA23DB2AA77847006DE429 /* PreferenceKeys.swift */; };
@@ -130,6 +130,7 @@
 		DF3B370021ECAFDD0033C858 /* String+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		E8013AAC2B645824006CC984 /* ContactsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsProvider.swift; sourceTree = "<group>"; };
 		E80F25CF2B6858FE002E4FE5 /* Contact.SortOption+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Contact.SortOption+Extensions.swift"; sourceTree = "<group>"; };
+		E814E5D92BBC7A220092C7D9 /* Constants+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Constants+UI.swift"; sourceTree = "<group>"; };
 		E81C37AB2AAFAC3A00FE487F /* CustomContactsTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CustomContactsTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		E81C37AC2AAFAC3A00FE487F /* ContactListViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListViewModelTest.swift; sourceTree = "<group>"; };
 		E820925D2BB700140047E0D4 /* GroupsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsRepository.swift; sourceTree = "<group>"; };
@@ -310,6 +311,7 @@
 		DF3B37D121ECB4320033C858 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				0F79D60929F1F50000346E43 /* App.swift */,
 				E8D67B982A8AB1B800300FE0 /* RootView.swift */,
 				E820925F2BB70D370047E0D4 /* RootViewModel.swift */,
 				E87A3DF32A8AC9290068F34C /* Contacts */,
@@ -317,6 +319,41 @@
 				E8C33FF62A9FE0520004E455 /* Filter */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		E814E5D82BBC7A020092C7D9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				E82092612BB7128F0047E0D4 /* ContactGroup.swift */,
+				E87A3DE62A8ABE0F0068F34C /* Constants.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E814E5DB2BBC7A6B0092C7D9 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				E8D67B9A2A8AB21C00300FE0 /* ContactListView.swift */,
+				E84C26042AA23624008D3FB6 /* ContactListViewModel.swift */,
+				E8C33FF22A9F982A0004E455 /* ContactCardView.swift */,
+			);
+			path = List;
+			sourceTree = "<group>";
+		};
+		E814E5DC2BBC7A740092C7D9 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				E87A3DF12A8AC8080068F34C /* ContactDetailView.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		E814E5DD2BBC7A7D0092C7D9 /* Selection */ = {
+			isa = PBXGroup;
+			children = (
+				E87A3DF52A8AC9990068F34C /* ContactSelectorView.swift */,
+			);
+			path = Selection;
 			sourceTree = "<group>";
 		};
 		E82092672BB719F40047E0D4 /* Groups */ = {
@@ -341,11 +378,12 @@
 		E87A3DEC2A8AC0D30068F34C /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				E814E5D92BBC7A220092C7D9 /* Constants+UI.swift */,
 				E821393B2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift */,
 				E87A3DF72A8BE4A30068F34C /* NavigationLinkHelper.swift */,
+				E821393F2B1A7677009ABF4E /* NavigationStackManager.swift */,
 				E8FA23DB2AA77847006DE429 /* PreferenceKeys.swift */,
 				E8C33FF72AA0E4C50004E455 /* SwipeableRowView.swift */,
-				E821393F2B1A7677009ABF4E /* NavigationStackManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -354,11 +392,9 @@
 			isa = PBXGroup;
 			children = (
 				E82139412B1A76B2009ABF4E /* ContactListNavigation.swift */,
-				E8D67B9A2A8AB21C00300FE0 /* ContactListView.swift */,
-				E84C26042AA23624008D3FB6 /* ContactListViewModel.swift */,
-				E8C33FF22A9F982A0004E455 /* ContactCardView.swift */,
-				E87A3DF12A8AC8080068F34C /* ContactDetailView.swift */,
-				E87A3DF52A8AC9990068F34C /* ContactSelectorView.swift */,
+				E814E5DB2BBC7A6B0092C7D9 /* List */,
+				E814E5DC2BBC7A740092C7D9 /* Detail */,
+				E814E5DD2BBC7A7D0092C7D9 /* Selection */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -417,19 +453,10 @@
 			children = (
 				FCDAFBC527C54741001314C2 /* Generated */,
 				F4CD704A200009530013EE7B /* Helpers */,
-				F4CD701A200003E10013EE7B /* Application */,
 				F4CD704B200009590013EE7B /* Repositories */,
 				F4CD7023200003E10013EE7B /* UI */,
 			);
 			path = Code;
-			sourceTree = "<group>";
-		};
-		F4CD701A200003E10013EE7B /* Application */ = {
-			isa = PBXGroup;
-			children = (
-				0F79D60929F1F50000346E43 /* App.swift */,
-			);
-			path = Application;
 			sourceTree = "<group>";
 		};
 		F4CD7023200003E10013EE7B /* UI */ = {
@@ -457,9 +484,7 @@
 			children = (
 				DF3B36C121ECAF8A0033C858 /* Errors */,
 				F4CD704C2000095C0013EE7B /* Extensions */,
-				E82092612BB7128F0047E0D4 /* ContactGroup.swift */,
-				E87A3DE62A8ABE0F0068F34C /* Constants.swift */,
-				E8B431D92BB5B789004E7616 /* UserSettings.swift */,
+				E814E5D82BBC7A020092C7D9 /* Models */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -467,6 +492,7 @@
 		F4CD704B200009590013EE7B /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				E8B431D92BB5B789004E7616 /* UserSettings.swift */,
 				E82092682BB719FA0047E0D4 /* Contacts */,
 				E82092672BB719F40047E0D4 /* Groups */,
 			);
@@ -735,6 +761,7 @@
 				E87A3DFA2A8BE6F90068F34C /* GroupCardView.swift in Sources */,
 				E8FA23DC2AA77847006DE429 /* PreferenceKeys.swift in Sources */,
 				E821393C2B193A3A009ABF4E /* EdgeSwipeCardFlipModifier.swift in Sources */,
+				E814E5DA2BBC7A220092C7D9 /* Constants+UI.swift in Sources */,
 				E8C33FF52A9FE04E0004E455 /* FilterView.swift in Sources */,
 				0F79D60A29F1F50000346E43 /* App.swift in Sources */,
 				E87A3DF62A8AC9990068F34C /* ContactSelectorView.swift in Sources */,
@@ -756,7 +783,6 @@
 			files = (
 				E85F50852B61B4E100E62286 /* PreferenceKeys.swift in Sources */,
 				E85F507B2B61B45C00E62286 /* ContactDetailView.swift in Sources */,
-				E85F50822B61B4CA00E62286 /* Constants.swift in Sources */,
 				E85F507F2B61B49700E62286 /* ContactCardView.swift in Sources */,
 				E85F50772B61B42C00E62286 /* FilterQuery.swift in Sources */,
 				E8DA6A032B646255000B9CB5 /* ContactsProvider.swift in Sources */,

@@ -12,7 +12,7 @@ import Observation
 import SwiftUI
 
 struct ContactSelectorView: View {
-	@Bindable private var viewModel = ViewModel()
+	@State private var viewModel = ViewModel()
 	@Environment(\.dismiss) private var dismiss
 
 	@State private var editMode = EditMode.active

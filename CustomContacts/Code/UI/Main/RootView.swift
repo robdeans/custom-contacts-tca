@@ -16,7 +16,7 @@ private enum Layout {
 
 @MainActor
 struct RootView: View {
-	@Bindable private var viewModel = RootView.ViewModel()
+	@State private var viewModel = RootView.ViewModel()
 	@State private var showContactList = true
 	@State private var rotationAngle = Angle.zero
 

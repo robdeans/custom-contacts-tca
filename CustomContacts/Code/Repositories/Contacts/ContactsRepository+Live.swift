@@ -11,11 +11,18 @@ import CustomContactsHelpers
 import CustomContactsModels
 import Dependencies
 
-actor ContactsRepositoryLive: ContactsRepository {
+actor ContactsRepositoryLive {
+	typealias ContactDictionary = [Contact.ID: Contact]
+	private var contactDictionary: ContactDictionary = [:]
 	private var contacts: [Contact] {
 		Array(contactDictionary.values)
 	}
-	private var contactDictionary: [Contact.ID: Contact] = [:]
+}
+
+extension ContactsRepositoryLive: ContactsRepository {
+	func getContact(_ id: Contact.ID) -> Contact? {
+		contactDictionary[id]
+	}
 
 	func fetchContacts(refresh: Bool) async throws -> [Contact] {
 		LogCurrentThread("ContactsRepositoryLive.fetchContacts")
@@ -35,17 +42,25 @@ actor ContactsRepositoryLive: ContactsRepository {
 				uniquingKeysWith: { _, last in last }
 			)
 			LogInfo("Repository returning \(self.contacts.count) contact(s)")
-			return contacts
+			return fetchedContacts
 		}
-		return try await fetchContactsTask.value
+
+		let syncContactsAndGroupsTask = Task(priority: .background) {
+			/// Contacts must first be fetched and assigned to respective properties
+			/// so that when `ContactGroup` is fetched, `Contact` can be injected using `getContact(id:)`
+			let fetchedContacts = try await fetchContactsTask.value
+
+			@Dependency(\.groupsRepository) var groupsRepository
+			let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: refresh)
+
+			await syncContacts(with: fetchedGroups)
+			return fetchedContacts
+		}
+		return try await syncContactsAndGroupsTask.value
 	}
 
-	func getContact(_ id: Contact.ID) -> Contact? {
-		contactDictionary[id]
-	}
-
-	func mergeAndSync(groups: [ContactGroup]) async {
-		let emptyGroups = groups.map { EmptyContactGroup(contactGroup: $0) }
+	func syncContacts(with contactGroups: [ContactGroup]) async {
+		let emptyGroups = contactGroups.map { EmptyContactGroup(contactGroup: $0) }
 		for group in emptyGroups {
 			for contactID in group.contactIDs {
 				contactDictionary[contactID] = contactDictionary[contactID]?.adding(group: group)

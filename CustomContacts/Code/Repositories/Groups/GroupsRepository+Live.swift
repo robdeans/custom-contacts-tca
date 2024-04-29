@@ -26,10 +26,9 @@ actor GroupsRepositoryLive: GroupsRepository {
 		}
 		let emptyContactGroups = try await groupsService.fetchContactGroups()
 
-		var returnedContactGroups: [ContactGroup] = []
-		returnedContactGroups.reserveCapacity(emptyContactGroups.count)
-
-		await withTaskGroup(of: ContactGroup.self) { group in
+		let returnedContactGroups = await withTaskGroup(of: ContactGroup.self) { group in
+			var returnedContactGroups: [ContactGroup] = []
+			returnedContactGroups.reserveCapacity(emptyContactGroups.count)
 			LogCurrentThread("🎎 GroupsRepositoryLive withThrowingTaskGroup adding ContactGroup.init")
 			for emptyGroup in emptyContactGroups {
 				group.addTask {
@@ -40,6 +39,7 @@ actor GroupsRepositoryLive: GroupsRepository {
 			for await contactGroup in group {
 				returnedContactGroups.append(contactGroup)
 			}
+			return returnedContactGroups
 		}
 
 		self.groupsDictionary = Dictionary(
@@ -67,7 +67,7 @@ actor GroupsRepositoryLive: GroupsRepository {
 		groupsDictionary[createdGroup.id] = createdGroup
 
 		@Dependency(\.contactsRepository) var contactsRepository
-		await contactsRepository.mergeAndSync(groups: [createdGroup])
+		await contactsRepository.syncContacts(with: [createdGroup])
 
 		return createdGroup
 	}

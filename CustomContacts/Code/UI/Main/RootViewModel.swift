@@ -24,19 +24,7 @@ extension RootView {
 
 			do {
 				@Dependency(\.contactsRepository) var contactsRepository
-				@Dependency(\.groupsRepository) var groupsRepository
-				/// `Contact`s **must** be fetched before `ContactGroup`s given the order of operations:
-				/// 1) Contacts are fetched successfully
-				///
-				/// 2) `EmptyContactGroup` are fetched from `GroupsService` and converted to `ContactGroup`
-				/// by iterating/updating `contactID` to `Contact` objects
-				///
-				/// 3) `(Empty)ContactGroup` is then merged/synced with fetched `Contact`s so that Contacts
-				/// contact `groups: [EmptyContactGroup]` property
-				///
 				_ = try await contactsRepository.fetchContacts(refresh: true)
-				let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: true)
-				await contactsRepository.mergeAndSync(groups: fetchedGroups)
 			} catch {
 				LogError(error.localizedDescription)
 				self.error = error

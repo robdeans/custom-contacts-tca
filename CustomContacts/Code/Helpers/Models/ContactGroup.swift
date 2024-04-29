@@ -31,12 +31,13 @@ extension ContactGroup {
 		let colorHex = emptyContactGroup.colorHex
 		let contactIDs = emptyContactGroup.contactIDs
 		let index = emptyContactGroup.index
-		@Dependency(\.contactsRepository) var contactsRepository
-		var contacts: [Contact] = []
 
 		LogCurrentThread("👯‍♀️ ContactGroup.init: \(name)")
 
-		await withTaskGroup(of: Optional<Contact>.self) { group in
+		let returnedContacts = await withTaskGroup(of: Optional<Contact>.self) { group in
+			@Dependency(\.contactsRepository) var contactsRepository
+			var contacts: [Contact] = []
+
 			for contactID in contactIDs {
 				group.addTask {
 					return await contactsRepository.getContact(contactID)
@@ -47,8 +48,9 @@ extension ContactGroup {
 					contacts.append(contact)
 				}
 			}
+			return contacts
 		}
 
-		self.init(id: id, name: name, contacts: contacts, colorHex: colorHex, index: index)
+		self.init(id: id, name: name, contacts: returnedContacts, colorHex: colorHex, index: index)
 	}
 }
