@@ -16,7 +16,9 @@ extension DependencyValues {
 	}
 }
 
-public struct ContactsService: DependencyKey, Sendable {
+public struct ContactsService: Sendable {
 	public var fetchContacts: @Sendable () async throws -> [Contact]
 	public var requestPermissions: @Sendable () async throws -> Bool
 }
+
+extension ContactsService: DependencyKey {}

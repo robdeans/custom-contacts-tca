@@ -12,7 +12,7 @@ import Dependencies
 import Foundation
 import SwiftData
 
-extension GroupsDataService: DependencyKey {
+extension GroupsDataService {
 	public static var liveValue: GroupsDataService {
 		// TODO: is this the safest way to obtain a modelContainer? Seems necessary to keep data in sync
 		let modelContainer = try! ModelContainer(for: ContactGroupData.self)

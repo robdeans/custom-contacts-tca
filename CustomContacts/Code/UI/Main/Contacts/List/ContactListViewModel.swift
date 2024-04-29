@@ -13,7 +13,7 @@ import Foundation
 
 extension ContactListView {
 	final class ViewModel: ObservableObject {
-		@Published private var contacts: [Contact] = []
+		@Published private(set) var contacts: [Contact] = []
 		@Published private(set) var contactsSections: [(String, [Contact])] = []
 
 		@Published var searchText = ""
@@ -25,15 +25,17 @@ extension ContactListView {
 		private var cancellables = Set<AnyCancellable>()
 
 		init() {
+			@Dependency(\.mainQueue) var mainQueue
+
 			Publishers.CombineLatest3(
 				$contacts.removeDuplicates(),
 				$searchText
-					.debounce(for: .seconds(0.3), scheduler: DispatchQueue.main)
+					.debounce(for: .seconds(0.3), scheduler: mainQueue)
 					.removeDuplicates(),
 				$filterQueries.removeDuplicates()
 			)
 			.map(Self.contactsSection)
-			.receive(on: DispatchQueue.main)
+			.receive(on: mainQueue)
 			.sink { [weak self] in
 				self?.contactsSections = $0
 			}

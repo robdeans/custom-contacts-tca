@@ -9,7 +9,7 @@
 import CustomContactsModels
 
 extension ContactsService {
-	public static var previewValue: Self {
+	public static var testValue: Self {
 		Self(
 			fetchContacts: {
 				Contact.mockArray
@@ -18,5 +18,8 @@ extension ContactsService {
 				true
 			}
 		)
+	}
+	public static var previewValue: Self {
+		.testValue
 	}
 }

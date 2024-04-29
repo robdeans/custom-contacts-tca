@@ -62,37 +62,3 @@ extension Contact: Hashable {
 		hasher.combine(self.id)
 	}
 }
-
-extension Contact {
-	public static let mock = Contact(
-		id: "123",
-		firstName: "Tina",
-		lastName: "Belcher",
-		displayName: "Tina Belcher",
-		groups: []
-	)
-
-	public static let mockArray = [
-		Contact(
-			id: "123",
-			firstName: "Tina",
-			lastName: "Belcher",
-			displayName: "Tina Belcher",
-			groups: []
-		),
-		Contact(
-			id: "456",
-			firstName: "Bob",
-			lastName: "Belcher",
-			displayName: "Bob Belcher",
-			groups: []
-		),
-		Contact(
-			id: "789",
-			firstName: "Gene",
-			lastName: "Belcher",
-			displayName: "Gene Belcher",
-			groups: []
-		),
-	]
-}

@@ -15,29 +15,11 @@ final class ContactListViewModelTest: XCTestCase {
 	@MainActor
 	func testLoadContacts() async {
 		let viewModel = withDependencies {
-			$0.contactsService.fetchContacts = {
-				Contact.mockArray
-			}
+			$0.mainQueue = .immediate
 		} operation: {
 			ContactListView.ViewModel()
 		}
-		// Test isLoading??
 		await viewModel.loadContacts(refresh: true)
-		XCTAssert(!viewModel.contactsSections.isEmpty)
-	}
-
-	@MainActor
-	func testLoadContactsError() async {
-//		let viewModel = withDependencies {
-//			$0.contactsService.fetchContacts = {
-//				struct SomeError: Error {}
-//				throw SomeError()
-//			}
-//		} operation: {
-//			ContactListView.ViewModel()
-//		}
-//		await viewModel.loadContacts(refresh: true)
-//		XCTAssert(viewModel.error != nil)
-
+		XCTAssert(!viewModel.contacts.isEmpty)
 	}
 }

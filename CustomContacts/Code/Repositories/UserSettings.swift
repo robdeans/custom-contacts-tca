@@ -10,7 +10,7 @@ import CustomContactsHelpers
 import CustomContactsModels
 import Dependencies
 
-// TODO: remove @unchecked
+// TODO: remove @unchecked, actually this entire implementation...
 final class UserSettings: @unchecked Sendable {
 	@Defaults(
 		key: "contactsSortOption",
@@ -27,6 +27,9 @@ final class UserSettings: @unchecked Sendable {
 
 extension UserSettings: DependencyKey {
 	static let liveValue = UserSettings()
+	static var testValue: UserSettings {
+		.liveValue
+	}
 }
 
 extension DependencyValues {
