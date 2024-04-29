@@ -30,7 +30,7 @@ extension DependencyValues {
 	}
 }
 
-private enum ContactsRepositoryKey: DependencyKey {
+enum ContactsRepositoryKey: DependencyKey {
 	static var liveValue: ContactsRepository {
 		ContactsRepositoryLive()
 	}
