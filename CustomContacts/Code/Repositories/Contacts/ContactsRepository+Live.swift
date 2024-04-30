@@ -14,7 +14,6 @@ import Dependencies
 actor ContactsRepositoryLive {
 	// Dependency needs to be at highest level to ensure testing substitution
 	@Dependency(\.contactsService) private var contactsService
-	@Dependency(\.groupsRepository) private var groupsRepository
 
 	typealias ContactDictionary = [Contact.ID: Contact]
 	private var contactDictionary: ContactDictionary = [:]
@@ -49,24 +48,25 @@ extension ContactsRepositoryLive: ContactsRepository {
 			return fetchedContacts
 		}
 
-		let syncContactsAndGroupsTask = Task(priority: .background) {
-			/// Contacts must first be fetched and assigned to respective properties
-			/// so that when `ContactGroup` is fetched, `Contact` can be injected using `getContact(id:)`
-			let fetchedContacts = try await fetchContactsTask.value
-
-			let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: refresh)
-
-			await syncContacts(with: fetchedGroups)
-			return fetchedContacts
-		}
-		return try await syncContactsAndGroupsTask.value
+//		let syncContactsAndGroupsTask = Task(priority: .background) {
+//			/// Contacts must first be fetched and assigned to respective properties
+//			/// so that when `ContactGroup` is fetched, `Contact` can be injected using `getContact(id:)`
+//			let fetchedContacts = try await fetchContactsTask.value
+//
+//			let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: refresh)
+//
+//			await syncContacts(with: fetchedGroups)
+//			return fetchedContacts
+//		}
+//		return try await syncContactsAndGroupsTask.value
+		return try await fetchContactsTask.value
 	}
 
 	func syncContacts(with contactGroups: [ContactGroup]) async {
-		let emptyGroups = contactGroups.map { EmptyContactGroup(contactGroup: $0) }
-		for group in emptyGroups {
+		for group in contactGroups {
+			let emptyGroup = EmptyContactGroup(contactGroup: group)
 			for contactID in group.contactIDs {
-				contactDictionary[contactID] = contactDictionary[contactID]?.adding(group: group)
+				contactDictionary[contactID] = contactDictionary[contactID]?.adding(emptyGroup: emptyGroup)
 			}
 		}
 	}

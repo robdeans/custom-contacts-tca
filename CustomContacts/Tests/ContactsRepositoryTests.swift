@@ -69,10 +69,8 @@ final class ContactsRepositoryTests: XCTestCase {
 		XCTAssertNil(nonexpectedContact)
 	}
 
-	func testContactGroups() async {
-		// TODO: enable test substitution for GroupsRepository
+	func testContactGroups() async throws {
 		let expectedContacts = Contact.mockArray
-//		let expectedIDs = expectedContacts.map { $0.id }
 		let contactsRepository = withDependencies {
 			$0.contactsService.fetchContacts = {
 				expectedContacts
@@ -80,10 +78,23 @@ final class ContactsRepositoryTests: XCTestCase {
 		} operation: {
 			ContactsRepositoryKey.liveValue
 		}
-		let cachedContacts = try? await contactsRepository.fetchContacts(refresh: false)
+		let cachedContacts = try await contactsRepository.fetchContacts(refresh: false)
 		XCTAssertEqual(cachedContacts, [])
 
-		let returnedContacts = try? await contactsRepository.fetchContacts(refresh: true)
+		let returnedContacts = try await contactsRepository.fetchContacts(refresh: true)
 		XCTAssertEqual(returnedContacts, expectedContacts)
+
+		let groupsRepository = withDependencies {
+			$0.contactsRepository = contactsRepository
+		} operation: {
+			GroupsRepositoryKey.liveValue
+		}
+		let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: true)
+
+		XCTAssertEqual(returnedContacts.flatMap { $0.groups }.isEmpty, true)
+		await contactsRepository.syncContacts(with: fetchedGroups)
+		let syncedContacts = try await contactsRepository.fetchContacts(refresh: false)
+		let syncedContactsGroups = syncedContacts.flatMap { $0.groups }
+		XCTAssertEqual(syncedContactsGroups.isEmpty, false)
 	}
 }
