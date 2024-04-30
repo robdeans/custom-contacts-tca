@@ -8,7 +8,6 @@
 
 import CustomContactsHelpers
 import CustomContactsModels
-import Dependencies
 
 struct ContactGroup: Sendable, Identifiable {
 	typealias ID = String
@@ -25,7 +24,10 @@ struct ContactGroup: Sendable, Identifiable {
 }
 
 extension ContactGroup {
-	init(emptyContactGroup: EmptyContactGroup) async {
+	init(
+		emptyContactGroup: EmptyContactGroup,
+		getContact: @Sendable @escaping (_ id: Contact.ID) async -> Contact?
+	) async {
 		let id = emptyContactGroup.id
 		let name = emptyContactGroup.name
 		let colorHex = emptyContactGroup.colorHex
@@ -34,23 +36,28 @@ extension ContactGroup {
 
 		LogCurrentThread("👯‍♀️ ContactGroup.init: \(name)")
 
-		let returnedContacts = await withTaskGroup(of: Optional<Contact>.self) { group in
-			@Dependency(\.contactsRepository) var contactsRepository
+		let returnedContacts = await withTaskGroup(of: Optional<Contact>.self) { taskGroup in
 			var contacts: [Contact] = []
 
 			for contactID in contactIDs {
-				group.addTask {
-					return await contactsRepository.getContact(contactID)
+				taskGroup.addTask {
+					return await getContact(contactID)
 				}
 			}
-			for await contact in group {
+			for await contact in taskGroup {
 				if let contact {
 					contacts.append(contact)
 				}
 			}
 			return contacts
 		}
-
+		if returnedContacts.count != contactIDs.count {
+			if !contactIDs.isEmpty && returnedContacts.isEmpty {
+				LogWarning("No Contacts were added to ContactGroup; has the ContactsRepository fetched Contacts?")
+			} else {
+				LogWarning("Some Contacts were not added to ContactGroup upon initialization")
+			}
+		}
 		self.init(id: id, name: name, contacts: returnedContacts, colorHex: colorHex, index: index)
 	}
 }

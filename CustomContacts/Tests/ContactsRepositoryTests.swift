@@ -15,7 +15,7 @@ final class ContactsRepositoryTests: XCTestCase {
 	func testFetchContacts() async {
 		let expectedContacts = Contact.mockArray
 		let contactsRepository = withDependencies {
-			$0.contactsService.fetchContacts =  {
+			$0.contactsService.fetchContacts = {
 				expectedContacts
 			}
 		} operation: {
@@ -30,7 +30,7 @@ final class ContactsRepositoryTests: XCTestCase {
 
 	func testFetchContactsNoPermissions() async {
 		let contactsRepository = withDependencies {
-			$0.contactsService.requestPermissions =  { 
+			$0.contactsService.requestPermissions = {
 				false
 			}
 		} operation: {
@@ -51,7 +51,7 @@ final class ContactsRepositoryTests: XCTestCase {
 		let expectedContacts = Contact.mockArray
 		let expectedID = expectedContacts.first!.id
 		let contactsRepository = withDependencies {
-			$0.contactsService.fetchContacts =  {
+			$0.contactsService.fetchContacts = {
 				expectedContacts
 			}
 		} operation: {
@@ -74,7 +74,7 @@ final class ContactsRepositoryTests: XCTestCase {
 		let expectedContacts = Contact.mockArray
 //		let expectedIDs = expectedContacts.map { $0.id }
 		let contactsRepository = withDependencies {
-			$0.contactsService.fetchContacts =  {
+			$0.contactsService.fetchContacts = {
 				expectedContacts
 			}
 		} operation: {

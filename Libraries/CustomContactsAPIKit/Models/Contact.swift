@@ -42,13 +42,13 @@ extension Contact {
 		groups = []
 	}
 
-	public func adding(group: EmptyContactGroup) -> Contact {
+	public func adding(emptyGroup: EmptyContactGroup) -> Contact {
 		Contact(
 			id: id,
 			firstName: firstName,
 			lastName: lastName,
 			displayName: displayName,
-			groups: groups + [group]
+			groups: groups + [emptyGroup]
 		)
 	}
 }

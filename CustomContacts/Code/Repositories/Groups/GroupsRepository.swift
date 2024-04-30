@@ -33,7 +33,7 @@ extension DependencyValues {
 	}
 }
 
-private enum GroupsRepositoryKey: DependencyKey {
+enum GroupsRepositoryKey: DependencyKey {
 	static var liveValue: GroupsRepository {
 		GroupsRepositoryLive()
 	}
