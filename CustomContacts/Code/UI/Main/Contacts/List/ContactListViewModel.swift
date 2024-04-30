@@ -13,6 +13,8 @@ import Foundation
 
 extension ContactListView {
 	final class ViewModel: ObservableObject {
+		@Dependency(\.contactsRepository) private var contactsRepository
+
 		@Published private(set) var contacts: [Contact] = []
 		@Published private(set) var contactsSections: [(String, [Contact])] = []
 
@@ -50,7 +52,6 @@ extension ContactListView {
 			isLoading = true
 
 			do {
-				@Dependency(\.contactsRepository) var contactsRepository
 				contacts = try await contactsRepository.fetchContacts(refresh: refresh)
 			} catch {
 				self.error = error

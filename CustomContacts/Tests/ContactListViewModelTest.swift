@@ -7,19 +7,69 @@
 //
 
 @testable import CustomContacts
+import ConcurrencyExtras
 import CustomContactsModels
 import Dependencies
 import XCTest
 
 final class ContactListViewModelTest: XCTestCase {
-	@MainActor
+	override func invokeTest() {
+		withMainSerialExecutor {
+			super.invokeTest()
+		}
+	}
+
 	func testLoadContacts() async {
+		let contactsStream = AsyncStream.makeStream(of: [Contact].self)
+
+		let contactsRepository = withDependencies {
+			$0.contactsService.fetchContacts = {
+				await contactsStream.stream.first(where: { _ in true })!
+			}
+		} operation: {
+			ContactsRepositoryKey.liveValue
+		}
+
 		let viewModel = withDependencies {
 			$0.mainQueue = .immediate
+			$0.contactsRepository = contactsRepository
 		} operation: {
 			ContactListView.ViewModel()
 		}
-		await viewModel.loadContacts(refresh: true)
+
+		XCTAssertEqual(viewModel.isLoading, false)
+		XCTAssertNil(viewModel.error)
+
+		let loadContactsTask = Task { await viewModel.loadContacts(refresh: true) }
+		await Task.yield()
+		XCTAssertEqual(viewModel.isLoading, true)
+		contactsStream.continuation.yield(Contact.mockArray)
+		await loadContactsTask.value
+
 		XCTAssert(!viewModel.contacts.isEmpty)
+		XCTAssertEqual(viewModel.isLoading, false)
+		XCTAssertNil(viewModel.error)
+	}
+
+	func testFetchContactsNoPermissions() async {
+		let contactsRepository = withDependencies {
+			$0.contactsService.requestPermissions = {
+				false
+			}
+		} operation: {
+			ContactsRepositoryKey.liveValue
+		}
+		let viewModel = withDependencies {
+			$0.mainQueue = .immediate
+			$0.contactsRepository = contactsRepository
+		} operation: {
+			ContactListView.ViewModel()
+		}
+
+		await viewModel.loadContacts(refresh: true)
+		XCTAssertEqual(
+			viewModel.error as? ContactsRepositoryLive.ContactsRepositoryError,
+			ContactsRepositoryLive.ContactsRepositoryError.permissionDenied
+		)
 	}
 }

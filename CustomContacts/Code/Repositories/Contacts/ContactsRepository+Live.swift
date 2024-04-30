@@ -12,6 +12,10 @@ import CustomContactsModels
 import Dependencies
 
 actor ContactsRepositoryLive {
+	// Dependency needs to be at highest level to ensure testing substitution
+	@Dependency(\.contactsService) private var contactsService
+	@Dependency(\.groupsRepository) private var groupsRepository
+
 	typealias ContactDictionary = [Contact.ID: Contact]
 	private var contactDictionary: ContactDictionary = [:]
 	private var contacts: [Contact] {
@@ -29,7 +33,7 @@ extension ContactsRepositoryLive: ContactsRepository {
 		guard refresh else {
 			return contacts
 		}
-		@Dependency(\.contactsService) var contactsService
+
 		guard try await contactsService.requestPermissions() else {
 			throw ContactsRepositoryError.permissionDenied
 		}
@@ -50,7 +54,6 @@ extension ContactsRepositoryLive: ContactsRepository {
 			/// so that when `ContactGroup` is fetched, `Contact` can be injected using `getContact(id:)`
 			let fetchedContacts = try await fetchContactsTask.value
 
-			@Dependency(\.groupsRepository) var groupsRepository
 			let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: refresh)
 
 			await syncContacts(with: fetchedGroups)
