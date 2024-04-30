@@ -70,12 +70,18 @@
             ReferencedContainer = "container:CustomContacts.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
+      <TestPlans>
+         <TestPlanReference
+            reference = "container:CustomContacts.xctestplan"
+            default = "YES">
+         </TestPlanReference>
+      </TestPlans>
       <Testables>
          <TestableReference
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "F4CD70342000044F0013EE7B"
+               BlueprintIdentifier = "E853EDCD2BDC1B9600946AD9"
                BuildableName = "CustomContactsTests.xctest"
                BlueprintName = "CustomContactsTests"
                ReferencedContainer = "container:CustomContacts.xcodeproj">
@@ -108,6 +114,11 @@
             key = "OS_ACTIVITY_MODE"
             value = "${DEBUG_OS_ACTIVITY_MODE}"
             isEnabled = "NO">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "LIBDISPATH_COOPERATIVE_POOL_STRICT"
+            value = "1"
+            isEnabled = "YES">
          </EnvironmentVariable>
       </EnvironmentVariables>
    </LaunchAction>

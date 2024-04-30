@@ -26,14 +26,16 @@ protocol GroupsRepository: Sendable {
 	func update(origin: IndexSet, destination: Int) async throws -> [ContactGroup]
 }
 
-private enum GroupsRepositoryKey: DependencyKey {
-	static var liveValue: GroupsRepository {
-		GroupsRepositoryLive()
-	}
-}
 extension DependencyValues {
 	var groupsRepository: GroupsRepository {
 		get { self[GroupsRepositoryKey.self] }
 		set { self[GroupsRepositoryKey.self] = newValue }
 	}
+}
+
+private enum GroupsRepositoryKey: DependencyKey {
+	static var liveValue: GroupsRepository {
+		GroupsRepositoryLive()
+	}
+	static let testValue = Self.liveValue
 }

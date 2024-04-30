@@ -23,3 +23,5 @@ extension DependencyValues {
 		set { self[GroupsDataService.self] = newValue }
 	}
 }
+
+extension GroupsDataService: DependencyKey {}

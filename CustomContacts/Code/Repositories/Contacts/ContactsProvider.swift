@@ -75,4 +75,5 @@ extension ContactsProvider: DependencyKey {
 			}
 		)
 	}
+	static let testValue: ContactsProvider = .liveValue
 }
