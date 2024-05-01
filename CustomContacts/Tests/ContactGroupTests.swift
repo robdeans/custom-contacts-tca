@@ -12,7 +12,7 @@ import Dependencies
 import XCTest
 
 final class ContactGroupTests: XCTestCase {
-	func testInitializer() async {
+	func testInitializer() async throws {
 		let fetchedContacts = Contact.mockArray
 		let contactsRepository = withDependencies {
 			$0.contactsService.fetchContacts = {
@@ -21,7 +21,7 @@ final class ContactGroupTests: XCTestCase {
 		} operation: {
 			ContactsRepositoryKey.testValue
 		}
-		_ = try! await contactsRepository.fetchContacts(refresh: true)
+		_ = try await contactsRepository.fetchContacts(refresh: true)
 		let emptyContactGroup = EmptyContactGroup(
 			id: "1",
 			name: "Test EmptyContactGroup",

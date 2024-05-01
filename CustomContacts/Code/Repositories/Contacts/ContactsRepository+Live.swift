@@ -14,6 +14,7 @@ import Dependencies
 actor ContactsRepositoryLive {
 	// Dependency needs to be at highest level to ensure testing substitution
 	@Dependency(\.contactsService) private var contactsService
+	@Dependency(\.groupsRepository) private var groupsRepository
 
 	typealias ContactDictionary = [Contact.ID: Contact]
 	private var contactDictionary: ContactDictionary = [:]
@@ -27,6 +28,7 @@ extension ContactsRepositoryLive: ContactsRepository {
 		contactDictionary[id]
 	}
 
+	@discardableResult
 	func fetchContacts(refresh: Bool) async throws -> [Contact] {
 		LogCurrentThread("ContactsRepositoryLive.fetchContacts")
 		guard refresh else {
@@ -47,18 +49,6 @@ extension ContactsRepositoryLive: ContactsRepository {
 			LogInfo("Repository returning \(self.contacts.count) contact(s)")
 			return fetchedContacts
 		}
-
-//		let syncContactsAndGroupsTask = Task(priority: .background) {
-//			/// Contacts must first be fetched and assigned to respective properties
-//			/// so that when `ContactGroup` is fetched, `Contact` can be injected using `getContact(id:)`
-//			let fetchedContacts = try await fetchContactsTask.value
-//
-//			let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: refresh)
-//
-//			await syncContacts(with: fetchedGroups)
-//			return fetchedContacts
-//		}
-//		return try await syncContactsAndGroupsTask.value
 		return try await fetchContactsTask.value
 	}
 
