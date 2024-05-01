@@ -14,6 +14,10 @@ import SwiftUI
 extension ContactGroup: Hashable {
 	public static func == (lhs: ContactGroup, rhs: ContactGroup) -> Bool {
 		lhs.id == rhs.id
+		&& lhs.name == rhs.name
+		&& lhs.contactIDs == rhs.contactIDs
+		&& lhs.colorHex == rhs.colorHex
+		&& lhs.index == rhs.index
 	}
 
 	public func hash(into hasher: inout Hasher) {

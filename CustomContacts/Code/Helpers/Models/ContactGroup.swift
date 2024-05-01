@@ -41,7 +41,8 @@ extension ContactGroup {
 
 			for contactID in contactIDs {
 				taskGroup.addTask {
-					return await getContact(contactID)
+					let contact = await getContact(contactID)
+					return contact?.sync(emptyGroup: emptyContactGroup)
 				}
 			}
 			for await contact in taskGroup {

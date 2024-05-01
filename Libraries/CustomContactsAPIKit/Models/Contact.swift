@@ -42,13 +42,21 @@ extension Contact {
 		groups = []
 	}
 
-	public func adding(emptyGroup: EmptyContactGroup) -> Contact {
-		Contact(
+	public func sync(emptyGroup: EmptyContactGroup) -> Contact {
+		let updatedGroups: [EmptyContactGroup]
+		if let index = groups.firstIndex(where: { emptyGroup.id == $0.id }) {
+			var tempGroups = groups
+			tempGroups[index] = emptyGroup
+			updatedGroups = tempGroups
+		} else {
+			updatedGroups = groups + [emptyGroup]
+		}
+		return Contact(
 			id: id,
 			firstName: firstName,
 			lastName: lastName,
 			displayName: displayName,
-			groups: groups + [emptyGroup]
+			groups: updatedGroups
 		)
 	}
 }
@@ -56,6 +64,10 @@ extension Contact {
 extension Contact: Hashable {
 	public static func == (lhs: Contact, rhs: Contact) -> Bool {
 		lhs.id == rhs.id
+		&& lhs.firstName == rhs.firstName
+		&& lhs.lastName == rhs.lastName
+		&& lhs.displayName == rhs.displayName
+		&& lhs.groups == rhs.groups
 	}
 
 	public func hash(into hasher: inout Hasher) {

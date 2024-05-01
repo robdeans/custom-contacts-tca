@@ -69,6 +69,7 @@
 		E8E841B62BB207F400F9F60D /* DeveloperToolsSupport+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8E841B52BB207F400F9F60D /* DeveloperToolsSupport+Extensions.swift */; };
 		E8FA23DC2AA77847006DE429 /* PreferenceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FA23DB2AA77847006DE429 /* PreferenceKeys.swift */; };
 		E8FE6EB82BE2A74E008FC1FA /* RootViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FE6EB72BE2A74E008FC1FA /* RootViewModelTests.swift */; };
+		E8FE6EBA2BE2BC75008FC1FA /* EmptyContactGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FE6EB92BE2BC75008FC1FA /* EmptyContactGroupTests.swift */; };
 		F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */; };
 		F4CD706420002E7C0013EE7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706220002E7C0013EE7B /* LaunchScreen.storyboard */; };
 		F4CD706520002E7C0013EE7B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706320002E7C0013EE7B /* Settings.bundle */; };
@@ -158,6 +159,7 @@
 		E8E841B52BB207F400F9F60D /* DeveloperToolsSupport+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeveloperToolsSupport+Extensions.swift"; sourceTree = "<group>"; };
 		E8FA23DB2AA77847006DE429 /* PreferenceKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeys.swift; sourceTree = "<group>"; };
 		E8FE6EB72BE2A74E008FC1FA /* RootViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModelTests.swift; sourceTree = "<group>"; };
+		E8FE6EB92BE2BC75008FC1FA /* EmptyContactGroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyContactGroupTests.swift; sourceTree = "<group>"; };
 		F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DecodingError+DisplayableError.swift"; sourceTree = "<group>"; };
 		F4AB7AB52534CC6F008372B6 /* CustomContactsAPIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CustomContactsAPIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F4AB7AB62534CC6F008372B6 /* CustomContactsHelpers.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = CustomContactsHelpers.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -367,6 +369,7 @@
 			isa = PBXGroup;
 			children = (
 				E88CF5992BE17B82001390F4 /* ContactGroupTests.swift */,
+				E8FE6EB92BE2BC75008FC1FA /* EmptyContactGroupTests.swift */,
 				E81C37AC2AAFAC3A00FE487F /* ContactListViewModelTest.swift */,
 				E88CF5902BE03F7F001390F4 /* ContactsRepositoryTests.swift */,
 				E88CF5962BE151B2001390F4 /* GroupsRepositoryTests.swift */,
@@ -780,6 +783,7 @@
 			files = (
 				E8FE6EB82BE2A74E008FC1FA /* RootViewModelTests.swift in Sources */,
 				E88CF5922BE03FCC001390F4 /* ContactsRepositoryTests.swift in Sources */,
+				E8FE6EBA2BE2BC75008FC1FA /* EmptyContactGroupTests.swift in Sources */,
 				E88CF5982BE151D1001390F4 /* GroupsRepositoryTests.swift in Sources */,
 				E88CF59A2BE17B82001390F4 /* ContactGroupTests.swift in Sources */,
 				E853EDD92BDC1BAC00946AD9 /* ContactListViewModelTest.swift in Sources */,
