@@ -78,6 +78,10 @@ final class GroupsRepositoryTests: XCTestCase {
 				XCTAssertEqual(contact?.groups.contains(where: { $0.id == contactGroup.id }), true)
 			}
 		}
+
+		/// Ensure that `ContactGroups` indices are correct
+		XCTAssertEqual(returnedGroups.map { $0.index }.max(), returnedGroups.count - 1)
+		XCTAssertEqual(Set(returnedGroups.map { $0.index }).count, returnedGroups.count)
 	}
 
 	func testCreateContactGroup() async throws {
@@ -101,6 +105,11 @@ final class GroupsRepositoryTests: XCTestCase {
 			contacts: contacts,
 			colorHex: colorHex
 		)
+
+		// Test ContactGroups indices are correct
+		let returnedGroups = try await groupsRepository.fetchContactGroups(refresh: false)
+		XCTAssertEqual(returnedGroups.map { $0.index }.max(), returnedGroups.count - 1)
+		XCTAssertEqual(Set(returnedGroups.map { $0.index }).count, returnedGroups.count)
 
 		for contactID in contactGroup.contacts.map({ $0.id }) {
 			let contact = await contactsRepository.getContact(contactID)
@@ -169,5 +178,49 @@ final class GroupsRepositoryTests: XCTestCase {
 			let repoContact = await contactsRepository.getContact(contact.id)
 			XCTAssertEqual(repoContact, contact)
 		}
+
+		// Test ContactGroups indices are correct
+		let returnedGroups = try await groupsRepository.fetchContactGroups(refresh: false)
+		XCTAssertEqual(returnedGroups.map { $0.index }.max(), returnedGroups.count - 1)
+		XCTAssertEqual(Set(returnedGroups.map { $0.index }).count, returnedGroups.count)
+	}
+
+	func testUpdateContactGroupIndex() async throws {
+		let groupsRepository = withDependencies {
+			$0.contactsRepository = contactsRepository
+		} operation: {
+			GroupsRepositoryKey.testValue
+		}
+
+		let originalContactGroups = try await groupsRepository
+			.fetchContactGroups(refresh: true)
+
+		let originIndex = 2
+		let destinationIndex = 0
+		try await groupsRepository.update(origin: IndexSet(integersIn: originIndex..<(originIndex + 1)), destination: destinationIndex)
+
+		let updatedContactGroups = try await groupsRepository
+			.fetchContactGroups(refresh: false)
+
+		let movedContactGroup = originalContactGroups[originIndex]
+		var temporaryContactGroups = originalContactGroups
+		temporaryContactGroups.remove(at: originIndex)
+		temporaryContactGroups.insert(movedContactGroup, at: destinationIndex)
+		let expectedContactGroups = temporaryContactGroups.enumerated().map {
+			ContactGroup(
+				id: $0.element.id,
+				name: $0.element.name,
+				contacts: $0.element.contacts,
+				colorHex: $0.element.colorHex,
+				index: $0.offset
+			)
+		}
+
+		XCTAssertNoDifference(
+			updatedContactGroups,
+			expectedContactGroups
+		)
+
+		// TODO: check ContactsRepo sync
 	}
 }
