@@ -8,6 +8,7 @@
 
 @testable import CustomContacts
 import CustomContactsModels
+import CustomDump
 import Dependencies
 import XCTest
 
@@ -67,8 +68,8 @@ final class GroupsRepositoryTests: XCTestCase {
 
 		/// Ensure `ContactGroups` are fetched with refresh and match the `expectedGroups`
 		let returnedGroups = try await groupsRepository.fetchContactGroups(refresh: true)
-		XCTAssertEqual(returnedGroups, expectedGroups)
-		
+		XCTAssertNoDifference(returnedGroups, expectedGroups)
+
 		/// Ensure that `contactsRepository` contacts are properly injected
 		/// by checking each `Contact.groups` contains a `EmptyContactGroup` whose `id` matches ` ContactGroup.id`
 		for contactGroup in returnedGroups {

@@ -70,6 +70,7 @@
 		E8FA23DC2AA77847006DE429 /* PreferenceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FA23DB2AA77847006DE429 /* PreferenceKeys.swift */; };
 		E8FE6EB82BE2A74E008FC1FA /* RootViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FE6EB72BE2A74E008FC1FA /* RootViewModelTests.swift */; };
 		E8FE6EBA2BE2BC75008FC1FA /* EmptyContactGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FE6EB92BE2BC75008FC1FA /* EmptyContactGroupTests.swift */; };
+		E8FE6EBD2BE2DE2B008FC1FA /* CustomDump in Frameworks */ = {isa = PBXBuildFile; productRef = E8FE6EBC2BE2DE2B008FC1FA /* CustomDump */; };
 		F40191112301E7FB00CF1502 /* DecodingError+DisplayableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40191102301E7FB00CF1502 /* DecodingError+DisplayableError.swift */; };
 		F4CD706420002E7C0013EE7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706220002E7C0013EE7B /* LaunchScreen.storyboard */; };
 		F4CD706520002E7C0013EE7B /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4CD706320002E7C0013EE7B /* Settings.bundle */; };
@@ -195,6 +196,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E88CF5952BE1405B001390F4 /* ConcurrencyExtras in Frameworks */,
+				E8FE6EBD2BE2DE2B008FC1FA /* CustomDump in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,6 +584,7 @@
 			name = CustomContactsTests;
 			packageProductDependencies = (
 				E88CF5942BE1405B001390F4 /* ConcurrencyExtras */,
+				E8FE6EBC2BE2DE2B008FC1FA /* CustomDump */,
 			);
 			productName = CustomContactsTests;
 			productReference = E853EDCE2BDC1B9600946AD9 /* CustomContactsTests.xctest */;
@@ -626,6 +629,7 @@
 				FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */,
 				0F9AFBD829E8004C00496F61 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 				E88CF5932BE1405B001390F4 /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */,
+				E8FE6EBB2BE2DE2B008FC1FA /* XCRemoteSwiftPackageReference "swift-custom-dump" */,
 			);
 			productRefGroup = 3DFCFB521E5DA85B00D4A874 /* Products */;
 			projectDirPath = "";
@@ -1447,6 +1451,14 @@
 				minimumVersion = 1.1.0;
 			};
 		};
+		E8FE6EBB2BE2DE2B008FC1FA /* XCRemoteSwiftPackageReference "swift-custom-dump" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-custom-dump";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 		FC3DC8BD28AE1FE6009EA293 /* XCRemoteSwiftPackageReference "ios-utilities" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Fueled/ios-utilities/";
@@ -1471,6 +1483,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E88CF5932BE1405B001390F4 /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */;
 			productName = ConcurrencyExtras;
+		};
+		E8FE6EBC2BE2DE2B008FC1FA /* CustomDump */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E8FE6EBB2BE2DE2B008FC1FA /* XCRemoteSwiftPackageReference "swift-custom-dump" */;
+			productName = CustomDump;
 		};
 		FC3DC8C428AE1FE6009EA293 /* FueledUtilsCore */ = {
 			isa = XCSwiftPackageProductDependency;
