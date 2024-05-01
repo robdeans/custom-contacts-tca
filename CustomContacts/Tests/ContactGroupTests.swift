@@ -19,7 +19,7 @@ final class ContactGroupTests: XCTestCase {
 				fetchedContacts
 			}
 		} operation: {
-			ContactsRepositoryKey.liveValue
+			ContactsRepositoryKey.testValue
 		}
 		_ = try! await contactsRepository.fetchContacts(refresh: true)
 		let emptyContactGroup = EmptyContactGroup(

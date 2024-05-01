@@ -27,7 +27,7 @@ final class ContactListViewModelTest: XCTestCase {
 				await contactsStream.stream.first(where: { _ in true })!
 			}
 		} operation: {
-			ContactsRepositoryKey.liveValue
+			ContactsRepositoryKey.testValue
 		}
 
 		let viewModel = withDependencies {
@@ -57,7 +57,7 @@ final class ContactListViewModelTest: XCTestCase {
 				false
 			}
 		} operation: {
-			ContactsRepositoryKey.liveValue
+			ContactsRepositoryKey.testValue
 		}
 		let viewModel = withDependencies {
 			$0.mainQueue = .immediate

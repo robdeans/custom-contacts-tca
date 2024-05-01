@@ -23,13 +23,13 @@ final class GroupsRepositoryTests: XCTestCase {
 				self.fetchedContacts
 			}
 		} operation: {
-			ContactsRepositoryKey.liveValue
+			ContactsRepositoryKey.testValue
 		}
 
-		_ = try! await contactsRepository.fetchContacts(refresh: true)
+		_ = try await contactsRepository.fetchContacts(refresh: true)
 	}
 
-	func testFetchGroups() async {
+	func testFetchGroups() async throws {
 		let expectedEmptyGroups = EmptyContactGroup.mockArray
 		let groupsRepository = withDependencies {
 			$0.groupsDataService.fetchContactGroups = {
@@ -37,11 +37,11 @@ final class GroupsRepositoryTests: XCTestCase {
 			}
 			$0.contactsRepository = contactsRepository
 		} operation: {
-			GroupsRepositoryKey.liveValue
+			GroupsRepositoryKey.testValue
 		}
 
 		// Test empty cache
-		let cachedGroups = try? await groupsRepository.fetchContactGroups(refresh: false)
+		let cachedGroups = try await groupsRepository.fetchContactGroups(refresh: false)
 		XCTAssertEqual(cachedGroups, [])
 
 		// Test return values
@@ -61,11 +61,11 @@ final class GroupsRepositoryTests: XCTestCase {
 		XCTAssert(expectedGroupsTotalContacts.count > 0)
 
 		// Test ContactGroups are fetched
-		let returnedGroups = try? await groupsRepository.fetchContactGroups(refresh: true)
+		let returnedGroups = try await groupsRepository.fetchContactGroups(refresh: true)
 		XCTAssertEqual(returnedGroups, expectedGroups)
 		
 		// Test that Contacts are properly injected
-		let returnedGroupsTotalContacts = (returnedGroups ?? []).map { $0.contactIDs }.reduce([], +)
+		let returnedGroupsTotalContacts = (returnedGroups).map { $0.contactIDs }.reduce([], +)
 		XCTAssert(returnedGroupsTotalContacts.count > 0)
 	}
 }

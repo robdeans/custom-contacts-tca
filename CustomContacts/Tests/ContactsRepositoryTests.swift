@@ -12,19 +12,19 @@ import Dependencies
 import XCTest
 
 final class ContactsRepositoryTests: XCTestCase {
-	func testFetchContacts() async {
+	func testFetchContacts() async throws {
 		let expectedContacts = Contact.mockArray
 		let contactsRepository = withDependencies {
 			$0.contactsService.fetchContacts = {
 				expectedContacts
 			}
 		} operation: {
-			ContactsRepositoryKey.liveValue
+			ContactsRepositoryKey.testValue
 		}
-		let cachedContacts = try? await contactsRepository.fetchContacts(refresh: false)
+		let cachedContacts = try await contactsRepository.fetchContacts(refresh: false)
 		XCTAssertEqual(cachedContacts, [])
 
-		let returnedContacts = try? await contactsRepository.fetchContacts(refresh: true)
+		let returnedContacts = try await contactsRepository.fetchContacts(refresh: true)
 		XCTAssertEqual(returnedContacts, expectedContacts)
 	}
 
@@ -34,7 +34,7 @@ final class ContactsRepositoryTests: XCTestCase {
 				false
 			}
 		} operation: {
-			ContactsRepositoryKey.liveValue
+			ContactsRepositoryKey.testValue
 		}
 		do {
 			_ = try await contactsRepository.fetchContacts(refresh: true)
@@ -47,7 +47,7 @@ final class ContactsRepositoryTests: XCTestCase {
 		}
 	}
 
-	func testGetContact() async {
+	func testGetContact() async throws {
 		let expectedContacts = Contact.mockArray
 		let expectedID = expectedContacts.first!.id
 		let contactsRepository = withDependencies {
@@ -55,12 +55,12 @@ final class ContactsRepositoryTests: XCTestCase {
 				expectedContacts
 			}
 		} operation: {
-			ContactsRepositoryKey.liveValue
+			ContactsRepositoryKey.testValue
 		}
-		let cachedContacts = try? await contactsRepository.fetchContacts(refresh: false)
+		let cachedContacts = try await contactsRepository.fetchContacts(refresh: false)
 		XCTAssertEqual(cachedContacts, [])
 
-		let returnedContacts = try? await contactsRepository.fetchContacts(refresh: true)
+		let returnedContacts = try await contactsRepository.fetchContacts(refresh: true)
 		XCTAssertEqual(returnedContacts, expectedContacts)
 
 		let expectedContact = await contactsRepository.getContact(expectedID)
@@ -69,14 +69,14 @@ final class ContactsRepositoryTests: XCTestCase {
 		XCTAssertNil(nonexpectedContact)
 	}
 
-	func testContactGroups() async throws {
+	func testContactGroupsSyncing() async throws {
 		let expectedContacts = Contact.mockArray
 		let contactsRepository = withDependencies {
 			$0.contactsService.fetchContacts = {
 				expectedContacts
 			}
 		} operation: {
-			ContactsRepositoryKey.liveValue
+			ContactsRepositoryKey.testValue
 		}
 		let cachedContacts = try await contactsRepository.fetchContacts(refresh: false)
 		XCTAssertEqual(cachedContacts, [])
@@ -87,7 +87,7 @@ final class ContactsRepositoryTests: XCTestCase {
 		let groupsRepository = withDependencies {
 			$0.contactsRepository = contactsRepository
 		} operation: {
-			GroupsRepositoryKey.liveValue
+			GroupsRepositoryKey.testValue
 		}
 		let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: true)
 
