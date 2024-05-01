@@ -43,4 +43,21 @@ final class ContactGroupTests: XCTestCase {
 		XCTAssertEqual(contactGroup.contactIDs, emptyContactGroup.contactIDs)
 		XCTAssertEqual(contactGroup.contactIDs, Set([contactIDs]))
 	}
+
+	func testInitializerWarning() async throws {
+		let fetchedContacts = Contact.mockArray
+		let emptyContactGroup = EmptyContactGroup(
+			id: "1",
+			name: "Test EmptyContactGroup",
+			contactIDs: [fetchedContacts.first!.id, fetchedContacts.last!.id],
+			colorHex: "",
+			index: 0
+		)
+
+		let contactGroup1 = await ContactGroup(
+			emptyContactGroup: emptyContactGroup,
+			getContact: { _ in nil }
+		)
+		XCTAssertEqual(contactGroup1.contactIDs, [])
+	}
 }

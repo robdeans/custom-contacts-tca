@@ -366,11 +366,11 @@
 		E853EDCF2BDC1B9600946AD9 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				E88CF5992BE17B82001390F4 /* ContactGroupTests.swift */,
 				E81C37AC2AAFAC3A00FE487F /* ContactListViewModelTest.swift */,
 				E88CF5902BE03F7F001390F4 /* ContactsRepositoryTests.swift */,
-				E8FE6EB72BE2A74E008FC1FA /* RootViewModelTests.swift */,
 				E88CF5962BE151B2001390F4 /* GroupsRepositoryTests.swift */,
-				E88CF5992BE17B82001390F4 /* ContactGroupTests.swift */,
+				E8FE6EB72BE2A74E008FC1FA /* RootViewModelTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
