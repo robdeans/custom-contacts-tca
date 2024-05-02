@@ -95,6 +95,7 @@ final class GroupsRepositoryTests: XCTestCase {
 		let contacts = Set(Contact.mockArray)
 		let colorHex = "000000"
 
+		/// Ensure that cached `contacts` do not contain the created `ContactGroup`
 		let originalContacts = try await contactsRepository.fetchContacts(refresh: false)
 		for contact in originalContacts {
 			XCTAssertTrue(contact.groups.contains(where: { $0.name == name }) == false)
@@ -106,11 +107,12 @@ final class GroupsRepositoryTests: XCTestCase {
 			colorHex: colorHex
 		)
 
-		// Test ContactGroups indices are correct
+		/// Ensure that the created `ContactGroup`'s indices are correct
 		let returnedGroups = try await groupsRepository.fetchContactGroups(refresh: false)
 		XCTAssertEqual(returnedGroups.map { $0.index }.max(), returnedGroups.count - 1)
 		XCTAssertEqual(Set(returnedGroups.map { $0.index }).count, returnedGroups.count)
 
+		/// Ensure that the `ContactGroup` has been synced with each of the `ContactsRepository.contact`
 		for contactID in contactGroup.contacts.map({ $0.id }) {
 			let contact = await contactsRepository.getContact(contactID)
 			XCTAssertTrue(contact?.groups.contains(where: { $0.name == name }) == true)
@@ -132,11 +134,6 @@ final class GroupsRepositoryTests: XCTestCase {
 			colorHex: "000000"
 		)
 
-		let originalContacts = try await contactsRepository.fetchContacts(refresh: false)
-		for contact in originalContacts {
-			XCTAssertTrue(contact.groups.contains(where: { $0.name == name }) == false)
-		}
-
 		let updatedName = "Updated Name"
 		let updateGroupName = try await groupsRepository.updateContactGroup(
 			id: originalContactGroup.id,
@@ -144,9 +141,13 @@ final class GroupsRepositoryTests: XCTestCase {
 			contactIDs: originalContactGroup.contactIDs,
 			colorHex: originalContactGroup.colorHex
 		)
+		/// Ensure updated `ContactGroup.name` matches expected value
 		XCTAssertEqual(updateGroupName.name, updatedName)
 		for contact in updateGroupName.contacts {
+			/// Ensure that the updated value is applied to each `ContactGroup.contact`
 			XCTAssertTrue(contact.groups.contains(where: { $0.name == updatedName }))
+
+			/// Ensure that the update value is applied to the `contactRepository`
 			let repoContact = await contactsRepository.getContact(contact.id)
 			XCTAssertEqual(repoContact, contact)
 		}
@@ -158,9 +159,13 @@ final class GroupsRepositoryTests: XCTestCase {
 			contactIDs: originalContactGroup.contactIDs,
 			colorHex: updatedColorHex
 		)
+		/// Ensure updated `ContactGroup.colorHex` matches expected value
 		XCTAssertEqual(updateGroupColorHex.colorHex, updatedColorHex)
 		for contact in updateGroupColorHex.contacts {
+			/// Ensure that the updated value is applied to each `ContactGroup.contact`
 			XCTAssertTrue(contact.groups.contains(where: { $0.colorHex == updatedColorHex }))
+
+			/// Ensure that the update value is applied to the `contactRepository`
 			let repoContact = await contactsRepository.getContact(contact.id)
 			XCTAssertEqual(repoContact, contact)
 		}
@@ -172,16 +177,21 @@ final class GroupsRepositoryTests: XCTestCase {
 			contactIDs: updatedContactIDs,
 			colorHex: updatedColorHex
 		)
+		/// Ensure updated `ContactGroup.contactIDs` matches expected value
 		XCTAssertEqual(updateGroupContactIDs.contactIDs, updatedContactIDs)
 		for contact in updateGroupContactIDs.contacts {
+			/// Ensure that the updated value is applied to each `ContactGroup.contact`
 			XCTAssertTrue(contact.groups.contains(where: { $0.contactIDs == updatedContactIDs }))
+
+			/// Ensure that the update value is applied to the `contactRepository`
 			let repoContact = await contactsRepository.getContact(contact.id)
 			XCTAssertEqual(repoContact, contact)
 		}
 
-		// Test ContactGroups indices are correct
 		let returnedGroups = try await groupsRepository.fetchContactGroups(refresh: false)
+		/// Ensure that `ContactGroups` max index is the same as a zero-index Array
 		XCTAssertEqual(returnedGroups.map { $0.index }.max(), returnedGroups.count - 1)
+		/// Ensure that `ContactGroups` indices contain no duplicates
 		XCTAssertEqual(Set(returnedGroups.map { $0.index }).count, returnedGroups.count)
 	}
 
@@ -192,15 +202,17 @@ final class GroupsRepositoryTests: XCTestCase {
 			GroupsRepositoryKey.testValue
 		}
 
-		let originalContactGroups = try await groupsRepository
-			.fetchContactGroups(refresh: true)
+		/// Must first populate with default `ContactGroup.mockArray`
+		let originalContactGroups = try await groupsRepository.fetchContactGroups(refresh: true)
 
 		let originIndex = 2
 		let destinationIndex = 0
-		try await groupsRepository.update(origin: IndexSet(integersIn: originIndex..<(originIndex + 1)), destination: destinationIndex)
+		try await groupsRepository.update(
+			origin: IndexSet(integersIn: originIndex..<(originIndex + 1)),
+			destination: destinationIndex
+		)
 
-		let updatedContactGroups = try await groupsRepository
-			.fetchContactGroups(refresh: false)
+		let updatedContactGroups = try await groupsRepository.fetchContactGroups(refresh: false)
 
 		let movedContactGroup = originalContactGroups[originIndex]
 		var temporaryContactGroups = originalContactGroups
@@ -216,11 +228,23 @@ final class GroupsRepositoryTests: XCTestCase {
 			)
 		}
 
+		/// Ensure that the indices have been updated for each `ContactGroup` in the repository
 		XCTAssertNoDifference(
 			updatedContactGroups,
 			expectedContactGroups
 		)
 
-		// TODO: check ContactsRepo sync
+		/// Ensure that all indices have been updated for `Contact.groups` within the `contactsRepository`
+		for updatedGroup in updatedContactGroups {
+			for contactID in updatedGroup.contactIDs {
+				guard let contact = await contactsRepository.getContact(contactID) else {
+					XCTFail("Could not find Contact for contactID: \(contactID)")
+					return
+				}
+				XCTAssertTrue(
+					contact.groups.contains(where: { $0.id == updatedGroup.id && $0.index == updatedGroup.index })
+				)
+			}
+		}
 	}
 }

@@ -52,6 +52,8 @@ extension ContactGroup {
 			}
 			return contacts
 		}
+
+		// TODO: in the future, should this throw so that this uncertain state is more visible?
 		if returnedContacts.count != contactIDs.count {
 			if !contactIDs.isEmpty && returnedContacts.isEmpty {
 				LogWarning("No Contacts were added to ContactGroup; has the ContactsRepository fetched Contacts?")

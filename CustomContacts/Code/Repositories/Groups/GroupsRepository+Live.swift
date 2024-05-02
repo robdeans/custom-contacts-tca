@@ -105,8 +105,7 @@ extension GroupsRepositoryLive: GroupsRepository {
 			colorHex,
 			originalGroup.index
 		)
-		let updatedContactGroup: ContactGroup
-		updatedContactGroup = await ContactGroup(
+		let updatedContactGroup = await ContactGroup(
 			emptyContactGroup: emptyContactGroup,
 			getContact: { [weak self] in
 				await self?.contactsRepository.getContact($0)
@@ -152,6 +151,7 @@ extension GroupsRepositoryLive: GroupsRepository {
 			contactGroupsUpdated.map { ($0.id, $0) },
 			uniquingKeysWith: { _, last in last }
 		)
+		await contactsRepository.syncContacts(with: contactGroups)
 		return contactGroups
 	}
 }
