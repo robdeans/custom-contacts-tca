@@ -18,11 +18,23 @@ extension GroupsDataService {
 			fetchContactGroups: {
 				EmptyContactGroup.mockArray
 			},
-			createContactGroup: { _, _, _, _ in
-				EmptyContactGroup.mock
+			createContactGroup: { name, contactIDs, colorHex, index in
+				EmptyContactGroup(
+					id: "test-id",
+					name: name,
+					contactIDs: contactIDs,
+					colorHex: colorHex,
+					index: index
+				)
 			},
-			updateContactGroup: { _, _, _, _, _ in
-				EmptyContactGroup.mock
+			updateContactGroup: { id, name, contactIDs, colorHex, index in
+				EmptyContactGroup(
+					id: id,
+					name: name,
+					contactIDs: contactIDs,
+					colorHex: colorHex,
+					index: index
+				)
 			}
 		)
 	}

@@ -14,6 +14,10 @@ import SwiftUI
 extension ContactGroup: Hashable {
 	public static func == (lhs: ContactGroup, rhs: ContactGroup) -> Bool {
 		lhs.id == rhs.id
+		&& lhs.name == rhs.name
+		&& lhs.contactIDs == rhs.contactIDs
+		&& lhs.colorHex == rhs.colorHex
+		&& lhs.index == rhs.index
 	}
 
 	public func hash(into hasher: inout Hasher) {
@@ -22,11 +26,11 @@ extension ContactGroup: Hashable {
 }
 
 extension ContactGroup {
-	public static var mock: ContactGroup {
+	static var mock: ContactGroup {
 		ContactGroup(id: "1", name: "Group Name", contacts: Contact.mockArray, colorHex: "0000FF", index: 0)
 	}
 
-	public static var mockArray: [ContactGroup] {
+	static var mockArray: [ContactGroup] {
 		[
 			ContactGroup(id: "1", name: "Friendz", contacts: Contact.mockArray, colorHex: "0000FF", index: 0),
 			ContactGroup(id: "2", name: "Enemies", contacts: Contact.mockArray, colorHex: "FF0000", index: 1),

@@ -56,7 +56,7 @@ extension ContactsRepositoryLive: ContactsRepository {
 		for group in contactGroups {
 			let emptyGroup = EmptyContactGroup(contactGroup: group)
 			for contactID in group.contactIDs {
-				contactDictionary[contactID] = contactDictionary[contactID]?.adding(emptyGroup: emptyGroup)
+				contactDictionary[contactID] = contactDictionary[contactID]?.sync(emptyGroup: emptyGroup)
 			}
 		}
 	}

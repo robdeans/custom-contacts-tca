@@ -9,7 +9,25 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false,
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:CustomContacts.xcodeproj",
+          "identifier" : "3DFCFB501E5DA85B00D4A874",
+          "name" : "CustomContacts"
+        },
+        {
+          "containerPath" : "container:Libraries\/CustomContactsAPIKit",
+          "identifier" : "CustomContactsAPIKit",
+          "name" : "CustomContactsAPIKit"
+        },
+        {
+          "containerPath" : "container:Libraries\/CustomContactsHelpers",
+          "identifier" : "CustomContactsHelpers",
+          "name" : "CustomContactsHelpers"
+        }
+      ]
+    },
     "environmentVariableEntries" : [
       {
         "enabled" : false,
@@ -27,7 +45,7 @@
     {
       "target" : {
         "containerPath" : "container:CustomContacts.xcodeproj",
-        "identifier" : "F4CD70342000044F0013EE7B",
+        "identifier" : "E853EDCD2BDC1B9600946AD9",
         "name" : "CustomContactsTests"
       }
     }

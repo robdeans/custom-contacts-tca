@@ -80,7 +80,6 @@ extension GroupsRepositoryLive: GroupsRepository {
 		)
 		groupsDictionary[createdGroup.id] = createdGroup
 
-		@Dependency(\.contactsRepository) var contactsRepository
 		await contactsRepository.syncContacts(with: [createdGroup])
 
 		return createdGroup
@@ -112,8 +111,8 @@ extension GroupsRepositoryLive: GroupsRepository {
 				await self?.contactsRepository.getContact($0)
 			}
 		)
-
 		groupsDictionary[id] = updatedContactGroup
+		await contactsRepository.syncContacts(with: [updatedContactGroup])
 		return updatedContactGroup
 	}
 
@@ -134,11 +133,10 @@ extension GroupsRepositoryLive: GroupsRepository {
 		// TODO: handle each failure individually?
 		try await withThrowingDiscardingTaskGroup { taskGroup in
 			LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsRepositoryLive withThrowingTaskGroup updating indices")
-			@Dependency(\.groupsDataService) var groupsService
 
 			for contactGroup in contactGroupsUpdated {
 				taskGroup.addTask {
-					_ = try await groupsService.updateContactGroup(
+					_ = try await self.groupsService.updateContactGroup(
 						contactGroup.id,
 						contactGroup.name,
 						contactGroup.contactIDs,
@@ -153,6 +151,7 @@ extension GroupsRepositoryLive: GroupsRepository {
 			contactGroupsUpdated.map { ($0.id, $0) },
 			uniquingKeysWith: { _, last in last }
 		)
+		await contactsRepository.syncContacts(with: contactGroups)
 		return contactGroups
 	}
 }
