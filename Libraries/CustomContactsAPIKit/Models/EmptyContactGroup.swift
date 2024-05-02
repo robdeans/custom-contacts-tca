@@ -23,3 +23,13 @@ public struct EmptyContactGroup: Sendable, Identifiable {
 		self.index = index
 	}
 }
+
+extension EmptyContactGroup: Equatable {
+	public static func == (lhs: EmptyContactGroup, rhs: EmptyContactGroup) -> Bool {
+		lhs.id == rhs.id
+		&& lhs.name == rhs.name
+		&& lhs.contactIDs == rhs.contactIDs
+		&& lhs.colorHex == rhs.colorHex
+		&& lhs.index == rhs.index
+	}
+}

@@ -14,6 +14,7 @@ import XCTest
 final class ContactGroupTests: XCTestCase {
 	func testInitializer() async throws {
 		let fetchedContacts = Contact.mockArray
+		let contactIDs = fetchedContacts.first!.id
 		let contactsRepository = withDependencies {
 			$0.contactsService.fetchContacts = {
 				fetchedContacts
@@ -22,10 +23,11 @@ final class ContactGroupTests: XCTestCase {
 			ContactsRepositoryKey.testValue
 		}
 		_ = try await contactsRepository.fetchContacts(refresh: true)
+
 		let emptyContactGroup = EmptyContactGroup(
 			id: "1",
 			name: "Test EmptyContactGroup",
-			contactIDs: [fetchedContacts.first!.id],
+			contactIDs: [contactIDs],
 			colorHex: "",
 			index: 0
 		)
@@ -36,7 +38,9 @@ final class ContactGroupTests: XCTestCase {
 				await contactsRepository.getContact($0)
 			}
 		)
+
+		/// Ensure that when `ContactGroup` is initialized, the correct `Contact`s are added
 		XCTAssertEqual(contactGroup.contactIDs, emptyContactGroup.contactIDs)
-		XCTAssertNotEqual(contactGroup.contactIDs, Set(fetchedContacts.map { $0.id }))
+		XCTAssertEqual(contactGroup.contactIDs, Set([contactIDs]))
 	}
 }

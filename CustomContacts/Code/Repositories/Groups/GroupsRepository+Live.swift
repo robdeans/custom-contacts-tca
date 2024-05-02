@@ -54,6 +54,7 @@ extension GroupsRepositoryLive: GroupsRepository {
 			returnedContactGroups.map { ($0.id, $0) },
 			uniquingKeysWith: { _, last in last }
 		)
+		await contactsRepository.syncContacts(with: contactGroups)
 		return contactGroups
 	}
 

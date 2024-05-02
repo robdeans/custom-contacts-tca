@@ -18,6 +18,8 @@ final class GroupsRepositoryTests: XCTestCase {
 	override func setUp() async throws {
 		try await super.setUp()
 
+		/// Ensures a clean and refreshed `contactsRepository` with the expected 
+		/// fetched `Contacts` for each test
 		contactsRepository = withDependencies {
 			$0.contactsService.fetchContacts = {
 				self.fetchedContacts
@@ -40,11 +42,11 @@ final class GroupsRepositoryTests: XCTestCase {
 			GroupsRepositoryKey.testValue
 		}
 
-		// Test empty cache
+		/// Ensure an empty starting point for fetched `ContactGroups`
 		let cachedGroups = try await groupsRepository.fetchContactGroups(refresh: false)
 		XCTAssertEqual(cachedGroups, [])
 
-		// Test return values
+		/// Manually generate expected return value (converting `EmptyContactGroup` to `ContactGroup`)
 		var expectedGroups: [ContactGroup] = []
 		for emptyGroup in expectedEmptyGroups {
 			let contactGroup = await ContactGroup(
@@ -55,17 +57,25 @@ final class GroupsRepositoryTests: XCTestCase {
 			)
 			expectedGroups.append(contactGroup)
 		}
-		let expectedGroupsTotalContacts = expectedGroups
-			.map { $0.contactIDs }
-			.reduce([], +)
-		XCTAssert(expectedGroupsTotalContacts.count > 0)
 
-		// Test ContactGroups are fetched
+		/// Ensure that `expectedGroups.contactIDs` are populated correctly
+		/// (This should already be confirmed in `ContactGroup` initializer test`)
+		XCTAssertEqual(
+			expectedGroups.flatMap { $0.contactIDs }.count,
+			expectedEmptyGroups.flatMap { $0.contactIDs }.count
+		)
+
+		/// Ensure `ContactGroups` are fetched with refresh and match the `expectedGroups`
 		let returnedGroups = try await groupsRepository.fetchContactGroups(refresh: true)
 		XCTAssertEqual(returnedGroups, expectedGroups)
 		
-		// Test that Contacts are properly injected
-		let returnedGroupsTotalContacts = (returnedGroups).map { $0.contactIDs }.reduce([], +)
-		XCTAssert(returnedGroupsTotalContacts.count > 0)
+		/// Ensure that `contactsRepository` contacts are properly injected
+		/// by checking each `Contact.groups` contains a `EmptyContactGroup` whose `id` matches ` ContactGroup.id`
+		for contactGroup in returnedGroups {
+			for contactID in contactGroup.contactIDs {
+				let contact = await contactsRepository.getContact(contactID)
+				XCTAssertEqual(contact?.groups.contains(where: { $0.id == contactGroup.id }), true)
+			}
+		}
 	}
 }

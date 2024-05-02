@@ -14,6 +14,8 @@ import XCTest
 
 final class RootViewModelTests: XCTestCase {
 	override func invokeTest() {
+		/// Allows tests to run in serial order so that Task operations can be
+		/// suspended and `isLoading` states observed
 		withMainSerialExecutor {
 			super.invokeTest()
 		}
@@ -44,25 +46,34 @@ final class RootViewModelTests: XCTestCase {
 			RootView.ViewModel()
 		}
 
+		/// Ensure initial caches of `Contact` and `ContactGroup` are empty
 		let initialContacts = try await contactsRepository.fetchContacts(refresh: false)
 		XCTAssertEqual(initialContacts, [])
 		let initialGroups = try await groupsRepository.fetchContactGroups(refresh: false)
 		XCTAssertEqual(initialGroups, [])
-
+		
+		/// Ensure initial state of `isLoading` and `error` is correct
 		XCTAssertEqual(viewModel.isLoading, false)
 		XCTAssertNil(viewModel.error)
 
 		let initializeAppTask = Task { await viewModel.initializeApp() }
 		await Task.yield()
+
+		/// Ensure that `isLoading` is correctly set while operation is executing
 		XCTAssertEqual(viewModel.isLoading, true)
 		contactsStream.continuation.yield(expectedContacts)
 		await initializeAppTask.value
 
+		/// Ensure end state of `isLoading` and `error` is correct
 		XCTAssertEqual(viewModel.isLoading, false)
 		XCTAssertNil(viewModel.error)
 
+		/// Ensure end caches of `Contact` and `ContactGroup` have been populated.
+		/// Checks for syncing are handled in each respective Repository test file.
 		let updatedContacts = try await contactsRepository.fetchContacts(refresh: false)
-		XCTAssertEqual(updatedContacts.flatMap { $0.groups }.isEmpty, false)
+		let updatedGroups = try await groupsRepository.fetchContactGroups(refresh: false)
+		XCTAssertEqual(updatedContacts.isEmpty, false)
+		XCTAssertEqual(updatedGroups.isEmpty, false)
 	}
 
 	@MainActor
@@ -92,6 +103,7 @@ final class RootViewModelTests: XCTestCase {
 
 		await viewModel.initializeApp()
 
+		/// Ensure that error is populated from `contactsService`
 		XCTAssertNotNil(viewModel.error)
 	}
 }
