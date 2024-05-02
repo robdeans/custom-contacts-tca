@@ -35,5 +35,5 @@ enum ContactsRepositoryKey: DependencyKey {
 		ContactsRepositoryLive()
 	}
 
-	static let testValue = Self.liveValue
+	static var testValue: ContactsRepository { Self.liveValue }
 }

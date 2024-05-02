@@ -11,20 +11,29 @@ import Dependencies
 import Observation
 
 extension RootView {
-	@Observable
+	@Observable @MainActor
 	final class ViewModel {
-		private(set) var isLoading = true
+		@ObservationIgnored @Dependency(\.contactsRepository) private var contactsRepository
+		@ObservationIgnored @Dependency(\.groupsRepository) private var groupsRepository
+		private(set) var isLoading = false
 		private(set) var error: Error?
 
-		@MainActor
 		func initializeApp() async {
 			defer { isLoading = false }
 			isLoading = true
 			error = nil
 
 			do {
-				@Dependency(\.contactsRepository) var contactsRepository
-				_ = try await contactsRepository.fetchContacts(refresh: true)
+				let syncContactsAndGroupsTask = Task(priority: .background) {
+					/// Contacts must first be fetched and assigned to respective properties
+					/// so that when `ContactGroup` is fetched, `Contact` can be injected using `getContact(id:)`
+					_ = try await contactsRepository.fetchContacts(refresh: true)
+
+					let fetchedGroups = try await groupsRepository.fetchContactGroups(refresh: true)
+
+					await contactsRepository.syncContacts(with: fetchedGroups)
+				}
+				try await syncContactsAndGroupsTask.value
 			} catch {
 				LogError(error.localizedDescription)
 				self.error = error

@@ -33,9 +33,9 @@ extension DependencyValues {
 	}
 }
 
-private enum GroupsRepositoryKey: DependencyKey {
+enum GroupsRepositoryKey: DependencyKey {
 	static var liveValue: GroupsRepository {
 		GroupsRepositoryLive()
 	}
-	static let testValue = Self.liveValue
+	static var testValue: GroupsRepository { Self.liveValue }
 }

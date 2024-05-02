@@ -12,13 +12,16 @@ import Dependencies
 import Foundation
 import GroupsService
 
-actor GroupsRepositoryLive: GroupsRepository {
+actor GroupsRepositoryLive {
 	@Dependency(\.groupsDataService) private var groupsService
+	@Dependency(\.contactsRepository) private var contactsRepository
 	private var groupsDictionary: [ContactGroup.ID: ContactGroup] = [:]
 	private var contactGroups: [ContactGroup] {
 		Array(groupsDictionary.values).sorted(by: { $0.index < $1.index })
 	}
+}
 
+extension GroupsRepositoryLive: GroupsRepository {
 	func fetchContactGroups(refresh: Bool = false) async throws -> [ContactGroup] {
 		LogCurrentThread("GroupsRepositoryLive.fetchContactGroups")
 		guard refresh else {
@@ -26,17 +29,22 @@ actor GroupsRepositoryLive: GroupsRepository {
 		}
 		let emptyContactGroups = try await groupsService.fetchContactGroups()
 
-		let returnedContactGroups = await withTaskGroup(of: ContactGroup.self) { group in
+		let returnedContactGroups = await withTaskGroup(of: ContactGroup.self) { taskGroup in
 			var returnedContactGroups: [ContactGroup] = []
 			returnedContactGroups.reserveCapacity(emptyContactGroups.count)
 			LogCurrentThread("🎎 GroupsRepositoryLive withThrowingTaskGroup adding ContactGroup.init")
 			for emptyGroup in emptyContactGroups {
-				group.addTask {
-					return await ContactGroup(emptyContactGroup: emptyGroup)
+				taskGroup.addTask {
+					return await ContactGroup(
+						emptyContactGroup: emptyGroup,
+						getContact: { [weak self] in
+							await self?.contactsRepository.getContact($0)
+						}
+					)
 				}
 			}
 			LogCurrentThread("🎎 GroupsRepositoryLive withThrowingTaskGroup awaiting ContactGroups")
-			for await contactGroup in group {
+			for await contactGroup in taskGroup {
 				returnedContactGroups.append(contactGroup)
 			}
 			return returnedContactGroups
@@ -46,6 +54,7 @@ actor GroupsRepositoryLive: GroupsRepository {
 			returnedContactGroups.map { ($0.id, $0) },
 			uniquingKeysWith: { _, last in last }
 		)
+		await contactsRepository.syncContacts(with: contactGroups)
 		return contactGroups
 	}
 
@@ -63,7 +72,12 @@ actor GroupsRepositoryLive: GroupsRepository {
 			colorHex,
 			contactGroups.count
 		)
-		let createdGroup = await ContactGroup(emptyContactGroup: createdEmptyGroup)
+		let createdGroup = await ContactGroup(
+			emptyContactGroup: createdEmptyGroup,
+			getContact: { [weak self] in
+				await self?.contactsRepository.getContact($0)
+			}
+		)
 		groupsDictionary[createdGroup.id] = createdGroup
 
 		@Dependency(\.contactsRepository) var contactsRepository
@@ -92,7 +106,12 @@ actor GroupsRepositoryLive: GroupsRepository {
 			colorHex,
 			originalGroup.index
 		)
-		let updatedContactGroup = await ContactGroup(emptyContactGroup: emptyContactGroup)
+		let updatedContactGroup = await ContactGroup(
+			emptyContactGroup: emptyContactGroup,
+			getContact: { [weak self] in
+				await self?.contactsRepository.getContact($0)
+			}
+		)
 
 		groupsDictionary[id] = updatedContactGroup
 		return updatedContactGroup
@@ -113,12 +132,12 @@ actor GroupsRepositoryLive: GroupsRepository {
 		}
 
 		// TODO: handle each failure individually?
-		try await withThrowingDiscardingTaskGroup { group in
+		try await withThrowingDiscardingTaskGroup { taskGroup in
 			LogCurrentThread("🧑‍🧑‍🧒‍🧒 GroupsRepositoryLive withThrowingTaskGroup updating indices")
 			@Dependency(\.groupsDataService) var groupsService
 
 			for contactGroup in contactGroupsUpdated {
-				group.addTask {
+				taskGroup.addTask {
 					_ = try await groupsService.updateContactGroup(
 						contactGroup.id,
 						contactGroup.name,
